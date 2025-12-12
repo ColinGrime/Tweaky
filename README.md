@@ -3,7 +3,7 @@
 </div>
 
 <div align="center">
-    <h3>Tweaks</h3>
+    <h3>Tweaky</h3>
     <p>Adds toggleable vanilla tweaks and other quality-of-life improvements.</p>
 </div>
 
@@ -49,8 +49,8 @@
 * `xp-fill` - Allows the filling of empty bottles into XP bottles by right-clicking on an enchanting table.
 
 ## Configurations:
-* [`config.yml`](https://github.com/ColinGrime/Tweaks/blob/master/src/main/resources/config.yml) - Allows you to change the various tweaks associated with this plugin.
+* [`config.yml`](https://github.com/ColinGrime/Tweaky/blob/master/src/main/resources/config.yml) - Allows you to change the various tweaks associated with this plugin.
 
 ## Admin Commands:
-* `/tweaks` (tweaks.reload)
-* `/tweaks resetrecipes` (tweaks.resetrecipes) - Resets the recipes of all online players.
+* `/tweaky` (tweaky.admin)
+* `/tweaky resetrecipes` (tweaky.admin) - Resets the recipes of all online players.

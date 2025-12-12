@@ -10,7 +10,7 @@ java {
     targetCompatibility JavaVersion.VERSION_21
 }
 
-group 'me.colingrimes.tweaks'
+group 'me.colingrimes.tweaky'
 version '1.4.0'
 
 repositories {
@@ -20,8 +20,9 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.spigotmc:spigot-api:1.21.5-R0.1-SNAPSHOT'
+    implementation 'org.spigotmc:spigot-api:1.21.10-R0.1-SNAPSHOT'
     implementation 'org.bstats:bstats-bukkit:3.0.2'
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
 }
 
 processResources {
@@ -30,7 +31,7 @@ processResources {
 
 shadowJar {
     archiveFileName = "Tweaks-${project.version}.jar"
-    relocate 'org.bstats', 'me.colingrimes.tweaks.libs.bstats'
+    relocate 'org.bstats', 'me.colingrimes.tweaky.libs.bstats'
     dependencies {
         include dependency('org.bstats:bstats-bukkit')
         include dependency('org.bstats:bstats-base')

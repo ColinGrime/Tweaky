@@ -1,9 +1,9 @@
-name: Tweaks
-main: me.colingrimes.tweaks.Tweaks
+name: Tweaky
+main: me.colingrimes.tweaky.Tweaky
 version: ${version}
 api-version: 1.21
 author: Scill
 commands:
-  tweaks:
-    description: Main command for the Tweaks plugin.
-    aliases: [tweak]
+  tweaky:
+    description: Main command for the Tweaky plugin.
+    aliases: [tweaks, tweak]
