@@ -1,11 +1,11 @@
-package me.colingrimes.tweaks;
+package me.colingrimes.tweaky;
 
-import me.colingrimes.tweaks.command.TweakCommand;
-import me.colingrimes.tweaks.config.Settings;
-import me.colingrimes.tweaks.listener.PlayerListeners;
-import me.colingrimes.tweaks.tweak.Tweak;
-import me.colingrimes.tweaks.util.Introspector;
-import me.colingrimes.tweaks.util.Logger;
+import me.colingrimes.tweaky.command.TweakCommand;
+import me.colingrimes.tweaky.config.Settings;
+import me.colingrimes.tweaky.listener.PlayerListeners;
+import me.colingrimes.tweaky.tweak.Tweak;
+import me.colingrimes.tweaky.util.Introspector;
+import me.colingrimes.tweaky.util.Logger;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.Keyed;
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class Tweaks extends JavaPlugin {
+public class Tweaky extends JavaPlugin {
 
 	private final List<Tweak> tweaks = new ArrayList<>();
 	private List<NamespacedKey> allRecipes;
@@ -32,7 +32,7 @@ public class Tweaks extends JavaPlugin {
 		settings.reload();
 
 		// Setup commands + listeners.
-		Bukkit.getPluginCommand("tweaks").setExecutor(new TweakCommand(this));
+		Bukkit.getPluginCommand("tweaky").setExecutor(new TweakCommand(this));
 		Bukkit.getPluginManager().registerEvents(new PlayerListeners(), this);
 
 		// Register all the tweaks.
@@ -42,6 +42,14 @@ public class Tweaks extends JavaPlugin {
 		if (settings.ENABLE_METRICS.get()) {
 			new Metrics(this, 25315);
 		}
+	}
+
+	@Override
+	public void onDisable() {
+		tweaks.forEach(tweak -> {
+			HandlerList.unregisterAll(tweak);
+			tweak.shutdown();
+		});
 	}
 
 	/**
@@ -80,8 +88,10 @@ public class Tweaks extends JavaPlugin {
 		List<Tweak> tweakClasses = Introspector.instantiateClasses(classes, Tweak.class, this);
 		tweaks.addAll(tweakClasses.stream().filter(Tweak::isEnabled).toList());
 		tweaks.forEach(Tweak::init);
-		Logger.log("Registered " + tweaks.size() + " tweaks.");
-		return tweaks.stream().mapToInt(Tweak::getCount).sum();
+
+		int count = tweaks.stream().mapToInt(Tweak::getCount).sum();
+		Logger.log("Registered " + count + " tweaks.");
+		return count;
 	}
 
 	/**
