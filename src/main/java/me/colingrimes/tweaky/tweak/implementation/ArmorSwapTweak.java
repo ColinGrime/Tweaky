@@ -1,0 +1,44 @@
+package me.colingrimes.tweaky.tweak.implementation;
+
+import me.colingrimes.tweaky.Tweaky;
+import me.colingrimes.tweaky.tweak.Tweak;
+import me.colingrimes.tweaky.util.Util;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
+import org.bukkit.inventory.EntityEquipment;
+import org.bukkit.inventory.ItemStack;
+
+import javax.annotation.Nonnull;
+
+public class ArmorSwapTweak extends Tweak {
+
+	public ArmorSwapTweak(@Nonnull Tweaky plugin) {
+		super(plugin, "armor_swap");
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return settings.TWEAK_ARMOR_SWAP.get();
+	}
+
+	@EventHandler
+	public void onPlayerSneak(@Nonnull PlayerToggleSneakEvent event) {
+		if (!event.isSneaking()) {
+			return;
+		}
+
+		Player player = event.getPlayer();
+		for (ArmorStand stand : Util.nearby(ArmorStand.class, player.getLocation(), 0.5)) {
+			EntityEquipment playerEquipment = player.getEquipment();
+			EntityEquipment standEquipment = stand.getEquipment();
+			if (playerEquipment != null && standEquipment != null) {
+				ItemStack[] armor = playerEquipment.getArmorContents();
+				playerEquipment.setArmorContents(standEquipment.getArmorContents());
+				standEquipment.setArmorContents(armor);
+				return;
+			}
+		}
+	}
+}

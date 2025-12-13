@@ -1,12 +1,15 @@
-package me.colingrimes.tweaks.config;
+package me.colingrimes.tweaky.config;
 
-import me.colingrimes.tweaks.Tweaks;
+import me.colingrimes.tweaky.Tweaky;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import javax.annotation.Nonnull;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -15,6 +18,7 @@ public class Settings {
 	private final List<Option<?>> options = new ArrayList<>();
 	public final Option<Boolean>       TWEAK_ANVIL_COLOR                   = option("tweaks.anvil-color");
 	public final Option<Boolean>       TWEAK_ANVIL_REPAIR                  = option("tweaks.anvil-repair");
+	public final Option<Boolean>       TWEAK_ARMOR_SWAP                    = option("tweaks.armor-swap");
 	public final Option<Boolean>       TWEAK_BEE_CAPTURE                   = option("tweaks.bee-capture");
 	public final Option<Boolean>       TWEAK_CONCRETE_CONVERSION           = option("tweaks.concrete-conversion.toggle");
 	public final Option<Boolean>       TWEAK_CONCRETE_CONVERSION_USE_WATER = option("tweaks.concrete-conversion.use-water");
@@ -32,17 +36,24 @@ public class Settings {
 	public final Option<Boolean>       TWEAK_FIRE_DRIES_SPONGES            = option("tweaks.fire-dries-sponges");
 	public final Option<Boolean>       TWEAK_GLASS_BREAK                   = option("tweaks.glass-break.toggle");
 	public final Option<Set<Material>> TWEAK_GLASS_BREAK_MATERIALS         = option("tweaks.glass-break", sec -> sec.getStringList("materials").stream().map(m -> Material.getMaterial(m.toUpperCase())).filter(Objects::nonNull).collect(Collectors.toSet()));
+	public final Option<Boolean>       TWEAK_HAPPY_GHAST_PLACEMENT         = option("tweaks.happy-ghast-placement");
+	public final Option<Boolean>       TWEAK_HAPPY_GHAST_SPEED             = option("tweaks.happy-ghast-speed.toggle");
+	public final Option<Double>        TWEAK_HAPPY_GHAST_SPEED_VALUE       = option("tweaks.happy-ghast-speed.value", 1.5);
 	public final Option<Boolean>       TWEAK_HAY_BALE_BREAD                = option("tweaks.hay-bale-bread");
 	public final Option<Boolean>       TWEAK_HORSE_STATISTICS              = option("tweaks.horse-statistics.toggle");
 	public final Option<List<String>>  TWEAK_HORSE_STATISTICS_MESSAGE      = option("tweaks.horse-statistics.message", List.of());
 	public final Option<Boolean>       TWEAK_INVENTORY_CRAFTING            = option("tweaks.inventory-crafting");
+	public final Option<Boolean>       TWEAK_ITEM_FRAME_CLICK_THROUGH      = option("tweaks.item-frame-click-through");
+	public final Option<Boolean>       TWEAK_ITEM_FRAME_INVISIBLE          = option("tweaks.item-frame-invisible");
+	public final Option<Boolean>       TWEAK_LADDER_PLACEMENT              = option("tweaks.ladder-placement");
+	public final Option<Boolean>       TWEAK_LADDER_TELEPORTATION          = option("tweaks.ladder-teleportation.toggle");
+	public final Option<String>        TWEAK_LADDER_TELEPORTATION_CONTROL  = option("tweaks.ladder-teleportation.control", "Automatic");
 	public final Option<Boolean>       TWEAK_LEAF_CUTTER                   = option("tweaks.leaf-cutter");
 	public final Option<Boolean>       TWEAK_MUD_CONVERSION                = option("tweaks.mud-conversion.toggle");
 	public final Option<Boolean>       TWEAK_MUD_CONVERSION_USE_WATER      = option("tweaks.mud-conversion.use-water");
 	public final Option<Boolean>       TWEAK_NAME_TAG_DYE                  = option("tweaks.name-tag-dye");
 	public final Option<Boolean>       TWEAK_PORTAL_EXPLOSION_PROOF        = option("tweaks.portal-explosion-proof");
 	public final Option<Boolean>       TWEAK_RECIPE_UNLOCK_ALL             = option("tweaks.recipe-unlock-all");
-	public final Option<Boolean>       TWEAK_TORCH_THROW                   = option("tweaks.torch-throw");
 	public final Option<Boolean>       TWEAK_SNOWBALLS_ADD_SNOW_LAYER      = option("tweaks.snowballs-add-snow-layer");
 	public final Option<Boolean>       TWEAK_SNOWBALLS_BREAK_PLANTS        = option("tweaks.snowballs-break-plants");
 	public final Option<Boolean>       TWEAK_SNOWBALLS_DAMAGE              = option("tweaks.snowballs-damage.toggle");
@@ -53,6 +64,7 @@ public class Settings {
 	public final Option<Boolean>       TWEAK_SNOWBALLS_FORM_SNOW           = option("tweaks.snowballs-form-snow");
 	public final Option<Boolean>       TWEAK_SNOWBALLS_KNOCKBACK           = option("tweaks.snowballs-knockback.toggle");
 	public final Option<Double>        TWEAK_SNOWBALLS_KNOCKBACK_AMOUNT    = option("tweaks.snowballs-knockback.amount", 0.5);
+	public final Option<Boolean>       TWEAK_TORCH_THROW                   = option("tweaks.torch-throw");
 	public final Option<Boolean>       TWEAK_VEHICLE_PICKUP                = option("tweaks.vehicle-pickup");
 	public final Option<Boolean>       TWEAK_WATER_BOTTLE_CONVERT_LAVA     = option("tweaks.water-bottle-convert-lava");
 	public final Option<Boolean>       TWEAK_WATER_BOTTLE_CRAFT            = option("tweaks.water-bottle-craft.toggle");
@@ -65,9 +77,9 @@ public class Settings {
 	public final Option<String>  NO_PERMISSION  = option("no-permission", "&4&l❌ &cYou lack the required permission for this command.");
 	public final Option<Boolean> ENABLE_METRICS = option("enable-metrics", true);
 
-	private final Tweaks plugin;
+	private final Tweaky plugin;
 
-	public Settings(@Nonnull Tweaks plugin) {
+	public Settings(@Nonnull Tweaky plugin) {
 		this.plugin = plugin;
 		plugin.saveDefaultConfig();
 	}

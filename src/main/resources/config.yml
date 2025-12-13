@@ -3,6 +3,8 @@ tweaks:
   anvil-color: false
   # Right-clicking an anvil with an iron block will repair it slightly.
   anvil-repair: false
+  # Shift over an armor stand to quick swap armor.
+  armor-swap: false
   # Right-click a bee with a beehive to capture it. Only works if the beehive is not full.
   bee-capture: false
   # Throw concrete powder into a cauldron to turn it into concrete.
@@ -41,6 +43,13 @@ tweaks:
     toggle: false
     materials:
       - NETHERITE_PICKAXE
+  # Blocks can now be placed on the top of happy ghast's heads.
+  happy-ghast-placement: false
+  # Happy ghasts will now fly faster than normal (only while riding).
+  happy-ghast-speed:
+    toggle: false
+    # Speed value of riding happy ghast.
+    value: 1.5
   # Right-clicking a hay bale with a hoe automatically crafts and drops bread.
   hay-bale-bread: false
   # Allows you to view the statistics (health-speed-jump) of horses by sneak-right-click.
@@ -53,6 +62,19 @@ tweaks:
       - "&7Jump: &e{jump}"
   # Right-clicking a crafting table in your inventory opens it.
   inventory-crafting: false
+  # Right-clicking an item frame on a chest will open the chest. Shift to go back to normal behavior.
+  item-frame-click-through: false
+  # Shift-right-click an item frame with shears to make it invisible. Do it again to make it visible.
+  item-frame-invisible: false
+  # Allows you to place ladders up/down depending on your direction by right-clicking existing ladders.
+  ladder-placement: false
+  # Allows you to instantly climb up/down ladders.
+  ladder-teleportation:
+    toggle: false
+    # Options:
+    # - Automatic (simply walk into the ladder)
+    # - Manual (look straight up/down to activate teleportation)
+    control: Automatic
   # Breaking leaves with a hoe will break an additional block on each side. Netherite hoes will do a full 3x3x3 break.
   leaf-cutter: false
   # Throw dirt into a cauldron to turn it into mud.
@@ -68,9 +90,6 @@ tweaks:
   # Players who join the server will have all the recipes unlocked.
   # If you accidentally kept this on and didn't want this, just do '/tweaks resetrecipes'.
   recipe-unlock-all: false
-  # Allows you to throw torches on the ground to place them.
-  # So if you throw them down a cave, it will light the block it lands on!
-  torch-throw: false
   # Throwing snowballs on existing snow layers will add snow layers.
   snowballs-add-snow-layer: false
   # Throwing snowballs on plants or flowers will break them.
@@ -93,6 +112,9 @@ tweaks:
     toggle: false
     # Amount of knockback that snowballs inflict.
     amount: 0.5
+  # Allows you to throw torches on the ground to place them.
+  # So if you throw them down a cave, it will light the block it lands on!
+  torch-throw: false
   # Allows vehicles to be picked up by sneak-right-click.
   vehicle-pickup: false
   # Splashing a water bottle into lava converts it into obsidian.
@@ -112,7 +134,7 @@ tweaks:
     cost: 8
 
 # Random admin stuff. No need to mess with this!
-reloaded: "&2&l✓ &a&lTweaks &ahas been reloaded. Registered &l{amount} &atweaks."
+reloaded: "&2&l✓ &a&lTweaky &ahas been reloaded. Registered &l{amount} &atweaks."
 reset-recipes: "&2&l✓ &aRecipes have been reset for all online players."
 no-permission: "&4&l❌ &cYou lack the required permission for this command."
 
