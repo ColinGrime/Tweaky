@@ -3,7 +3,9 @@ package me.colingrimes.tweaky.tweak.implementation;
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.event.PlayerInteractBlockEvent;
 import me.colingrimes.tweaky.tweak.Tweak;
-import me.colingrimes.tweaky.util.Util;
+import me.colingrimes.tweaky.util.bukkit.Blocks;
+import me.colingrimes.tweaky.util.bukkit.Items;
+import me.colingrimes.tweaky.util.bukkit.Sounds;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -33,13 +35,10 @@ public class AnvilRepairTweak extends Tweak {
 		Block block = event.getBlock();
 		BlockFace blockFace = ((Directional) event.getBlock().getBlockData()).getFacing();
 		block.setType(block.getType() == Material.CHIPPED_ANVIL ? Material.ANVIL : Material.CHIPPED_ANVIL);
+		Blocks.edit(block, Directional.class, d -> d.setFacing(blockFace));
 
-		Directional blockData = (Directional) event.getBlock().getBlockData();
-		blockData.setFacing(blockFace);
-		block.setBlockData(blockData);
-
-		Util.removeSingle(event.getItem());
-		Util.sound(event.getPlayer(), Sound.BLOCK_ANVIL_USE);
+		Items.remove(event.getItem());
+		Sounds.play(block, Sound.BLOCK_ANVIL_USE);
 		event.setCancelled(true);
 	}
 }
