@@ -10,6 +10,7 @@
 ## Tweaks
 * `anvil-color` - Items can be colored in the anvil.
 * `anvil-repair` - Right-clicking an anvil with an iron block will repair it slightly.
+* `armor-swap` - Shift over an armor stand to quick swap armor.
 * `bee-capture` - Right-click a bee with a beehive to capture it.
 * `concrete-conversion` - Throw concrete powder into a cauldron to turn it into concrete.
 * `crops-bone-meal` - Allows players to bone meal any crop.
@@ -25,9 +26,15 @@
 * `entity-set-on-fire` - Right-clicking an entity with a flint & steel or fire charge sets it on fire.
 * `fire-dries-sponges` - Setting a sponge on fire dries it out instantly.
 * `glass-break` - Glass breaks instantly when broken by a Netherite Pickaxe (configurable).
+* `happy-ghast-placement` - Blocks can now be placed on the top of happy ghast's heads.
+* `happy-ghast-speed` - Allows happy ghasts to move at a configurable speed while they are being ridden.
 * `hay-bale-bread` - Right-clicking a hay bale with a hoe automatically crafts and drops bread.
 * `horse-statistics` - Allows you to view the statistics (health-speed-jump) of horses by sneak-right-click.
 * `inventory-crafting` - Right-clicking a crafting table in your inventory opens it.
+* `item-frame-click-through` - Right-click item frame on chest to open it. Shift for normal behavior.
+* `item-frame-invisible` - Shift-right-click an item frame with shears to toggle its visibility on/off.
+* `ladder-placement` - Place ladders up/down depending on your direction by right-clicking existing ladders.
+* `ladder-teleportation` - Allows you to instantly climb up/down ladders (different modes are available).
 * `leaf-cutter` - Breaking leaves with a hoe will break an extra block on each side. Netherite hoes = 3x3x3.
 * `mud-conversion` - Throw dirt into a cauldron to turn it into mud.
 * `name-tag-dye` - Allows the dying of named mobs with dyes.
