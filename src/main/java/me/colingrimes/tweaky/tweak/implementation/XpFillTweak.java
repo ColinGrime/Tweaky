@@ -3,9 +3,11 @@ package me.colingrimes.tweaky.tweak.implementation;
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.event.PlayerInteractBlockEvent;
 import me.colingrimes.tweaky.tweak.Tweak;
-import me.colingrimes.tweaky.util.Experience;
-import me.colingrimes.tweaky.util.Util;
+import me.colingrimes.tweaky.util.bukkit.Experience;
+import me.colingrimes.tweaky.util.bukkit.Items;
+import me.colingrimes.tweaky.util.bukkit.Sounds;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.ItemStack;
@@ -31,11 +33,10 @@ public class XpFillTweak extends Tweak {
 
 		Player player = event.getPlayer();
 		if (Experience.fromPlayer(player) >= settings.TWEAK_XP_FILL_COST.get()) {
-			Util.removeSingle(event.getItem());
+			Sounds.play(event.getBlock(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP);
 			Experience.remove(player, settings.TWEAK_XP_FILL_COST.get());
-			for (ItemStack item : event.getPlayer().getInventory().addItem(new ItemStack(Material.EXPERIENCE_BOTTLE)).values()) {
-				player.getWorld().dropItemNaturally(player.getLocation(), item);
-			}
+			Items.remove(event.getItem());
+			Items.give(event.getPlayer(), new ItemStack(Material.EXPERIENCE_BOTTLE));
 			event.setCancelled(true);
 		}
 	}

@@ -2,6 +2,7 @@ package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.tweak.Tweak;
+import me.colingrimes.tweaky.util.bukkit.Blocks;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -48,6 +49,7 @@ public class TorchThrowTweak extends Tweak {
 			Block block = location.getBlock();
 			if (block.getType().isAir()) {
 				block.setType(Material.TORCH);
+				Blocks.placeSound(block);
 
 				if (item.getItemStack().getAmount() > 1) {
 					ItemStack itemStack = item.getItemStack();

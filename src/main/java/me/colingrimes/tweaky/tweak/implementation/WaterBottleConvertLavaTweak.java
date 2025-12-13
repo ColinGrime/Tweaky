@@ -3,9 +3,11 @@ package me.colingrimes.tweaky.tweak.implementation;
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.Util;
+import me.colingrimes.tweaky.util.bukkit.Sounds;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.SplashPotion;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
@@ -39,9 +41,15 @@ public class WaterBottleConvertLavaTweak extends Tweak {
 		}
 
 		Bukkit.getScheduler().runTaskTimer(plugin, (task) -> {
-			if (potion.isDead() || potion.getLocation().getBlock().getType() == Material.LAVA) {
-				convertLava(event.getEntity().getLocation(), 0.50, 0, Util.number(6, 10));
-				task.cancel();
+			if (!potion.isDead() && potion.getLocation().getBlock().getType() != Material.LAVA) {
+				return;
+			}
+
+			task.cancel();
+
+			int remaining = Util.number(6, 10);
+			if (remaining != convertLava(potion.getLocation(), 0.50, 0, remaining)) {
+				Sounds.play(potion, Sound.BLOCK_LAVA_EXTINGUISH);
 			}
 		}, 1L, 1L);
 	}

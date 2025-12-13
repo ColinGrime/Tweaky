@@ -3,9 +3,12 @@ package me.colingrimes.tweaky.tweak.implementation;
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.event.PlayerInteractBlockEvent;
 import me.colingrimes.tweaky.tweak.Tweak;
-import me.colingrimes.tweaky.util.Util;
+import me.colingrimes.tweaky.util.bukkit.Blocks;
+import me.colingrimes.tweaky.util.bukkit.Items;
+import me.colingrimes.tweaky.util.bukkit.Sounds;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.event.EventHandler;
@@ -44,7 +47,8 @@ public class CropBoneMealTweak extends Tweak {
 
 			Block top = location.getBlock();
 			if (top.getType().isAir()) {
-				Util.removeSingle(event.getItem());
+				Sounds.play(event.getBlock(), Sound.ITEM_BONE_MEAL_USE);
+				Items.remove(event.getItem());
 				top.setType(event.getBlockType());
 				event.setCancelled(true);
 			}
@@ -52,9 +56,9 @@ public class CropBoneMealTweak extends Tweak {
 
 		// Grows nether wart.
 		if (event.isBlock(Material.NETHER_WART) && crop.getAge() < crop.getMaximumAge()) {
-			Util.removeSingle(event.getItem());
-			crop.setAge(crop.getAge() + 1);
-			event.getBlock().setBlockData(crop);
+			Sounds.play(event.getBlock(), Sound.ITEM_BONE_MEAL_USE);
+			Items.remove(event.getItem());
+			Blocks.edit(event.getBlock(), Ageable.class, c -> c.setAge(c.getAge() + 1));
 			event.setCancelled(true);
 		}
 	}

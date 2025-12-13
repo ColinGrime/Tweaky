@@ -3,13 +3,14 @@ package me.colingrimes.tweaky.tweak.implementation;
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.event.PlayerInteractBlockEvent;
 import me.colingrimes.tweaky.tweak.Tweak;
+import me.colingrimes.tweaky.util.bukkit.Blocks;
+import me.colingrimes.tweaky.util.bukkit.Sounds;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
+import org.bukkit.Sound;
 import org.bukkit.block.data.type.Door;
 import org.bukkit.event.EventHandler;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public class DoorIronTweak extends Tweak {
 
@@ -26,21 +27,8 @@ public class DoorIronTweak extends Tweak {
 	public void onPlayerInteractBlock(@Nonnull PlayerInteractBlockEvent event) {
 		if (event.isRightClick() && event.isBlock(Material.IRON_DOOR)) {
 			event.getPlayer().swingMainHand();
-			openDoor(event.getBlock());
+			Sounds.play(event.getBlock(), Sound.BLOCK_IRON_DOOR_OPEN);
+			Blocks.edit(event.getBlock(), Door.class, d -> d.setOpen(!d.isOpen()));
 		}
-	}
-
-	/**
-	 * Opens the door that corresponds to the specified block.
-	 *
-	 * @param block the block
-	 */
-	private void openDoor(@Nullable Block block) {
-		if (block == null || !(block.getBlockData() instanceof Door door)) {
-			return;
-		}
-
-		door.setOpen(!door.isOpen());
-		block.setBlockData(door);
 	}
 }

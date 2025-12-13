@@ -3,8 +3,9 @@ package me.colingrimes.tweaky.tweak.implementation;
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.event.PlayerInteractBlockEvent;
 import me.colingrimes.tweaky.tweak.Tweak;
-import me.colingrimes.tweaky.util.Util;
-import org.bukkit.Sound;
+import me.colingrimes.tweaky.util.bukkit.Blocks;
+import me.colingrimes.tweaky.util.bukkit.Items;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.event.EventHandler;
@@ -25,17 +26,12 @@ public class CropHarvestTweak extends Tweak {
 	@EventHandler
 	public void onPlayerInteract(@Nonnull PlayerInteractBlockEvent event) {
 		Block block = event.getBlock();
-		if (!event.isRightClick() || !event.getItem().getType().name().endsWith("HOE") || !(block.getBlockData() instanceof Ageable crop) || crop.getAge() < crop.getMaximumAge()) {
-			return;
+		if (event.isRightClick() && event.isItem(Tag.ITEMS_HOES) && block.getBlockData() instanceof Ageable crop && crop.getAge() >= crop.getMaximumAge()) {
+			Items.damage(event.getItem(), event.getPlayer());
+			Blocks.breakSound(block);
+			event.getPlayer().breakBlock(block);
+			crop.setAge(0);
+			block.setBlockData(crop);
 		}
-
-		block.breakNaturally(event.getItem());
-		if (Util.damage(event.getItem())) {
-			Util.sound(event.getPlayer(), Sound.ENTITY_ITEM_BREAK);
-		}
-
-		// Replant crop.
-		crop.setAge(0);
-		block.setBlockData(crop);
 	}
 }

@@ -3,6 +3,8 @@ package me.colingrimes.tweaky.tweak.implementation;
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.Util;
+import me.colingrimes.tweaky.util.bukkit.Blocks;
+import me.colingrimes.tweaky.util.bukkit.Items;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Tag;
@@ -46,18 +48,19 @@ public class LeafCutterTweak extends Tweak {
 		if (item.getType() == Material.NETHERITE_HOE) {
 			for (Location loc : Util.around(block.getLocation(), 1)) {
 				if (Tag.LEAVES.isTagged(loc.getBlock().getType())) {
-					loc.getBlock().breakNaturally(item);
+					Blocks.destroy(loc.getBlock());
 				}
 			}
 		} else {
 			for (Vector vector : directions) {
 				Location loc = block.getLocation().clone().add(vector);
 				if (Tag.LEAVES.isTagged(loc.getBlock().getType())) {
-					loc.getBlock().breakNaturally(item);
+					Blocks.destroy(loc.getBlock());
 				}
 			}
 		}
 
+		Items.damage(item, event.getPlayer());
 		event.setCancelled(true);
 	}
 }
