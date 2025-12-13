@@ -11,7 +11,7 @@ java {
 }
 
 group 'me.colingrimes.tweaky'
-version '1.4.0'
+version '1.5.0'
 
 repositories {
     mavenCentral()
@@ -30,7 +30,7 @@ processResources {
 }
 
 shadowJar {
-    archiveFileName = "Tweaks-${project.version}.jar"
+    archiveFileName = "Tweaky-${project.version}.jar"
     relocate 'org.bstats', 'me.colingrimes.tweaky.libs.bstats'
     dependencies {
         include dependency('org.bstats:bstats-bukkit')
