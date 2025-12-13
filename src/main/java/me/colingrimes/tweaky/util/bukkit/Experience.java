@@ -1,4 +1,4 @@
-package me.colingrimes.tweaky.util;
+package me.colingrimes.tweaky.util.bukkit;
 
 import org.bukkit.entity.Player;
 

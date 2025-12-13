@@ -2,6 +2,7 @@ package me.colingrimes.tweaky.event;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -172,6 +173,17 @@ public class PlayerInteractBlockEvent extends Event implements Cancellable {
     }
 
     /**
+     * Checks if the held item matches one of the given tags.
+     *
+     * @param tags the tags to check
+     * @return true if the held item matches one of the tags
+     */
+    @SafeVarargs
+	public final boolean isItem(@Nonnull Tag<Material>... tags) {
+        return Arrays.stream(tags).anyMatch(t -> t.isTagged(item.getType()));
+    }
+
+    /**
      * Checks if the clicked block matches one of the given materials.
      *
      * @param materials materials to check
@@ -179,6 +191,17 @@ public class PlayerInteractBlockEvent extends Event implements Cancellable {
      */
     public boolean isBlock(@Nonnull Material...materials) {
         return Arrays.stream(materials).anyMatch(m -> m == block.getType());
+    }
+
+    /**
+     * Checks if the clicked block matches one of the given tags.
+     *
+     * @param tags the tags to check
+     * @return true if the block matches one of the tags
+     */
+    @SafeVarargs
+    public final boolean isBlock(@Nonnull Tag<Material>... tags) {
+        return Arrays.stream(tags).anyMatch(t -> t.isTagged(block.getType()));
     }
 
     @Override

@@ -2,7 +2,7 @@ package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.tweak.Tweak;
-import me.colingrimes.tweaky.util.Util;
+import me.colingrimes.tweaky.util.bukkit.Items;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.PrepareAnvilEvent;
 
@@ -23,7 +23,7 @@ public class AnvilColorTweak extends Tweak {
 	public void onPrepareAnvil(@Nonnull PrepareAnvilEvent event) {
 		String renameText = event.getView().getRenameText();
 		if (event.getResult() != null && renameText != null && renameText.contains("&")) {
-			event.setResult(Util.rename(event.getResult(), renameText));
+			event.setResult(Items.rename(event.getResult(), renameText));
 		}
 	}
 }

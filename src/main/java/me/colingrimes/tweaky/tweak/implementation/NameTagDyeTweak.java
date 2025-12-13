@@ -2,7 +2,7 @@ package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.tweak.Tweak;
-import me.colingrimes.tweaky.util.Util;
+import me.colingrimes.tweaky.util.bukkit.Items;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
@@ -34,7 +34,7 @@ public class NameTagDyeTweak extends Tweak {
 		Entity entity = event.getRightClicked();
 		if (item.getType().name().endsWith("DYE") && entity.getCustomName() != null) {
 			entity.setCustomName(convertDye(item.getType()) + ChatColor.stripColor(entity.getCustomName()));
-			Util.removeSingle(item);
+			Items.remove(item);
 		}
 	}
 

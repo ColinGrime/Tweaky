@@ -2,6 +2,7 @@ package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.tweak.Tweak;
+import me.colingrimes.tweaky.util.bukkit.Blocks;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -49,8 +50,7 @@ public class MudConversionTweak extends Tweak {
 
 			if (settings.TWEAK_MUD_CONVERSION_USE_WATER.get()) {
 				if (cauldron.getLevel() > 1) {
-					cauldron.setLevel(cauldron.getLevel() - 1);
-					block.setBlockData(cauldron);
+					Blocks.edit(block, Levelled.class, l -> l.setLevel(l.getLevel() - 1));
 				} else {
 					block.setType(Material.CAULDRON);
 				}

@@ -2,7 +2,7 @@ package me.colingrimes.tweaky.command;
 
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.util.Util;
-import org.bukkit.Bukkit;
+import me.colingrimes.tweaky.util.bukkit.Players;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -22,7 +22,7 @@ public class TweakCommand implements CommandExecutor {
 		if (!sender.hasPermission("tweaky.admin")) {
 			plugin.getSettings().NO_PERMISSION.send(sender);
 		} else if (args.length == 1 && args[0].equalsIgnoreCase("resetrecipes")) {
-			Bukkit.getOnlinePlayers().forEach(p -> p.undiscoverRecipes(plugin.getAllRecipes()));
+			Players.forEach(p -> p.undiscoverRecipes(plugin.getAllRecipes()));
 			plugin.getSettings().RESET_RECIPES.send(sender);
 		} else {
 			plugin.getSettings().reload();

@@ -2,9 +2,8 @@ package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.tweak.Tweak;
-import me.colingrimes.tweaky.util.Util;
+import me.colingrimes.tweaky.util.bukkit.Blocks;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockDamageEvent;
@@ -38,7 +37,7 @@ public class DeepslateBreakTweak extends Tweak {
 			return;
 		}
 
-		Util.sound(event.getPlayer(), Sound.BLOCK_DEEPSLATE_BREAK);
+		Blocks.breakSound(event.getBlock());
 		event.setInstaBreak(true);
 	}
 }

@@ -24,12 +24,8 @@ public class CropTrampleProofTweak extends Tweak {
 
 	@EventHandler
 	public void onPlayerInteract(@Nonnull PlayerInteractEvent event) {
-		if (event.getAction() != Action.PHYSICAL) {
-			return;
-		}
-
 		Block block = event.getClickedBlock();
-		if (block != null && block.getType() == Material.FARMLAND) {
+		if (event.getAction() == Action.PHYSICAL && block != null && block.getType() == Material.FARMLAND) {
 			event.setCancelled(true);
 		}
 	}

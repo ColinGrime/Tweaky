@@ -2,7 +2,7 @@ package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.tweak.Tweak;
-import me.colingrimes.tweaky.util.Util;
+import me.colingrimes.tweaky.util.bukkit.Items;
 import org.bukkit.block.Beehive;
 import org.bukkit.entity.Bee;
 import org.bukkit.entity.Player;
@@ -49,7 +49,7 @@ public class BeeCaptureTweak extends Tweak {
 		ItemStack copy = item.clone();
 		copy.setAmount(1);
 		copy.setItemMeta(meta);
-		Util.give(event.getPlayer(), copy, true);
-		Util.removeSingle(item);
+		Items.give(event.getPlayer(), copy);
+		Items.remove(item);
 	}
 }

@@ -3,7 +3,9 @@ package me.colingrimes.tweaky.tweak.implementation;
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.event.PlayerInteractBlockEvent;
 import me.colingrimes.tweaky.tweak.Tweak;
+import me.colingrimes.tweaky.util.bukkit.Blocks;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.type.Door;
@@ -25,7 +27,7 @@ public class DoorDoubleTweak extends Tweak {
 
 	@EventHandler
 	public void onPlayerInteractBlock(@Nonnull PlayerInteractBlockEvent event) {
-		if (!event.isRightClick() || !event.getBlockType().name().endsWith("_DOOR")) {
+		if (!event.isRightClick() || !event.isBlock(Tag.DOORS)) {
 			return;
 		}
 
@@ -34,21 +36,7 @@ public class DoorDoubleTweak extends Tweak {
 			return;
 		}
 
-		openDoor(getDoubleDoor(event.getBlock()));
-	}
-
-	/**
-	 * Opens the door that corresponds to the specified block.
-	 *
-	 * @param block the block
-	 */
-	private void openDoor(@Nullable Block block) {
-		if (block == null || !(block.getBlockData() instanceof Door door)) {
-			return;
-		}
-
-		door.setOpen(!door.isOpen());
-		block.setBlockData(door);
+		Blocks.edit(getDoubleDoor(event.getBlock()), Door.class, d -> d.setOpen(!d.isOpen()));
 	}
 
 	/**

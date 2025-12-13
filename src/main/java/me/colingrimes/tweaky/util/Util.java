@@ -1,13 +1,8 @@
-package me.colingrimes.tweaks.util;
+package me.colingrimes.tweaky.util;
 
 import com.google.common.base.Preconditions;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.Damageable;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
 import javax.annotation.Nonnull;
@@ -28,122 +23,6 @@ public class Util {
 	public static String color(@Nullable String str) {
 		if (str == null || str.isEmpty()) return "";
 		return ChatColor.translateAlternateColorCodes('&', str);
-	}
-
-	/**
-	 * Renames the item with the given name. Supports color codes.
-	 *
-	 * @param item the item to rename
-	 * @param name the name
-	 * @return the renamed item
-	 */
-	@Nonnull
-	public static ItemStack rename(@Nonnull ItemStack item, @Nonnull String name) {
-		ItemMeta meta = item.getItemMeta();
-		if (meta != null) {
-			meta.setDisplayName(color(name));
-			item.setItemMeta(meta);
-		}
-		return item;
-	}
-
-	/**
-	 * Checks if the inventory does not have an empty slot.
-	 *
-	 * @param inventory the inventory to check
-	 * @return true if the inventory is full (no empty slot)
-	 */
-	public static boolean isFull(@Nonnull Inventory inventory) {
-		return inventory.firstEmpty() == -1;
-	}
-
-	/**
-	 * Checks if the specified item can fit in the inventory.
-	 * If the inventory is full, it will check to see if it can stack with a similar item.
-	 *
-	 * @param inventory the inventory to check
-	 * @param item the item to check
-	 * @return true if the item can fit in the inventory
-	 */
-	public static boolean canFit(@Nonnull Inventory inventory, @Nonnull ItemStack item) {
-		if (!isFull(inventory)) {
-			return true;
-		}
-		return Arrays.stream(inventory.getContents()).anyMatch(i -> i != null && (i.getAmount() + item.getAmount()) <= i.getMaxStackSize() && i.isSimilar(item));
-	}
-
-	/**
-	 * Attempts to give the player the item.
-	 * If the player's inventory has no room, and {@code dropOnGround} is true, the remaining items will drop on the ground.
-	 * If the player's inventory has no room, and {@code dropOnGround} is false, no items will be given.
-	 *
-	 * @param player the player
-	 * @param item the item to give to the player
-	 * @return true if there was room in the player's inventory, false if there was no room
-	 */
-	public static boolean give(@Nonnull Player player, @Nonnull ItemStack item, boolean dropOnGround) {
-		if (!canFit(player.getInventory(), item) && !dropOnGround) {
-			return false;
-		}
-
-		Collection<ItemStack> remaining = player.getInventory().addItem(item).values();
-		for (ItemStack itemDrop : remaining) {
-			player.getWorld().dropItemNaturally(player.getLocation(), itemDrop);
-		}
-		return remaining.isEmpty();
-	}
-
-
-	/**
-	 * Removes a single item from the stack.
-	 *
-	 * @param item the item stack
-	 */
-	public static void removeSingle(@Nonnull ItemStack item) {
-		item.setAmount(item.getAmount() - 1);
-	}
-
-	/**
-	 * Damages the specified item by 1 durability.
-	 *
-	 * @param item the item to damage
-	 * @return true if the item was broken
-	 */
-	public static boolean damage(@Nullable ItemStack item) {
-		return damage(item, 1);
-	}
-
-	/**
-	 * Damages the specified item.
-	 *
-	 * @param item the item to damage
-	 * @param amount the amount to damage the item
-	 * @return true if the item was broken
-	 */
-	public static boolean damage(@Nullable ItemStack item, int amount) {
-		if (item == null || !(item.getItemMeta() instanceof Damageable damageable)) {
-			return false;
-		}
-
-		int damage = damageable.getDamage() + amount;
-		if (damage >= item.getType().getMaxDurability()) {
-			item.setAmount(item.getAmount() - 1);
-			return true;
-		} else {
-			damageable.setDamage(damage);
-			item.setItemMeta(damageable);
-			return false;
-		}
-	}
-
-	/**
-	 * Plays the given sound to the given player.
-	 *
-	 * @param player the player
-	 * @param sound  the sound
-	 */
-	public static void sound(@Nonnull Player player, @Nonnull Sound sound) {
-		player.playSound(player.getLocation(), sound, 1F, 1F);
 	}
 
 	/**
@@ -303,5 +182,31 @@ public class Util {
 				.filter(entityType::isInstance)
 				.map(entityType::cast)
 				.toList();
+	}
+
+	/**
+	 * Parses the provided string to the corresponding Enum value.
+	 *
+	 * @param enumType the class of the Enum to parse into
+	 * @param value    the string value to parse
+	 * @param <E>      the type of the Enum
+	 * @return an Optional containing the Enum value matching the provided string
+	 */
+	@Nonnull
+	public static <E extends Enum<E>> Optional<E> parseEnum(@Nonnull Class<E> enumType, @Nullable String value) {
+		return Arrays.stream(enumType.getEnumConstants()).filter(e -> e.name().equalsIgnoreCase(value)).findFirst();
+	}
+
+	/**
+	 * Parses the provided string to the corresponding Enum value.
+	 *
+	 * @param enumType the class of the Enum to parse into
+	 * @param value    the string value to parse
+	 * @param <E>      the type of the Enum
+	 * @return the Enum value matching the provided string
+	 */
+	@Nullable
+	public static <E extends Enum<E>> E parseEnumNullable(@Nonnull Class<E> enumType, @Nullable String value) {
+		return parseEnum(enumType, value).orElse(null);
 	}
 }

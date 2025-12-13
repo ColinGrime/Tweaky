@@ -3,10 +3,8 @@ package me.colingrimes.tweaky.tweak.implementation;
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.event.PlayerInteractBlockEvent;
 import me.colingrimes.tweaky.tweak.Tweak;
-import org.bukkit.FluidCollisionMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
+import me.colingrimes.tweaky.util.bukkit.Players;
+import org.bukkit.Tag;
 import org.bukkit.event.EventHandler;
 import org.bukkit.util.RayTraceResult;
 
@@ -25,20 +23,13 @@ public class WeaponSwingThroughGrassTweak extends Tweak {
 
 	@EventHandler
 	public void onPlayerInteract(@Nonnull PlayerInteractBlockEvent event) {
-		if (!event.isLeftClick() || !event.getBlock().isPassable()) {
+		if (!event.isLeftClick() || !event.getBlock().isPassable() || !event.isItem(Tag.ITEMS_SWORDS, Tag.ITEMS_AXES)) {
 			return;
 		}
 
-		Material type = event.getItemType();
-		if (!type.name().endsWith("_SWORD") && !type.name().endsWith("_AXE")) {
-			return;
-		}
-
-		Player player = event.getPlayer();
-		Location eye = player.getEyeLocation();
-		RayTraceResult result = player.getWorld().rayTrace(eye, eye.getDirection(), 3.5, FluidCollisionMode.NEVER, true, 0, e -> !e.equals(player));
+		RayTraceResult result = Players.rayTrace(event.getPlayer(), 3);
 		if (result != null && result.getHitEntity() != null) {
-			player.attack(result.getHitEntity());
+			event.getPlayer().attack(result.getHitEntity());
 		}
 
 		event.setCancelled(true);

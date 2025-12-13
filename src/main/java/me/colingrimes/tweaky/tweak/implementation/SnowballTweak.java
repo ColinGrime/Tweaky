@@ -1,8 +1,10 @@
-package me.colingrimes.tweaks.tweak.implementation;
+package me.colingrimes.tweaky.tweak.implementation;
 
-import me.colingrimes.tweaks.Tweaks;
-import me.colingrimes.tweaks.tweak.Tweak;
-import me.colingrimes.tweaks.util.Util;
+import me.colingrimes.tweaky.Tweaky;
+import me.colingrimes.tweaky.tweak.Tweak;
+import me.colingrimes.tweaky.util.Util;
+import me.colingrimes.tweaky.util.bukkit.Blocks;
+import me.colingrimes.tweaky.util.bukkit.Sounds;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -16,19 +18,10 @@ import org.bukkit.event.entity.ProjectileLaunchEvent;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
-import java.util.List;
 
 public class SnowballTweak extends Tweak {
 
-	private static final List<Material> grasses = List.of(
-			Material.SHORT_GRASS,
-			Material.TALL_GRASS,
-			Material.FERN,
-			Material.LARGE_FERN,
-			Material.DEAD_BUSH
-	);
-
-	public SnowballTweak(@Nonnull Tweaks plugin) {
+	public SnowballTweak(@Nonnull Tweaky plugin) {
 		super(plugin, "snowballs");
 	}
 
@@ -69,7 +62,7 @@ public class SnowballTweak extends Tweak {
 
 		// TWEAK -- damage
 		if (settings.TWEAK_SNOWBALLS_DAMAGE.get()) {
-			hit.setHealth(hit.getHealth() - settings.TWEAK_SNOWBALLS_DAMAGE_AMOUNT.get());
+			hit.setHealth(Math.max(0, hit.getHealth() - settings.TWEAK_SNOWBALLS_DAMAGE_AMOUNT.get()));
 		}
 
 		// TWEAK -- knockback
@@ -80,7 +73,7 @@ public class SnowballTweak extends Tweak {
 		// TWEAK -- extinguish entity
 		if (settings.TWEAK_SNOWBALLS_EXTINGUISH_ENTITIES.get() && hit.getFireTicks() > 0) {
 			hit.setFireTicks(0);
-			hit.getWorld().playSound(hit.getLocation(), Sound.ENTITY_GENERIC_EXTINGUISH_FIRE, 1F, 1F);
+			Sounds.play(hit, Sound.ENTITY_GENERIC_EXTINGUISH_FIRE);
 		}
 	}
 
@@ -98,8 +91,7 @@ public class SnowballTweak extends Tweak {
 		// TWEAK -- add snow layer on snow layers
 		Block existing = hit.getBlockData() instanceof Snow s && s.getLayers() < s.getMaximumLayers() ? hit : target;
 		if (settings.TWEAK_SNOWBALLS_ADD_SNOW_LAYER.get() && existing.getBlockData() instanceof Snow snow && snow.getLayers() < snow.getMaximumLayers()) {
-			snow.setLayers(snow.getLayers() + 1);
-			existing.setBlockData(snow);
+			Blocks.edit(existing, Snow.class, s -> s.setLayers(s.getLayers() + 1));
 			return;
 		}
 
@@ -117,17 +109,15 @@ public class SnowballTweak extends Tweak {
 		}
 
 		// TWEAK -- break plants (only on solid block contact)
-		boolean isPlant = Tag.FLOWERS.isTagged(targetType) || Tag.SMALL_FLOWERS.isTagged(targetType) || grasses.contains(targetType);
-		if (settings.TWEAK_SNOWBALLS_BREAK_PLANTS.get() && isPlant) {
-			target.breakNaturally();
-			event.getEntity().getWorld().playSound(event.getEntity().getLocation(), Sound.BLOCK_GRASS_BREAK, 1F, 1F);
+		if (settings.TWEAK_SNOWBALLS_BREAK_PLANTS.get() && Blocks.isPlant(targetType)) {
+			Blocks.destroy(target);
 			return;
 		}
 
 		// TWEAK -- extinguish fire
 		if (settings.TWEAK_SNOWBALLS_EXTINGUISH_FIRE.get() && Tag.FIRE.isTagged(targetType)) {
 			target.setType(Material.AIR);
-			event.getEntity().getWorld().playSound(event.getEntity().getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 1F, 1F);
+			Sounds.play(target, Sound.BLOCK_FIRE_EXTINGUISH);
 		}
 	}
 
@@ -162,10 +152,8 @@ public class SnowballTweak extends Tweak {
 			// TWEAK -- break plants (mid-air)
 			if (settings.TWEAK_SNOWBALLS_BREAK_PLANTS.get()) {
 				for (Location loc : Util.around(location, 0.5)) {
-					Material type = loc.getBlock().getType();
-					if (Tag.FLOWERS.isTagged(type) || Tag.SMALL_FLOWERS.isTagged(type) || grasses.contains(type)) {
-						loc.getBlock().breakNaturally();
-						snowball.getWorld().playSound(loc, Sound.BLOCK_GRASS_BREAK, 1F, 1F);
+					if (Blocks.isPlant(loc.getBlock().getType())) {
+						Blocks.destroy(loc.getBlock());
 					}
 				}
 			}
