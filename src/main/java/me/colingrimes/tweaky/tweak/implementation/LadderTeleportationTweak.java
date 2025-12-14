@@ -63,7 +63,7 @@ public class LadderTeleportationTweak extends Tweak {
 			return;
 		}
 
-		Control control = Util.parseEnumNullable(Control.class, settings.TWEAK_LADDER_TELEPORTATION_CONTROL.get());
+		Control control = Util.parse(Control.class, settings.TWEAK_LADDER_TELEPORTATION_CONTROL.get());
 		if (control == null) {
 			return;
 		}

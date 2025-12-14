@@ -185,28 +185,14 @@ public class Util {
 	}
 
 	/**
-	 * Parses the provided string to the corresponding Enum value.
+	 * Converts the string into the given Enum value.
 	 *
-	 * @param enumType the class of the Enum to parse into
+	 * @param enumType the enum to parse into
 	 * @param value    the string value to parse
-	 * @param <E>      the type of the Enum
-	 * @return an Optional containing the Enum value matching the provided string
-	 */
-	@Nonnull
-	public static <E extends Enum<E>> Optional<E> parseEnum(@Nonnull Class<E> enumType, @Nullable String value) {
-		return Arrays.stream(enumType.getEnumConstants()).filter(e -> e.name().equalsIgnoreCase(value)).findFirst();
-	}
-
-	/**
-	 * Parses the provided string to the corresponding Enum value.
-	 *
-	 * @param enumType the class of the Enum to parse into
-	 * @param value    the string value to parse
-	 * @param <E>      the type of the Enum
-	 * @return the Enum value matching the provided string
+	 * @return the converted enum value
 	 */
 	@Nullable
-	public static <E extends Enum<E>> E parseEnumNullable(@Nonnull Class<E> enumType, @Nullable String value) {
-		return parseEnum(enumType, value).orElse(null);
+	public static <E extends Enum<E>> E parse(@Nonnull Class<E> enumType, @Nullable String value) {
+		return Arrays.stream(enumType.getEnumConstants()).filter(e -> e.name().equalsIgnoreCase(value)).findFirst().orElse(null);
 	}
 }
