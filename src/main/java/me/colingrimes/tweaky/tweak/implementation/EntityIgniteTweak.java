@@ -15,15 +15,15 @@ import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 
-public class EntitySetOnFireTweak extends Tweak {
+public class EntityIgniteTweak extends Tweak {
 
-	public EntitySetOnFireTweak(@Nonnull Tweaky plugin) {
-		super(plugin, "entity_set_on_fire");
+	public EntityIgniteTweak(@Nonnull Tweaky plugin) {
+		super(plugin, "entity_ignite");
 	}
 
 	@Override
 	public boolean isEnabled() {
-		return settings.TWEAK_ENTITY_SET_ON_FIRE.get();
+		return settings.TWEAK_ENTITY_IGNITE.get();
 	}
 
 	@EventHandler

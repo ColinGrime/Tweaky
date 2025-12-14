@@ -8,7 +8,12 @@ tweaks:
   # Right-click a bee with a beehive to capture it. Only works if the beehive is not full.
   bee-capture: false
   # Throw concrete powder into a cauldron to turn it into concrete.
-  concrete-conversion:
+  cauldron-concrete:
+    toggle: false
+    # Whether the cauldron should use a water level on conversion.
+    use-water: false
+  # Throw dirt into a cauldron to turn it into mud.
+  cauldron-mud:
     toggle: false
     # Whether the cauldron should use a water level on conversion.
     use-water: false
@@ -19,7 +24,7 @@ tweaks:
   # Breaking grass or flowers with a hoe will 3x3 break them. Netherite hoes will 5x5 break them.
   crops-lawn-mower: false
   # Prevents the trampling of crops.
-  crops-trample-proof: false
+  crops-protection: false
   # Deepslate breaks instantly when mined with a netherite pickaxe, efficiency 5, and haste 2.
   deepslate-break: false
   # Double doors can be opened with 1 click.
@@ -32,12 +37,12 @@ tweaks:
   drops-magnet: false
   # Lapis stays in the lapis slot in enchanting tables when you close it.
   enchanting-lapis: false
+  # Allows the dying of named mobs with dyes.
+  entity-dye: false
   # If a player throws an item close to an entity, they will auto equip it.
   entity-equip: false
   # Right-click an entity with a flint & steel or fire charge to set it on fire.
-  entity-set-on-fire: false
-  # Setting a sponge on fire dries it out instantly.
-  fire-dries-sponges: false
+  entity-ignite: false
   # Glass breaks instantly when broken by the materials below.
   glass-break:
     toggle: false
@@ -77,16 +82,9 @@ tweaks:
     control: Automatic
   # Breaking leaves with a hoe will break an additional block on each side. Netherite hoes will do a full 3x3x3 break.
   leaf-cutter: false
-  # Throw dirt into a cauldron to turn it into mud.
-  mud-conversion:
-    toggle: false
-    # Whether the cauldron should use a water level on conversion.
-    use-water: false
-  # Allows the dying of named mobs with dyes.
-  name-tag-dye: false
   # Nether portals can no longer be destroyed by explosions.
   # No more ghasts or creepers destroying them!
-  portal-explosion-proof: false
+  portal-protection: false
   # Players who join the server will have all the recipes unlocked.
   # If you accidentally kept this on and didn't want this, just do '/tweaks resetrecipes'.
   recipe-unlock-all: false
@@ -112,6 +110,8 @@ tweaks:
     toggle: false
     # Amount of knockback that snowballs inflict.
     amount: 0.5
+  # Setting a sponge on fire dries it out instantly.
+  sponge-ignite: false
   # Allows you to throw torches on the ground to place them.
   # So if you throw them down a cave, it will light the block it lands on!
   torch-throw: false

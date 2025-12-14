@@ -12,15 +12,15 @@ import org.bukkit.event.EventHandler;
 
 import javax.annotation.Nonnull;
 
-public class FireDriesSpongesTweak extends Tweak {
+public class SpongeIgniteTweak extends Tweak {
 
-	public FireDriesSpongesTweak(@Nonnull Tweaky plugin) {
-		super(plugin, "fire_dries_sponges");
+	public SpongeIgniteTweak(@Nonnull Tweaky plugin) {
+		super(plugin, "sponge_ignite");
 	}
 
 	@Override
 	public boolean isEnabled() {
-		return settings.TWEAK_FIRE_DRIES_SPONGES.get();
+		return settings.TWEAK_SPONGE_IGNITE.get();
 	}
 
 	@EventHandler

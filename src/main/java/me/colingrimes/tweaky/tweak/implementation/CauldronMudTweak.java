@@ -15,15 +15,15 @@ import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 
-public class MudConversionTweak extends Tweak {
+public class CauldronMudTweak extends Tweak {
 
-	public MudConversionTweak(@Nonnull Tweaky plugin) {
-		super(plugin, "mud_conversion");
+	public CauldronMudTweak(@Nonnull Tweaky plugin) {
+		super(plugin, "cauldron_mud");
 	}
 
 	@Override
 	public boolean isEnabled() {
-		return settings.TWEAK_MUD_CONVERSION.get();
+		return settings.TWEAK_CAULDRON_MUD.get();
 	}
 
 	@EventHandler
@@ -48,7 +48,7 @@ public class MudConversionTweak extends Tweak {
 			dirt.getWorld().dropItem(location, new ItemStack(Material.MUD, dirt.getItemStack().getAmount()));
 			dirt.remove();
 
-			if (settings.TWEAK_MUD_CONVERSION_USE_WATER.get()) {
+			if (settings.TWEAK_CAULDRON_MUD_USE_WATER.get()) {
 				if (cauldron.getLevel() > 1) {
 					Blocks.edit(block, Levelled.class, l -> l.setLevel(l.getLevel() - 1));
 				} else {

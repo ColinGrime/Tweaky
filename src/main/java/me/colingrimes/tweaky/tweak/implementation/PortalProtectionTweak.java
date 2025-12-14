@@ -8,15 +8,15 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 
 import javax.annotation.Nonnull;
 
-public class PortalExplosionProofTweak extends Tweak {
+public class PortalProtectionTweak extends Tweak {
 
-	public PortalExplosionProofTweak(@Nonnull Tweaky plugin) {
-		super(plugin, "portal_explosion_proof");
+	public PortalProtectionTweak(@Nonnull Tweaky plugin) {
+		super(plugin, "portal_protection");
 	}
 
 	@Override
 	public boolean isEnabled() {
-		return settings.TWEAK_PORTAL_EXPLOSION_PROOF.get();
+		return settings.TWEAK_PORTAL_PROTECTION.get();
 	}
 
 	@EventHandler

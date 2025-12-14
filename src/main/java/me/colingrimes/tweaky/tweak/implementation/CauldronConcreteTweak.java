@@ -17,7 +17,7 @@ import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ConcreteConversionTweak extends Tweak {
+public class CauldronConcreteTweak extends Tweak {
 
 	private static final Map<Material, Material> POWDER_TO_CONCRETE = new HashMap<>();
 
@@ -40,13 +40,13 @@ public class ConcreteConversionTweak extends Tweak {
 		POWDER_TO_CONCRETE.put(Material.PINK_CONCRETE_POWDER,       Material.PINK_CONCRETE);
 	}
 
-	public ConcreteConversionTweak(@Nonnull Tweaky plugin) {
-		super(plugin, "concrete_conversion");
+	public CauldronConcreteTweak(@Nonnull Tweaky plugin) {
+		super(plugin, "cauldron_concrete");
 	}
 
 	@Override
 	public boolean isEnabled() {
-		return settings.TWEAK_CONCRETE_CONVERSION.get();
+		return settings.TWEAK_CAULDRON_CONCRETE.get();
 	}
 
 	@EventHandler
@@ -72,7 +72,7 @@ public class ConcreteConversionTweak extends Tweak {
 			powder.getWorld().dropItem(location, new ItemStack(concrete, powder.getItemStack().getAmount()));
 			powder.remove();
 
-			if (settings.TWEAK_CONCRETE_CONVERSION_USE_WATER.get()) {
+			if (settings.TWEAK_CAULDRON_CONCRETE_USE_WATER.get()) {
 				if (cauldron.getLevel() > 1) {
 					Blocks.edit(block, Levelled.class, l -> l.setLevel(l.getLevel() - 1));
 				} else {

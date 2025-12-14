@@ -11,15 +11,15 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import javax.annotation.Nonnull;
 
-public class CropTrampleProofTweak extends Tweak {
+public class CropProtectionTweak extends Tweak {
 
-	public CropTrampleProofTweak(@Nonnull Tweaky plugin) {
-		super(plugin, "crops_trample_proof");
+	public CropProtectionTweak(@Nonnull Tweaky plugin) {
+		super(plugin, "crops_protection");
 	}
 
 	@Override
 	public boolean isEnabled() {
-		return settings.TWEAK_CROPS_TRAMPLE_PROOF.get();
+		return settings.TWEAK_CROPS_PROTECTION.get();
 	}
 
 	@EventHandler
