@@ -21,12 +21,15 @@ import java.util.List;
 
 public class Tweaky extends JavaPlugin {
 
+	private static Tweaky instance;
 	private final List<Tweak> tweaks = new ArrayList<>();
 	private List<NamespacedKey> allRecipes;
 	private Settings settings;
 
 	@Override
 	public void onEnable() {
+		instance = this;
+
 		// Initialize settings.
 		settings = new Settings(this);
 		settings.reload();
@@ -50,6 +53,11 @@ public class Tweaky extends JavaPlugin {
 			HandlerList.unregisterAll(tweak);
 			tweak.shutdown();
 		});
+	}
+
+	@Nonnull
+	public static Tweaky getInstance() {
+		return instance;
 	}
 
 	/**

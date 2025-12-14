@@ -11,6 +11,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 public final class Players {
 
@@ -31,6 +33,17 @@ public final class Players {
 	 */
 	public static void forEach(@Nonnull Consumer<? super Player> action) {
 		all().forEach(action);
+	}
+
+	/**
+	 * Returns a stream of all online players, filtered by the given predicate.
+	 *
+	 * @param predicate the predicate
+	 * @return the stream of players
+	 */
+	@Nonnull
+	public static Stream<? extends Player> filter(@Nonnull Predicate<? super Player> predicate) {
+		return all().stream().filter(predicate);
 	}
 
 	/**

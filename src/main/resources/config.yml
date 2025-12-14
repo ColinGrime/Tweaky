@@ -9,6 +9,15 @@ tweaks:
   bee-capture: false
   # Deepslate breaks instantly when mined with a netherite pickaxe, efficiency 5, and haste 2.
   break-deepslate: false
+  # Protect your ender chests by picking between different break behaviors.
+  break-ender-chest:
+    toggle: false
+    # Options:
+    # - Drop (ender chests always drop, even without silk touch)
+    # - Protection (ender chests cannot be broken without silk touch)
+    mode: Protection
+    # Message to send to player if they attempt to break an ender chest without silk touch.
+    protection-message: "&2[Protected] &aYour Pickaxe needs &2Silk Touch &ato break this."
   # Glass breaks instantly when broken by the materials below.
   break-glass:
     toggle: false
@@ -28,12 +37,23 @@ tweaks:
     toggle: false
     # Whether the cauldron should use a water level on conversion.
     use-water: false
+  # Allows players to view their coordinates in the Action Bar.
+  # This gives them permission to the '/coordinates' command to toggle it.
+  coordinates:
+    toggle: false
+    # I think it's pretty cool to have different colors for day/night.
+    message-day: "&7(&a{x}&7, &a{y}&7, &a{z}&7)"
+    message-night: "&7(&c{x}&7, &c{y}&7, &c{z}&7)"
   # Allows players to bone meal any crop.
   crops-bone-meal: false
   # Right-click crops with a hoe to harvest them.
   crops-harvest: false
   # Prevents the trampling of crops.
   crops-protection: false
+  # Notifies the dying player where they died.
+  death-notify:
+    toggle: false
+    message: "&7You died at (&a{x}&7, &a{y}&7, &a{z}&7) in the {world} &7with &a{levels} &7levels."
   # Double doors can be opened with 1 click.
   doors-double: false
   # Allows you to open iron doors with your hand.
@@ -50,6 +70,9 @@ tweaks:
   entity-equip: false
   # Right-click an entity with a flint & steel or fire charge to set it on fire.
   entity-ignite: false
+  # If you name an entity with "silent" or "silence", it will be permanently silent.
+  # To undo this, simply name the entity "unsilent" or "unsilence".
+  entity-silence: false
   # Blocks can now be placed on the top of happy ghast's heads.
   happy-ghast-placement: false
   # Happy ghasts will now fly faster than normal (only while riding).

@@ -21,6 +21,9 @@ public class Settings {
 	public final Option<Boolean>       TWEAK_ARMOR_SWAP                    = option("tweaks.armor-swap");
 	public final Option<Boolean>       TWEAK_BEE_CAPTURE                   = option("tweaks.bee-capture");
 	public final Option<Boolean>       TWEAK_BREAK_DEEPSLATE               = option("tweaks.break-deepslate");
+	public final Option<Boolean>       TWEAK_BREAK_ENDER_CHEST             = option("tweaks.break-ender-chest.toggle");
+	public final Option<String>        TWEAK_BREAK_ENDER_CHEST_MODE        = option("tweaks.break-ender-chest.mode", "Protection");
+	public final Option<String>        TWEAK_BREAK_ENDER_CHEST_PROTECTION  = option("tweaks.break-ender-chest.protection-message", "&2[Protected] &aYour Pickaxe needs &2Silk Touch &ato break this.");
 	public final Option<Boolean>       TWEAK_BREAK_GLASS                   = option("tweaks.break-glass.toggle");
 	public final Option<Set<Material>> TWEAK_BREAK_GLASS_MATERIALS         = option("tweaks.break-glass", sec -> sec.getStringList("materials").stream().map(m -> Material.getMaterial(m.toUpperCase())).filter(Objects::nonNull).collect(Collectors.toSet()));
 	public final Option<Boolean>       TWEAK_BREAK_LEAVES                  = option("tweaks.break-leaves");
@@ -29,9 +32,14 @@ public class Settings {
 	public final Option<Boolean>       TWEAK_CAULDRON_CONCRETE_USE_WATER   = option("tweaks.cauldron-concrete.use-water");
 	public final Option<Boolean>       TWEAK_CAULDRON_MUD                  = option("tweaks.cauldron-mud.toggle");
 	public final Option<Boolean>       TWEAK_CAULDRON_MUD_USE_WATER        = option("tweaks.cauldron-mud.use-water");
+	public final Option<Boolean>       TWEAK_COORDINATES_TOGGLE            = option("tweaks.coordinates.toggle");
+	public final Option<String>        TWEAK_COORDINATES_MESSAGE_DAY       = option("tweaks.coordinates.message-day", "&a{x} &7| &a{y} &7| &a{z}");
+	public final Option<String>        TWEAK_COORDINATES_MESSAGE_NIGHT     = option("tweaks.coordinates.message-night", "&c{x} &7| &c{y} &7| &c{z}");
 	public final Option<Boolean>       TWEAK_CROPS_BONE_MEAL               = option("tweaks.crops-bone-meal");
 	public final Option<Boolean>       TWEAK_CROPS_HARVEST                 = option("tweaks.crops-harvest");
 	public final Option<Boolean>       TWEAK_CROPS_PROTECTION              = option("tweaks.crops-protection");
+	public final Option<Boolean>       TWEAK_DEATH_NOTIFY                  = option("tweaks.death-notify.toggle");
+	public final Option<String>        TWEAK_DEATH_NOTIFY_MESSAGE          = option("tweaks.death-notify.message", "&7You died at (&a{x}&7, &a{y}&7, &a{z}&7) in the {world} &7with &a{levels} &7levels.");
 	public final Option<Boolean>       TWEAK_DOORS_DOUBLE                  = option("tweaks.doors-double");
 	public final Option<Boolean>       TWEAK_DOORS_IRON                    = option("tweaks.doors-iron");
 	public final Option<Boolean>       TWEAK_DROPS_MAGNET                  = option("tweaks.drops-magnet");
@@ -39,6 +47,7 @@ public class Settings {
 	public final Option<Boolean>       TWEAK_ENTITY_DYE                    = option("tweaks.entity-dye");
 	public final Option<Boolean>       TWEAK_ENTITY_EQUIP                  = option("tweaks.entity-equip");
 	public final Option<Boolean>       TWEAK_ENTITY_IGNITE                 = option("tweaks.entity-ignite");
+	public final Option<Boolean>       TWEAK_ENTITY_SILENCE                = option("tweaks.entity-silence");
 	public final Option<Boolean>       TWEAK_HAPPY_GHAST_PLACEMENT         = option("tweaks.happy-ghast-placement");
 	public final Option<Boolean>       TWEAK_HAPPY_GHAST_SPEED             = option("tweaks.happy-ghast-speed.toggle");
 	public final Option<Double>        TWEAK_HAPPY_GHAST_SPEED_VALUE       = option("tweaks.happy-ghast-speed.value", 1.5);

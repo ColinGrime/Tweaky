@@ -7,3 +7,6 @@ commands:
   tweaky:
     description: Main command for the Tweaky plugin.
     aliases: [tweaks, tweak]
+  coordinates:
+    description: Toggles the coordinates HUD.
+    aliases: [coords]

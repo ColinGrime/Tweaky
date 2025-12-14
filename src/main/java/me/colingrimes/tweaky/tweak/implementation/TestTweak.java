@@ -4,8 +4,10 @@ import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.event.PlayerInteractBlockEvent;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.bukkit.Items;
+import me.colingrimes.tweaky.util.bukkit.Sounds;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.Levelled;
 import org.bukkit.damage.DamageType;
 import org.bukkit.entity.Chicken;
 import org.bukkit.entity.HappyGhast;
@@ -93,6 +95,49 @@ public class TestTweak extends Tweak {
 		EntityEquipment equipment = ghast.getEquipment();
 		if (equipment != null && equipment.getItem(EquipmentSlot.BODY).getType().name().endsWith("_HARNESS")) {
 			ghast.addPassenger(player);
+			event.setCancelled(true);
+		}
+	}
+
+//	@EventHandler
+//	public void onVehicleMove(@Nonnull VehicleMoveEvent event) {
+//		if (!(event.getVehicle() instanceof Boat boat)) {
+//			return;
+//		}
+//
+//		Vector toVector = Util.direction(event.getFrom(), event.getTo());
+//		if (Double.isNaN(toVector.getX()) || Double.isNaN(toVector.getY()) || Double.isNaN(toVector.getZ())) {
+//			return;
+//		}
+//
+//		float yaw = event.getVehicle().getLocation().getYaw();
+//		Vector direction = new Vector(-Math.sin(Math.toRadians(yaw)), 0, Math.cos(Math.toRadians(yaw))).normalize();
+//
+//		Location front = event.getTo().clone().add(direction.multiply(1.2));
+//		Block frontBlock = front.getBlock();
+//		if (frontBlock.getType().name().endsWith("SLAB")) {
+//			boat.setVelocity(boat.getVelocity().add(direction.multiply(0.1).add(new Vector(0, 0.1, 0))));
+//		}
+//	}
+
+	@EventHandler
+	public void onInteractAgain(@Nonnull PlayerInteractEvent event) {
+		Player player = event.getPlayer();
+		Material itemType = player.getInventory().getItemInMainHand().getType();
+		if (event.getHand() != EquipmentSlot.HAND || !event.getAction().name().startsWith("RIGHT") || itemType != Material.BUCKET) {
+			return;
+		}
+
+		Location eye = player.getEyeLocation();
+		RayTraceResult result = player.getWorld().rayTrace(eye, eye.getDirection(), 4.5, FluidCollisionMode.ALWAYS, false, 0, e -> !e.equals(player));
+		if (result == null || result.getHitBlock() == null) {
+			return;
+		}
+
+		Block block = result.getHitBlock();
+		if (block.getType() == Material.WATER && block.getBlockData() instanceof Levelled water && water.getLevel() > 0) {
+			Sounds.play(block, Sound.ITEM_BUCKET_FILL);
+			block.setType(Material.AIR, false);
 			event.setCancelled(true);
 		}
 	}
