@@ -16,7 +16,7 @@ import org.bukkit.util.Vector;
 
 import javax.annotation.Nonnull;
 
-public class LeafCutterTweak extends Tweak {
+public class BreakLeavesTweak extends Tweak {
 
 	private static final Vector[] directions = {
 			new Vector(0, 0, 0),
@@ -28,13 +28,13 @@ public class LeafCutterTweak extends Tweak {
 			new Vector(0, 0, -1),
 	};
 
-	public LeafCutterTweak(@Nonnull Tweaky plugin) {
-		super(plugin, "leaf_cutter");
+	public BreakLeavesTweak(@Nonnull Tweaky plugin) {
+		super(plugin, "break_leaves");
 	}
 
 	@Override
 	public boolean isEnabled() {
-		return settings.TWEAK_LEAF_CUTTER.get();
+		return settings.TWEAK_BREAK_LEAVES.get();
 	}
 
 	@EventHandler

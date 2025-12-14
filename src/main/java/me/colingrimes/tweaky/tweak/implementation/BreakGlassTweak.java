@@ -9,22 +9,22 @@ import org.bukkit.event.block.BlockDamageEvent;
 
 import javax.annotation.Nonnull;
 
-public class GlassBreakTweak extends Tweak {
+public class BreakGlassTweak extends Tweak {
 
-	public GlassBreakTweak(@Nonnull Tweaky plugin) {
-		super(plugin, "glass_break");
+	public BreakGlassTweak(@Nonnull Tweaky plugin) {
+		super(plugin, "break_glass");
 	}
 
 	@Override
 	public boolean isEnabled() {
-		return settings.TWEAK_GLASS_BREAK.get();
+		return settings.TWEAK_BREAK_GLASS.get();
 	}
 
 	@EventHandler
 	public void onBlockDamage(@Nonnull BlockDamageEvent event) {
 		Material itemType = event.getItemInHand().getType();
 		Material blockType = event.getBlock().getType();
-		if (settings.TWEAK_GLASS_BREAK_MATERIALS.get().contains(itemType) && blockType.name().contains("GLASS")) {
+		if (settings.TWEAK_BREAK_GLASS_MATERIALS.get().contains(itemType) && blockType.name().contains("GLASS")) {
 			Blocks.breakSound(event.getBlock());
 			event.setInstaBreak(true);
 		}

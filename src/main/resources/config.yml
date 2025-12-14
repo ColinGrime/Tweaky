@@ -7,6 +7,17 @@ tweaks:
   armor-swap: false
   # Right-click a bee with a beehive to capture it. Only works if the beehive is not full.
   bee-capture: false
+  # Deepslate breaks instantly when mined with a netherite pickaxe, efficiency 5, and haste 2.
+  break-deepslate: false
+  # Glass breaks instantly when broken by the materials below.
+  break-glass:
+    toggle: false
+    materials:
+      - NETHERITE_PICKAXE
+  # Breaking leaves with a hoe will break an additional block on each side. Netherite hoes will do a full 3x3x3 break.
+  break-leaves: false
+  # Breaking grass or flowers with a hoe will 3x3 break them. Netherite hoes will 5x5 break them.
+  break-plants: false
   # Throw concrete powder into a cauldron to turn it into concrete.
   cauldron-concrete:
     toggle: false
@@ -21,12 +32,8 @@ tweaks:
   crops-bone-meal: false
   # Right-click crops with a hoe to harvest them.
   crops-harvest: false
-  # Breaking grass or flowers with a hoe will 3x3 break them. Netherite hoes will 5x5 break them.
-  crops-lawn-mower: false
   # Prevents the trampling of crops.
   crops-protection: false
-  # Deepslate breaks instantly when mined with a netherite pickaxe, efficiency 5, and haste 2.
-  deepslate-break: false
   # Double doors can be opened with 1 click.
   doors-double: false
   # Allows you to open iron doors with your hand.
@@ -43,11 +50,6 @@ tweaks:
   entity-equip: false
   # Right-click an entity with a flint & steel or fire charge to set it on fire.
   entity-ignite: false
-  # Glass breaks instantly when broken by the materials below.
-  glass-break:
-    toggle: false
-    materials:
-      - NETHERITE_PICKAXE
   # Blocks can now be placed on the top of happy ghast's heads.
   happy-ghast-placement: false
   # Happy ghasts will now fly faster than normal (only while riding).
@@ -80,8 +82,6 @@ tweaks:
     # - Automatic (simply walk into the ladder)
     # - Manual (look straight up/down to activate teleportation)
     control: Automatic
-  # Breaking leaves with a hoe will break an additional block on each side. Netherite hoes will do a full 3x3x3 break.
-  leaf-cutter: false
   # Nether portals can no longer be destroyed by explosions.
   # No more ghasts or creepers destroying them!
   portal-protection: false

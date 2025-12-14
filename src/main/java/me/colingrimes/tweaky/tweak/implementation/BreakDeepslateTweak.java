@@ -13,15 +13,15 @@ import org.bukkit.potion.PotionEffectType;
 
 import javax.annotation.Nonnull;
 
-public class DeepslateBreakTweak extends Tweak {
+public class BreakDeepslateTweak extends Tweak {
 
-	public DeepslateBreakTweak(@Nonnull Tweaky plugin) {
-		super(plugin, "deepslate_break");
+	public BreakDeepslateTweak(@Nonnull Tweaky plugin) {
+		super(plugin, "break_deepslate");
 	}
 
 	@Override
 	public boolean isEnabled() {
-		return settings.TWEAK_DEEPSLATE_BREAK.get();
+		return settings.TWEAK_BREAK_DEEPSLATE.get();
 	}
 
 	@EventHandler

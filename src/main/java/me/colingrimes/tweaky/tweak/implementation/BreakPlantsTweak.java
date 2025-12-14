@@ -14,15 +14,15 @@ import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 
-public class CropLawnMowerTweak extends Tweak {
+public class BreakPlantsTweak extends Tweak {
 
-	public CropLawnMowerTweak(@Nonnull Tweaky plugin) {
-		super(plugin, "crops_lawn_mower");
+	public BreakPlantsTweak(@Nonnull Tweaky plugin) {
+		super(plugin, "break_plants");
 	}
 
 	@Override
 	public boolean isEnabled() {
-		return settings.TWEAK_CROPS_LAWN_MOWER.get();
+		return settings.TWEAK_BREAK_PLANTS.get();
 	}
 
 	@EventHandler
