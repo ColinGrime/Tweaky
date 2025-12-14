@@ -13,15 +13,15 @@ import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 
-public class NameTagDyeTweak extends Tweak {
+public class EntityDyeTweak extends Tweak {
 
-	public NameTagDyeTweak(@Nonnull Tweaky plugin) {
-		super(plugin, "name_tag_dye");
+	public EntityDyeTweak(@Nonnull Tweaky plugin) {
+		super(plugin, "entity_dye");
 	}
 
 	@Override
 	public boolean isEnabled() {
-		return settings.TWEAK_NAME_TAG_DYE.get();
+		return settings.TWEAK_ENTITY_DYE.get();
 	}
 
 	@EventHandler
@@ -35,6 +35,7 @@ public class NameTagDyeTweak extends Tweak {
 		if (item.getType().name().endsWith("DYE") && entity.getCustomName() != null) {
 			entity.setCustomName(convertDye(item.getType()) + ChatColor.stripColor(entity.getCustomName()));
 			Items.remove(item);
+			event.setCancelled(true);
 		}
 	}
 
