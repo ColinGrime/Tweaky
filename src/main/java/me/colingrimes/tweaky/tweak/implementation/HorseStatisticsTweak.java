@@ -24,7 +24,7 @@ public class HorseStatisticsTweak extends Tweak {
 		return settings.TWEAK_HORSE_STATISTICS.get();
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteract(@Nonnull PlayerInteractEntityEvent event) {
 		Player player = event.getPlayer();
 		if (event.getHand() != EquipmentSlot.HAND || !player.isSneaking() || !(event.getRightClicked() instanceof AbstractHorse horse)) {

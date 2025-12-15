@@ -23,9 +23,9 @@ public class HayBaleBreadTweak extends Tweak {
 		return settings.TWEAK_HAY_BALE_BREAD.get();
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteract(@Nonnull PlayerInteractBlockEvent event) {
-		if (event.isRightClick() && event.isItem(Tag.ITEMS_HOES) && event.isBlock(Material.HAY_BLOCK)) {
+		if (event.isRightClick() && event.isItem(Tag.ITEMS_HOES) && event.isBlock(Material.HAY_BLOCK) && event.canBuild()) {
 			Blocks.breakSound(event.getBlock());
 			event.getBlock().setType(Material.AIR);
 			Items.drop(new ItemStack(Material.BREAD, 3), event.getLocation());

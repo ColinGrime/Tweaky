@@ -28,7 +28,7 @@ public class BreakEnderChestTweak extends Tweak {
 		return settings.TWEAK_BREAK_ENDER_CHEST.get();
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onBlockBreak(@Nonnull BlockBreakEvent event) {
 		Block block = event.getBlock();
 		if (block.getType() != Material.ENDER_CHEST) {

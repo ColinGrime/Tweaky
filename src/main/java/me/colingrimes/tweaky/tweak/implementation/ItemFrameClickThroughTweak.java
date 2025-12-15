@@ -24,7 +24,7 @@ public class ItemFrameClickThroughTweak extends Tweak {
 		return settings.TWEAK_ITEM_FRAME_CLICK_THROUGH.get();
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteract(@Nonnull PlayerInteractEntityEvent event) {
 		Player player = event.getPlayer();
 		if (!(event.getRightClicked() instanceof ItemFrame frame) || player.isSneaking()) {

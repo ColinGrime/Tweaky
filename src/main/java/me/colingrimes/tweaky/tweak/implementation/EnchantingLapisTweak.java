@@ -81,7 +81,7 @@ public class EnchantingLapisTweak extends Tweak {
 		save((Player) event.getWhoClicked(), event.getInventory());
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onBlockBreak(@Nonnull BlockBreakEvent event) {
 		SharedEnchantingTable ench = shared.get(event.getBlock().getLocation());
 		if (ench != null) {

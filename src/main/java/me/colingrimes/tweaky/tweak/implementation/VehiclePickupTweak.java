@@ -2,8 +2,10 @@ package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.tweak.Tweak;
+import me.colingrimes.tweaky.util.bukkit.Players;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.Vehicle;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
@@ -26,17 +28,21 @@ public class VehiclePickupTweak extends Tweak {
 
 	@EventHandler
 	public void onPlayerInteract(@Nonnull PlayerInteractEntityEvent event) {
-		if (event.getHand() != EquipmentSlot.HAND || !event.getPlayer().isSneaking() || !(event.getRightClicked() instanceof Vehicle vehicle)) {
+		Player player = event.getPlayer();
+		if (event.getHand() != EquipmentSlot.HAND || !player.isSneaking() || !(event.getRightClicked() instanceof Vehicle vehicle)) {
 			return;
 		}
 
 		ItemStack item = getVehicleItem(vehicle);
-		if (item != null) {
-			if (!event.getPlayer().getInventory().addItem(item).isEmpty()) {
-				vehicle.getWorld().dropItemNaturally(vehicle.getLocation().add(0, 0.5, 0), item);
-			}
-			vehicle.remove();
-			event.setCancelled(true);
+		if (item == null || !Players.canBuild(player, vehicle.getLocation().getBlock())) {
+			return;
+		}
+
+		vehicle.remove();
+		event.setCancelled(true);
+
+		if (!player.getInventory().addItem(item).isEmpty()) {
+			vehicle.getWorld().dropItemNaturally(vehicle.getLocation().add(0, 0.5, 0), item);
 		}
 	}
 

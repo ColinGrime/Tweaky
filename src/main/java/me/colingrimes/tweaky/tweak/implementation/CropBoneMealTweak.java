@@ -32,7 +32,7 @@ public class CropBoneMealTweak extends Tweak {
 		return settings.TWEAK_CROPS_BONE_MEAL.get();
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteract(@Nonnull PlayerInteractBlockEvent event) {
 		if (!event.isRightClick() || !event.isItem(Material.BONE_MEAL) || !(event.getBlock().getBlockData() instanceof Ageable crop)) {
 			return;

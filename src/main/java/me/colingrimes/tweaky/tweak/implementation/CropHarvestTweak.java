@@ -23,10 +23,14 @@ public class CropHarvestTweak extends Tweak {
 		return settings.TWEAK_CROPS_HARVEST.get();
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteract(@Nonnull PlayerInteractBlockEvent event) {
+		if (!event.isRightClick() || !event.isItem(Tag.ITEMS_HOES) || !event.canBuild()) {
+			return;
+		}
+
 		Block block = event.getBlock();
-		if (event.isRightClick() && event.isItem(Tag.ITEMS_HOES) && block.getBlockData() instanceof Ageable crop && crop.getAge() >= crop.getMaximumAge()) {
+		if (block.getBlockData() instanceof Ageable crop && crop.getAge() >= crop.getMaximumAge()) {
 			Items.damage(event.getItem(), event.getPlayer());
 			Blocks.breakSound(block);
 			event.getPlayer().breakBlock(block);

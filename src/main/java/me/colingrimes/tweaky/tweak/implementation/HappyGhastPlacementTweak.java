@@ -52,14 +52,14 @@ public class HappyGhastPlacementTweak extends Tweak {
 		targets.values().forEach(t -> t.blockDisplay.remove());
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteract(@Nonnull PlayerInteractEvent event) {
 		if (event.getHand() == EquipmentSlot.HAND && placeOnGhast(event.getPlayer())) {
 			event.setCancelled(true);
 		}
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteractEntity(@Nonnull PlayerInteractEntityEvent event) {
 		if (event.getRightClicked().getType() == EntityType.HAPPY_GHAST && placeOnGhast(event.getPlayer())) {
 			event.setCancelled(true);
@@ -82,8 +82,14 @@ public class HappyGhastPlacementTweak extends Tweak {
 			return false;
 		}
 
-		// Set the block on the happy ghast.
 		Target target = targets.get(player);
+
+		// Check for permission.
+		if (!Players.canBuild(player, target.block)) {
+			return false;
+		}
+
+		// Set the block on the happy ghast.
 		target.block.setType(item.getType());
 		target.blockDisplay.remove();
 		targets.remove(player);

@@ -26,7 +26,7 @@ public class EntityIgniteTweak extends Tweak {
 		return settings.TWEAK_ENTITY_IGNITE.get();
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteractEntity(@Nonnull PlayerInteractEntityEvent event) {
 		Player player = event.getPlayer();
 		ItemStack item = player.getInventory().getItemInMainHand();

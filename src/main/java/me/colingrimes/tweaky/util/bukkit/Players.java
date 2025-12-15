@@ -1,10 +1,11 @@
 package me.colingrimes.tweaky.util.bukkit;
 
-import org.bukkit.Bukkit;
-import org.bukkit.FluidCollisionMode;
-import org.bukkit.Location;
-import org.bukkit.Sound;
+import org.bukkit.*;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.RayTraceResult;
 
 import javax.annotation.Nonnull;
@@ -93,6 +94,24 @@ public final class Players {
 	public static RayTraceResult rayTraceBlocks(@Nonnull Player player, double distance) {
 		Location eye = player.getEyeLocation();
 		return player.getWorld().rayTraceBlocks(eye, eye.getDirection(), distance, FluidCollisionMode.NEVER, true);
+	}
+
+	/**
+	 * Checks if the player can build at the specified blocks.
+	 *
+	 * @param player the player
+	 * @param blocks the blocks to check
+	 * @return true if the player can build
+	 */
+	public static boolean canBuild(@Nonnull Player player, @Nonnull Block ...blocks) {
+		for (Block block : blocks) {
+			BlockPlaceEvent fakeEvent = new BlockPlaceEvent(block, block.getState(), block, new ItemStack(Material.STONE), player, true, EquipmentSlot.HAND);
+			Bukkit.getPluginManager().callEvent(fakeEvent);
+			if (fakeEvent.isCancelled()) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	private Players() {

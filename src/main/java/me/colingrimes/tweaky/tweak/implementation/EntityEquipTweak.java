@@ -2,6 +2,7 @@ package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.tweak.Tweak;
+import me.colingrimes.tweaky.util.bukkit.Players;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -57,6 +58,10 @@ public class EntityEquipTweak extends Tweak {
 				}
 
 				Location location = entity.getLocation();
+				if (!Players.canBuild(event.getPlayer(), location.getBlock())) {
+					return;
+				}
+
 				location.getWorld().dropItemNaturally(location, equipment.getItemInMainHand());
 				equipment.setItemInMainHand(event.getItemDrop().getItemStack());
 				event.getItemDrop().remove();

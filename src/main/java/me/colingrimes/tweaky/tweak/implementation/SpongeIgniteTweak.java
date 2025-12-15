@@ -23,9 +23,9 @@ public class SpongeIgniteTweak extends Tweak {
 		return settings.TWEAK_SPONGE_IGNITE.get();
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteract(@Nonnull PlayerInteractBlockEvent event) {
-		if (!event.isRightClick() || !event.isItem(Material.FLINT_AND_STEEL, Material.FIRE_CHARGE) || !event.isBlock(Material.WET_SPONGE)) {
+		if (!event.isRightClick() || !event.isItem(Material.FLINT_AND_STEEL, Material.FIRE_CHARGE) || !event.isBlock(Material.WET_SPONGE) || !event.canBuild()) {
 			return;
 		}
 

@@ -27,10 +27,10 @@ public class LadderPlacementTweak extends Tweak {
 		return settings.TWEAK_LADDER_PLACEMENT.get();
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteract(@Nonnull PlayerInteractBlockEvent event) {
 		Block block = event.getBlock();
-		if (!event.isRightClick() || !event.isItem(Material.LADDER) || !(block.getBlockData() instanceof Ladder ladder)) {
+		if (!event.isRightClick() || !event.isItem(Material.LADDER) || !(block.getBlockData() instanceof Ladder ladder) || !event.canBuild()) {
 			return;
 		}
 

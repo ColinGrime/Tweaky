@@ -21,7 +21,7 @@ public class WeaponSwingThroughGrassTweak extends Tweak {
 		return settings.TWEAK_WEAPON_SWING_THROUGH_GRASS.get();
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteract(@Nonnull PlayerInteractBlockEvent event) {
 		if (!event.isLeftClick() || !event.getBlock().isPassable() || !event.isItem(Tag.ITEMS_SWORDS, Tag.ITEMS_AXES)) {
 			return;

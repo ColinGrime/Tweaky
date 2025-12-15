@@ -3,6 +3,7 @@ package me.colingrimes.tweaky.tweak.implementation;
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.bukkit.Blocks;
+import me.colingrimes.tweaky.util.bukkit.Players;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -47,6 +48,10 @@ public class TorchThrowTweak extends Tweak {
 			task.cancel();
 
 			Block block = location.getBlock();
+			if (!Players.canBuild(event.getPlayer(), block)) {
+				return;
+			}
+
 			if (block.getType().isAir()) {
 				block.setType(Material.TORCH);
 				Blocks.placeSound(block);

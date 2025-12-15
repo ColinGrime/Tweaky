@@ -3,6 +3,7 @@ package me.colingrimes.tweaky.tweak.implementation;
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.bukkit.Blocks;
+import me.colingrimes.tweaky.util.bukkit.Players;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -66,6 +67,13 @@ public class CauldronConcreteTweak extends Tweak {
 			Location location = powder.getLocation();
 			Block block = location.getBlock();
 			if (block.getType() != Material.WATER_CAULDRON || !(block.getBlockData() instanceof Levelled cauldron)) {
+				return;
+			}
+
+			task.cancel();
+
+			// Check for permission
+			if (!Players.canBuild(event.getPlayer(), block)) {
 				return;
 			}
 

@@ -25,7 +25,7 @@ public class BeeCaptureTweak extends Tweak {
 		return settings.TWEAK_BEE_CAPTURE.get();
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteract(@Nonnull PlayerInteractEntityEvent event) {
 		if (event.getHand() != EquipmentSlot.HAND || !(event.getRightClicked() instanceof Bee bee)) {
 			return;

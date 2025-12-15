@@ -25,7 +25,7 @@ public class ItemFrameInvisibleTweak extends Tweak {
 		return settings.TWEAK_ITEM_FRAME_INVISIBLE.get();
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteract(@Nonnull PlayerInteractEntityEvent event) {
 		Player player = event.getPlayer();
 		ItemStack item = player.getInventory().getItemInMainHand();

@@ -26,7 +26,7 @@ public class AnvilRepairTweak extends Tweak {
 		return settings.TWEAK_ANVIL_REPAIR.get();
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteract(@Nonnull PlayerInteractBlockEvent event) {
 		if (!event.isRightClick() || !event.isItem(Material.IRON_BLOCK) || !event.isBlock(Material.CHIPPED_ANVIL, Material.DAMAGED_ANVIL)) {
 			return;

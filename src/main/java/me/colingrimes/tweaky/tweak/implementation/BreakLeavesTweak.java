@@ -37,7 +37,7 @@ public class BreakLeavesTweak extends Tweak {
 		return settings.TWEAK_BREAK_LEAVES.get();
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onBlockBreak(@Nonnull BlockBreakEvent event) {
 		Block block = event.getBlock();
 		ItemStack item = event.getPlayer().getInventory().getItemInMainHand();

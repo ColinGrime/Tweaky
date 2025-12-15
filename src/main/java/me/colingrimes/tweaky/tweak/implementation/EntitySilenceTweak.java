@@ -22,7 +22,7 @@ public class EntitySilenceTweak extends Tweak {
 		return settings.TWEAK_ENTITY_SILENCE.get();
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteract(@Nonnull PlayerInteractEntityEvent event) {
 		Material itemType = event.getPlayer().getInventory().getItemInMainHand().getType();
 		if (event.getHand() != EquipmentSlot.HAND || itemType != Material.NAME_TAG || !(event.getRightClicked() instanceof LivingEntity entity)) {

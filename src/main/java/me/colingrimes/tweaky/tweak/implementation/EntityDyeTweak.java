@@ -24,7 +24,7 @@ public class EntityDyeTweak extends Tweak {
 		return settings.TWEAK_ENTITY_DYE.get();
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteract(@Nonnull PlayerInteractEntityEvent event) {
 		if (event.getHand() != EquipmentSlot.HAND) {
 			return;

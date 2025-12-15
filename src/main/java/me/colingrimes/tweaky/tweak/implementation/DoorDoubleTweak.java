@@ -25,9 +25,9 @@ public class DoorDoubleTweak extends Tweak {
 		return settings.TWEAK_DOORS_DOUBLE.get();
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteractBlock(@Nonnull PlayerInteractBlockEvent event) {
-		if (!event.isRightClick() || !event.isBlock(Tag.DOORS)) {
+		if (!event.isRightClick() || !event.isBlock(Tag.DOORS) || !event.canBuild()) {
 			return;
 		}
 

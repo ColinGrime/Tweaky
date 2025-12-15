@@ -25,7 +25,7 @@ public class BreakPlantsTweak extends Tweak {
 		return settings.TWEAK_BREAK_PLANTS.get();
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onBlockBreak(@Nonnull BlockBreakEvent event) {
 		Block block = event.getBlock();
 		ItemStack item = event.getPlayer().getInventory().getItemInMainHand();

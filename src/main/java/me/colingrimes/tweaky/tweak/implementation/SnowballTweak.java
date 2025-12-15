@@ -4,6 +4,7 @@ import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.Util;
 import me.colingrimes.tweaky.util.bukkit.Blocks;
+import me.colingrimes.tweaky.util.bukkit.Players;
 import me.colingrimes.tweaky.util.bukkit.Sounds;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -12,6 +13,7 @@ import org.bukkit.block.data.type.Snow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
@@ -87,6 +89,11 @@ public class SnowballTweak extends Tweak {
 		Block target = hit.getRelative(face);
 		Block below = target.getRelative(BlockFace.DOWN);
 		Material targetType = target.getType();
+
+		// Check for permission.
+		if (event.getEntity().getShooter() instanceof Player player && !Players.canBuild(player, hit, target)) {
+			return;
+		}
 
 		// TWEAK -- add snow layer on snow layers
 		Block existing = hit.getBlockData() instanceof Snow s && s.getLayers() < s.getMaximumLayers() ? hit : target;

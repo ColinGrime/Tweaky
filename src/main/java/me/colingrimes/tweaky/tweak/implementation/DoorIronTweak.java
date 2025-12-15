@@ -23,9 +23,9 @@ public class DoorIronTweak extends Tweak {
 		return settings.TWEAK_DOORS_IRON.get();
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteractBlock(@Nonnull PlayerInteractBlockEvent event) {
-		if (event.isRightClick() && event.isBlock(Material.IRON_DOOR)) {
+		if (event.isRightClick() && event.isBlock(Material.IRON_DOOR) && event.canBuild()) {
 			event.getPlayer().swingMainHand();
 			Sounds.play(event.getBlock(), Sound.BLOCK_IRON_DOOR_OPEN);
 			Blocks.edit(event.getBlock(), Door.class, d -> d.setOpen(!d.isOpen()));
