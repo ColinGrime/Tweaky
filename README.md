@@ -12,20 +12,26 @@
 * `anvil-repair` - Right-clicking an anvil with an iron block will repair it slightly.
 * `armor-swap` - Shift over an armor stand to quick swap armor.
 * `bee-capture` - Right-click a bee with a beehive to capture it.
-* `concrete-conversion` - Throw concrete powder into a cauldron to turn it into concrete.
+* `break-deepslate` - Deepslate breaks instantly when mined with a netherite pickaxe, eff 5, and haste 2.
+* `break-ender-chest` - Protect your ender chests by picking between different break behaviors.
+* `break-glass` - Glass breaks instantly when broken by a Netherite Pickaxe (configurable).
+* `break-leaves` - Breaking leaves with a hoe will break an extra block on each side. Netherite hoes = 3x3x3.
+* `break-plants` - Breaking grass/flowers with a hoe will 3x3 break them. Netherite hoes = 5x5.
+* `cauldron-concrete` - Throw concrete powder into a cauldron to turn it into concrete.
+* `cauldron-mud` - Throw dirt into a cauldron to turn it into mud.
+* `coordinates` - Allows players to view their coordinates in the Action Bar.
 * `crops-bone-meal` - Allows players to bone meal any crop.
 * `crops-harvest` - Right-click crops with a hoe to harvest them.
-* `crops-lawn-mower` - Breaking grass/flowers with a hoe will 3x3 break them. Netherite hoes = 5x5.
-* `crops-trample-proof` - Prevents the trampling of crops.
-* `deepslate-break` - Deepslate breaks instantly when mined with a netherite pickaxe, eff 5, and haste 2.
+* `crops-protection` - Prevents the trampling of crops.
+* `death-notify` - Notifies the dying player where they died.
 * `double-doors` - Allows the opening of double doors with 1 click.
 * `doors-iron` - Allows you to open iron doors with your hand.
 * `drops-magnet` - Breaking blocks nearby will cause their item drops to go towards the player a little.
 * `enchanting-lapis` - Lapis stays in the lapis slot in enchanting tables when you close it.
+* `entity-dye` - Allows the dying of named mobs with dyes.
 * `entity-equip` - If a player throws an item close to an entity, they will auto equip it.
-* `entity-set-on-fire` - Right-clicking an entity with a flint & steel or fire charge sets it on fire.
-* `fire-dries-sponges` - Setting a sponge on fire dries it out instantly.
-* `glass-break` - Glass breaks instantly when broken by a Netherite Pickaxe (configurable).
+* `entity-ignite` - Right-clicking an entity with a flint & steel or fire charge sets it on fire.
+* `entity-silence` - Name an entity "silent" to make it silent or "unsilent" to undo it.
 * `happy-ghast-placement` - Blocks can now be placed on the top of happy ghast's heads.
 * `happy-ghast-speed` - Allows happy ghasts to move at a configurable speed while they are being ridden.
 * `hay-bale-bread` - Right-clicking a hay bale with a hoe automatically crafts and drops bread.
@@ -35,10 +41,7 @@
 * `item-frame-invisible` - Shift-right-click an item frame with shears to toggle its visibility on/off.
 * `ladder-placement` - Place ladders up/down depending on your direction by right-clicking existing ladders.
 * `ladder-teleportation` - Allows you to instantly climb up/down ladders (different modes are available).
-* `leaf-cutter` - Breaking leaves with a hoe will break an extra block on each side. Netherite hoes = 3x3x3.
-* `mud-conversion` - Throw dirt into a cauldron to turn it into mud.
-* `name-tag-dye` - Allows the dying of named mobs with dyes.
-* `portal-explosion-proof` - Nether portals can no longer be destroyed by explosions.
+* `portal-protection` - Nether portals can no longer be destroyed by explosions.
 * `recipe-unlock-all` - Players who join the server will have all the recipes unlocked.
 * `torch-throw` - Allows you to throw torches on the ground to place them.
 * `snowballs-add-snow-layer` - Throwing snowballs on existing snow layers will add snow layers.
@@ -49,6 +52,7 @@
 * `snowballs-form-ice` - Throwing snowballs on water will freeze it.
 * `snowballs-form-snow` - Throwing snowballs on any block will form snow.
 * `snowballs-knockback` - Allows you to change the knockback value of snowballs.
+* `sponge-ignite` - Setting a sponge on fire dries it out instantly.
 * `vehicle-pickup` - Allows vehicles to be picked up by sneak-right-click.
 * `water-bottle-convert-lava` - Splashing a water bottle into lava converts it into obsidian.
 * `water-bottle-craft` - Allows you to convert a water bucket into splash water bottles.
@@ -57,6 +61,9 @@
 
 ## Configurations:
 * [`config.yml`](https://github.com/ColinGrime/Tweaky/blob/master/src/main/resources/config.yml) - Allows you to change the various tweaks associated with this plugin.
+
+## Player Commands:
+* `/coordinates` - Allows players to toggle the 'coordinates' tweak. Requires it to be enabled.
 
 ## Admin Commands:
 * `/tweaky` (tweaky.admin)
