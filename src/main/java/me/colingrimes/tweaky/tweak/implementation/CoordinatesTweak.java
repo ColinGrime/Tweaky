@@ -9,6 +9,7 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -25,7 +26,7 @@ import java.util.*;
 public class CoordinatesTweak extends Tweak implements CommandExecutor {
 
 	private static final String COORDINATES_HIDE_KEY = "coordinates_hide";
-	private static final Set<UUID> hide = new HashSet<>();
+	private final Set<UUID> hide = new HashSet<>();
 	private BukkitTask task;
 
 	public CoordinatesTweak(@Nonnull Tweaky plugin) {
@@ -40,12 +41,14 @@ public class CoordinatesTweak extends Tweak implements CommandExecutor {
 	@Override
 	public void init() {
 		Bukkit.getPluginCommand("coordinates").setExecutor(this);
+		Players.filter(p -> NBT.hasTag(p, COORDINATES_HIDE_KEY, Boolean.class)).forEach(p -> hide.add(p.getUniqueId()));
 		task = Bukkit.getScheduler().runTaskTimer(plugin, () -> Players.filter(p -> !hide.contains(p.getUniqueId())).forEach(this::sendCoordinates), 0L, 30L);
 	}
 
 	@Override
 	public void shutdown() {
 		Bukkit.getPluginCommand("coordinates").setExecutor(null);
+		hide.clear();
 		task.cancel();
 	}
 
@@ -57,10 +60,12 @@ public class CoordinatesTweak extends Tweak implements CommandExecutor {
 		if (hide.contains(player.getUniqueId())) {
 			hide.remove(player.getUniqueId());
 			NBT.removeTag(player, COORDINATES_HIDE_KEY);
+			Players.sound(player, Sound.BLOCK_NOTE_BLOCK_PLING);
 			sendCoordinates(player);
 		} else {
 			hide.add(player.getUniqueId());
 			NBT.setTag(player, COORDINATES_HIDE_KEY, true);
+			Players.sound(player, Sound.BLOCK_NOTE_BLOCK_BASS);
 			player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent());
 		}
 		return true;
