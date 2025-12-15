@@ -35,7 +35,7 @@ public class HappyGhastSpeedTweak extends Tweak {
 		}
 
 		AttributeInstance fly = ghast.getAttribute(Attribute.FLYING_SPEED);
-		if (fly != null) {
+		if (fly != null && fly.getModifiers().stream().noneMatch(m -> m.getKey().equals(FLY_SPEED_KEY))) {
 			fly.addModifier(new AttributeModifier(
 					FLY_SPEED_KEY,
 					settings.TWEAK_HAPPY_GHAST_SPEED_VALUE.get() - 1,
@@ -47,7 +47,7 @@ public class HappyGhastSpeedTweak extends Tweak {
 
 	@EventHandler
 	public void onEntityUnmount(@Nonnull EntityDismountEvent event) {
-		if (!(event.getDismounted() instanceof HappyGhast ghast)) {
+		if (!(event.getDismounted() instanceof HappyGhast ghast) || ghast.getPassengers().size() > 1) {
 			return;
 		}
 
