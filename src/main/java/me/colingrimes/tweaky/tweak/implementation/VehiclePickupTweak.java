@@ -3,7 +3,9 @@ package me.colingrimes.tweaky.tweak.implementation;
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.bukkit.Players;
+import me.colingrimes.tweaky.util.bukkit.Sounds;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Vehicle;
@@ -38,6 +40,8 @@ public class VehiclePickupTweak extends Tweak {
 			return;
 		}
 
+		player.swingMainHand();
+		Sounds.play(vehicle, Sound.ENTITY_PLAYER_ATTACK_CRIT);
 		vehicle.remove();
 		event.setCancelled(true);
 
