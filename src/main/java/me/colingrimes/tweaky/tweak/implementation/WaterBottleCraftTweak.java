@@ -1,6 +1,7 @@
 package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
+import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -24,6 +25,19 @@ public class WaterBottleCraftTweak extends Tweak {
 	@Override
 	public boolean isEnabled() {
 		return settings.TWEAK_WATER_BOTTLE_CRAFT.get();
+	}
+
+	@Nonnull
+	@Override
+	public TweakItem getGuiItem() {
+		return TweakItem
+				.of(Material.SPLASH_POTION)
+				.name("&aWater Bottle Craft &8(Craft)")
+				.lore("&7Craft Splash Water Bottles.")
+				.lore()
+				.lore("&8Requires:")
+				.lore(" &7Water Bucket &8(Default)")
+				.usage("&eUsage: &aConvert a Water Bucket into Splash Water Bottles.");
 	}
 
 	@Override

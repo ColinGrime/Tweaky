@@ -1,6 +1,7 @@
 package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
+import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.bukkit.Items;
 import org.bukkit.ChatColor;
@@ -22,6 +23,16 @@ public class EntityDyeTweak extends Tweak {
 	@Override
 	public boolean isEnabled() {
 		return settings.TWEAK_ENTITY_DYE.get();
+	}
+
+	@Nonnull
+	@Override
+	public TweakItem getGuiItem() {
+		return TweakItem
+				.of(Material.RED_DYE)
+				.name("&aDye Mobs &8(Right Click)")
+				.lore("&7Change the color of named Mobs.")
+				.usage("&eUsage: &aRight Click on a Mob with a Dye to change its name color.");
 	}
 
 	@EventHandler(ignoreCancelled = true)

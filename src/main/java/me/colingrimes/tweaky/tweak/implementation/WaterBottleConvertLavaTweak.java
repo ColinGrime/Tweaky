@@ -1,6 +1,7 @@
 package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
+import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.Util;
 import me.colingrimes.tweaky.util.bukkit.Players;
@@ -28,6 +29,19 @@ public class WaterBottleConvertLavaTweak extends Tweak {
 	@Override
 	public boolean isEnabled() {
 		return settings.TWEAK_WATER_BOTTLE_CONVERT_LAVA.get();
+	}
+
+	@Nonnull
+	@Override
+	public TweakItem getGuiItem() {
+		return TweakItem
+				.of(Material.SPLASH_POTION)
+				.name("&aWater Bottles Convert Lava &8(Throw)")
+				.lore("&7Converts Lava into Obsidian.")
+				.lore()
+				.lore("&8Requires:")
+				.lore(" &7Splash Water Bottle &8(Default)")
+				.usage("&eUsage: &aSplashing a Water Bottle into Lava converts it into Obsidian.");
 	}
 
 	@EventHandler

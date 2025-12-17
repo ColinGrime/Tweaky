@@ -1,6 +1,7 @@
 package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
+import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.Util;
 import me.colingrimes.tweaky.util.bukkit.Blocks;
@@ -23,6 +24,21 @@ public class BreakPlantsTweak extends Tweak {
 	@Override
 	public boolean isEnabled() {
 		return settings.TWEAK_BREAK_PLANTS.get();
+	}
+
+	@Nonnull
+	@Override
+	public TweakItem getGuiItem() {
+		return TweakItem
+				.of(Material.TALL_GRASS)
+				.name("&aPlants Break")
+				.lore("&7Breaks a radius of plants.")
+				.lore()
+				.lore("&8Requires:")
+				.lore(" &7Hoe &8(3x3)")
+				.lore(" &7Netherite Hoe &8(5x5)")
+				.usage("&eUsage: &aBreak Plants with a Hoe to 3x3 break them.")
+				.usage("         &aUsing a Netherite Hoe → 5x5 break.");
 	}
 
 	@EventHandler(ignoreCancelled = true)

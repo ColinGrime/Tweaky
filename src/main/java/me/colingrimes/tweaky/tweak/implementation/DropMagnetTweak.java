@@ -1,8 +1,10 @@
 package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
+import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.Util;
+import org.bukkit.Material;
 import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockDropItemEvent;
@@ -20,6 +22,16 @@ public class DropMagnetTweak extends Tweak {
 	@Override
 	public boolean isEnabled() {
 		return settings.TWEAK_DROPS_MAGNET.get();
+	}
+
+	@Nonnull
+	@Override
+	public TweakItem getGuiItem() {
+		return TweakItem
+				.of(Material.FLINT)
+				.name("&aDrops Magnet &8(Break)")
+				.lore("&7Broken blocks get boosted towards you.")
+				.usage("&eUsage: &aBreaking blocks nearby will cause their item drops to go towards you a little.");
 	}
 
 	@EventHandler

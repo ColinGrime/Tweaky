@@ -1,9 +1,11 @@
 package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
+import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.Util;
 import me.colingrimes.tweaky.util.bukkit.Players;
+import org.bukkit.Material;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -22,6 +24,16 @@ public class ArmorSwapTweak extends Tweak {
 	@Override
 	public boolean isEnabled() {
 		return settings.TWEAK_ARMOR_SWAP.get();
+	}
+
+	@Nonnull
+	@Override
+	public TweakItem getGuiItem() {
+		return TweakItem
+				.of(Material.CHAINMAIL_CHESTPLATE)
+				.name("&aArmor Swap &8(Sneak)")
+				.lore("&7Armor Stands can quick swap Armor.")
+				.usage("&eUsage: &aSneak over an Armor Stand to quick swap Armor.");
 	}
 
 	@EventHandler

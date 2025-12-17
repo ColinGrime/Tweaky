@@ -6,7 +6,9 @@ author: Scill
 commands:
   tweaky:
     description: Main command for the Tweaky plugin.
-    aliases: [tweaks, tweak]
+  tweaks:
+    description: Opens up the Tweaks menu.
+    aliases: [tweak]
   coordinates:
     description: Toggles the coordinates HUD.
     aliases: [coords]

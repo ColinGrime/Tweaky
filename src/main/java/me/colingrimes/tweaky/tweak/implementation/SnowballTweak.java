@@ -1,6 +1,7 @@
 package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
+import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.Util;
 import me.colingrimes.tweaky.util.bukkit.Blocks;
@@ -45,6 +46,40 @@ public class SnowballTweak extends Tweak {
 				settings.TWEAK_SNOWBALLS_KNOCKBACK.get()
 		};
 		return (int) Arrays.stream(toggles).filter(t -> t).count();
+	}
+
+	@Nonnull
+	@Override
+	public TweakItem getGuiItem() {
+		TweakItem item = TweakItem
+				.of(Material.SNOWBALL)
+				.name("&aSnowball Tweaks &8(" + getCount() + ")")
+				.usage("&eUsage: &aThrow Snowballs to activate the listed tweaks.");
+		if (settings.TWEAK_SNOWBALLS_DAMAGE.get()) {
+			item.lore("&a► &7Damage: &l" + settings.TWEAK_SNOWBALLS_DAMAGE_AMOUNT.get());
+		}
+		if (settings.TWEAK_SNOWBALLS_KNOCKBACK.get()) {
+			item.lore("&a► &7Knockback is increased.");
+		}
+		if (settings.TWEAK_SNOWBALLS_FORM_SNOW.get()) {
+			item.lore("&a► &7Form Snow on Blocks.");
+		}
+		if (settings.TWEAK_SNOWBALLS_ADD_SNOW_LAYER.get()) {
+			item.lore("&a► &7Adds Snow Layers to existing layers.");
+		}
+		if (settings.TWEAK_SNOWBALLS_FORM_ICE.get()) {
+			item.lore("&a► &7Freeze Water to Ice.");
+		}
+		if (settings.TWEAK_SNOWBALLS_BREAK_PLANTS.get()) {
+			item.lore("&a► &7Breaks Plants on hit.");
+		}
+		if (settings.TWEAK_SNOWBALLS_EXTINGUISH_ENTITIES.get()) {
+			item.lore("&a► &7Extinguish Mobs on hit.");
+		}
+		if (settings.TWEAK_SNOWBALLS_EXTINGUISH_FIRE.get()) {
+			item.lore("&a► &7Extinguish Fire on hit.");
+		}
+		return item;
 	}
 
 	@EventHandler

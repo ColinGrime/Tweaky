@@ -1,6 +1,7 @@
 package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
+import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.bukkit.Players;
 import org.bukkit.Material;
@@ -22,6 +23,17 @@ public class ItemFrameClickThroughTweak extends Tweak {
 	@Override
 	public boolean isEnabled() {
 		return settings.TWEAK_ITEM_FRAME_CLICK_THROUGH.get();
+	}
+
+	@Nonnull
+	@Override
+	public TweakItem getGuiItem() {
+		return TweakItem
+				.of(Material.ITEM_FRAME)
+				.name("&aClick Through Item Frames &8(Right Click)")
+				.lore("&7Open Chests with Item Frames on them.")
+				.usage("&eUsage: &aRight Click an Item Frame on a Chest to open it.")
+				.usage("         &aShift for normal behavior.");
 	}
 
 	@EventHandler(ignoreCancelled = true)

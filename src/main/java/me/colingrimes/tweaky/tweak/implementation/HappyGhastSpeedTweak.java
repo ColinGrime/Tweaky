@@ -1,7 +1,9 @@
 package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
+import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -26,6 +28,16 @@ public class HappyGhastSpeedTweak extends Tweak {
 	@Override
 	public boolean isEnabled() {
 		return settings.TWEAK_HAPPY_GHAST_SPEED.get();
+	}
+
+	@Nonnull
+	@Override
+	public TweakItem getGuiItem() {
+		return TweakItem
+				.of(Material.HAPPY_GHAST_SPAWN_EGG)
+				.name("&aIncreased Speed of Happy Ghasts")
+				.lore("&7Speed Multipler: &l" + settings.TWEAK_HAPPY_GHAST_SPEED_VALUE.get() + "x")
+				.usage("&eUsage: &aIncreases the speed of Happy Ghasts by &l" + settings.TWEAK_HAPPY_GHAST_SPEED_VALUE.get() + "x&a.");
 	}
 
 	@EventHandler

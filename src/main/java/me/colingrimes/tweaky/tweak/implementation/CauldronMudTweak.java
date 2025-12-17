@@ -1,6 +1,7 @@
 package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
+import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.bukkit.Blocks;
 import me.colingrimes.tweaky.util.bukkit.Players;
@@ -27,6 +28,16 @@ public class CauldronMudTweak extends Tweak {
 	@Override
 	public boolean isEnabled() {
 		return settings.TWEAK_CAULDRON_MUD.get();
+	}
+
+	@Nonnull
+	@Override
+	public TweakItem getGuiItem() {
+		return TweakItem
+				.of(Material.MUD)
+				.name("&aCauldron Mud &8(Throw)")
+				.lore("&7Turn Dirt into Mud.")
+				.usage("&eUsage: &aThrow Dirt into a Cauldron for Mud.");
 	}
 
 	@EventHandler

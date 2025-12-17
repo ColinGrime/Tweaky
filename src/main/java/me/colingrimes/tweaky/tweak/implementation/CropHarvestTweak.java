@@ -2,9 +2,11 @@ package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.event.PlayerInteractBlockEvent;
+import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.bukkit.Blocks;
 import me.colingrimes.tweaky.util.bukkit.Items;
+import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
@@ -21,6 +23,19 @@ public class CropHarvestTweak extends Tweak {
 	@Override
 	public boolean isEnabled() {
 		return settings.TWEAK_CROPS_HARVEST.get();
+	}
+
+	@Nonnull
+	@Override
+	public TweakItem getGuiItem() {
+		return TweakItem
+				.of(Material.NETHERITE_HOE)
+				.name("&aHarvest Crops &8(Right Click)")
+				.lore("&7Instantly harvest Crops.")
+				.lore()
+				.lore("&8Requires:")
+				.lore(" &7Hoe &8(Any)")
+				.usage("&eUsage: &aRight Click a Crop with a Hoe to instantly harvest & replant.");
 	}
 
 	@EventHandler(ignoreCancelled = true)

@@ -1,6 +1,7 @@
 package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
+import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.bukkit.Items;
 import me.colingrimes.tweaky.util.bukkit.Sounds;
@@ -24,6 +25,20 @@ public class EntityIgniteTweak extends Tweak {
 	@Override
 	public boolean isEnabled() {
 		return settings.TWEAK_ENTITY_IGNITE.get();
+	}
+
+	@Nonnull
+	@Override
+	public TweakItem getGuiItem() {
+		return TweakItem
+				.of(Material.FLINT_AND_STEEL)
+				.name("&aIgnite Mobs &8(Right Click)")
+				.lore("&7Set any Mob on fire.")
+				.lore()
+				.lore("&8Requires (1):")
+				.lore(" &7Flint & Steel")
+				.lore(" &7Fire Charge")
+				.usage("&eUsage: &aRight Click a Mob with a Flint & Steel or Fire Charge to set it on fire.");
 	}
 
 	@EventHandler(ignoreCancelled = true)

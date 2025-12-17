@@ -2,6 +2,7 @@ package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.event.PlayerInteractBlockEvent;
+import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.bukkit.Blocks;
 import me.colingrimes.tweaky.util.bukkit.Sounds;
@@ -21,6 +22,16 @@ public class DoorIronTweak extends Tweak {
 	@Override
 	public boolean isEnabled() {
 		return settings.TWEAK_DOORS_IRON.get();
+	}
+
+	@Nonnull
+	@Override
+	public TweakItem getGuiItem() {
+		return TweakItem
+				.of(Material.IRON_DOOR)
+				.name("&aIron Doors &8(Right Click)")
+				.lore("&7Open Iron Doors with your hands.")
+				.usage("&eUsage: &aAllows the opening of Iron Doors.");
 	}
 
 	@EventHandler(ignoreCancelled = true)

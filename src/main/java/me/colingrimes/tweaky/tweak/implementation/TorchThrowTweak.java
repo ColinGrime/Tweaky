@@ -1,6 +1,7 @@
 package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
+import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.bukkit.Blocks;
 import me.colingrimes.tweaky.util.bukkit.Players;
@@ -24,6 +25,16 @@ public class TorchThrowTweak extends Tweak {
 	@Override
 	public boolean isEnabled() {
 		return settings.TWEAK_TORCH_THROW.get();
+	}
+
+	@Nonnull
+	@Override
+	public TweakItem getGuiItem() {
+		return TweakItem
+				.of(Material.TORCH)
+				.name("&aTorch Placement &8(Throw)")
+				.lore("&7Places a Torch on the ground.")
+				.usage("&eUsage: &aThrow Torches on the ground to place them.");
 	}
 
 	@EventHandler

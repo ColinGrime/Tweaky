@@ -1,8 +1,10 @@
 package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
+import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
-import me.colingrimes.tweaky.util.Util;
+import me.colingrimes.tweaky.util.text.Text;
+import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.AbstractHorse;
@@ -24,6 +26,16 @@ public class HorseStatisticsTweak extends Tweak {
 		return settings.TWEAK_HORSE_STATISTICS.get();
 	}
 
+	@Nonnull
+	@Override
+	public TweakItem getGuiItem() {
+		return TweakItem
+				.of(Material.HORSE_SPAWN_EGG)
+				.name("&aHorse Statistics &8(Sneak Right Click)")
+				.lore("&7View the statistics of Horses.")
+				.usage("&eUsage: &aView the statistics (health-speed-jump) of Horses by sneak-right-click.");
+	}
+
 	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteract(@Nonnull PlayerInteractEntityEvent event) {
 		Player player = event.getPlayer();
@@ -38,7 +50,7 @@ public class HorseStatisticsTweak extends Tweak {
 			double speed = maxSpeed.getBaseValue();
 			double jump = horse.getJumpStrength();
 			for (String msg : settings.TWEAK_HORSE_STATISTICS_MESSAGE.get()) {
-				player.sendMessage(Util.color(msg
+				player.sendMessage(Text.color(msg
 						.replace("{health}", String.format("%.2f", health) + " HP")
 						.replace("{speed}", String.format("%.2f", convertSpeed(speed)) + " blocks/sec")
 						.replace("{jump}", String.format("%.2f", convertJump(jump)) + " blocks")));

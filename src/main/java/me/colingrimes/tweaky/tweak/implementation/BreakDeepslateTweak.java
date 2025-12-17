@@ -1,6 +1,7 @@
 package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
+import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.bukkit.Blocks;
 import org.bukkit.Material;
@@ -22,6 +23,19 @@ public class BreakDeepslateTweak extends Tweak {
 	@Override
 	public boolean isEnabled() {
 		return settings.TWEAK_BREAK_DEEPSLATE.get();
+	}
+
+	@Nonnull
+	@Override
+	public TweakItem getGuiItem() {
+		return TweakItem
+				.of(Material.DEEPSLATE)
+				.name("&aDeepslate Break")
+				.lore("&7Instantly break Deepslate.")
+				.lore()
+				.lore("&8Requires:")
+				.lore(" &7Netherite Pick, Eff 5, Haste II.")
+				.usage("&eUsage: &aBreak Deepslate instantly with a Netherite Pickaxe, Efficiency V, and Haste II.");
 	}
 
 	@EventHandler

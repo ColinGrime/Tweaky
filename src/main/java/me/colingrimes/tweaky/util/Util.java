@@ -14,18 +14,6 @@ public class Util {
 	private static final Random random = new Random();
 
 	/**
-	 * Turns the string into a color-coded string.
-	 *
-	 * @param str the string to be colored
-	 * @return color-coded string
-	 */
-	@Nonnull
-	public static String color(@Nullable String str) {
-		if (str == null || str.isEmpty()) return "";
-		return ChatColor.translateAlternateColorCodes('&', str);
-	}
-
-	/**
 	 * Retrieves all locations around a location.
 	 *
 	 * @param location the location

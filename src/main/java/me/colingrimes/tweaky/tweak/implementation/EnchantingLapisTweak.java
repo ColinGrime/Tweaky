@@ -1,6 +1,7 @@
 package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
+import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.bukkit.NBT;
 import org.bukkit.Bukkit;
@@ -35,6 +36,16 @@ public class EnchantingLapisTweak extends Tweak {
 	@Override
 	public boolean isEnabled() {
 		return settings.TWEAK_ENCHANTING_LAPIS.get();
+	}
+
+	@Nonnull
+	@Override
+	public TweakItem getGuiItem() {
+		return TweakItem
+				.of(Material.LAPIS_LAZULI)
+				.name("&aLapis Store")
+				.lore("&7Permanently store Lapis in Enchanting Tables.")
+				.usage("&eUsage: &aLapis stays in the Lapis slot in Enchanting Tables when you close it.");
 	}
 
 	@Override

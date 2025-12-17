@@ -1,6 +1,6 @@
 package me.colingrimes.tweaky.config;
 
-import me.colingrimes.tweaky.util.Util;
+import me.colingrimes.tweaky.util.text.Text;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -32,7 +32,7 @@ public class Option<T> {
 	 * @param sender the sender
 	 */
 	public void send(@Nonnull CommandSender sender) {
-		sender.sendMessage(Util.color(String.valueOf(value)));
+		sender.sendMessage(Text.color(String.valueOf(value)));
 	}
 
 	/**

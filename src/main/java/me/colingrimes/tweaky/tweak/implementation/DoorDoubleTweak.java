@@ -2,6 +2,7 @@ package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.event.PlayerInteractBlockEvent;
+import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.bukkit.Blocks;
 import org.bukkit.Material;
@@ -23,6 +24,16 @@ public class DoorDoubleTweak extends Tweak {
 	@Override
 	public boolean isEnabled() {
 		return settings.TWEAK_DOORS_DOUBLE.get();
+	}
+
+	@Nonnull
+	@Override
+	public TweakItem getGuiItem() {
+		return TweakItem
+				.of(Material.SPRUCE_DOOR)
+				.name("&aDouble Doors")
+				.lore("&7Open connected Doors with 1 click.")
+				.usage("&eUsage: &aAllows the opening of connected Doors with 1 click.");
 	}
 
 	@EventHandler(ignoreCancelled = true)

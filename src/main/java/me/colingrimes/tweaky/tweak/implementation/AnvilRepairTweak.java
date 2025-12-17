@@ -2,6 +2,7 @@ package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.event.PlayerInteractBlockEvent;
+import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.bukkit.Blocks;
 import me.colingrimes.tweaky.util.bukkit.Items;
@@ -24,6 +25,19 @@ public class AnvilRepairTweak extends Tweak {
 	@Override
 	public boolean isEnabled() {
 		return settings.TWEAK_ANVIL_REPAIR.get();
+	}
+
+	@Nonnull
+	@Override
+	public TweakItem getGuiItem() {
+		return TweakItem
+				.of(Material.DAMAGED_ANVIL)
+				.name("&aAnvil Repair &8(Right Click)")
+				.lore("&7Repair an Anvil by 1 level.")
+				.lore()
+				.lore("&8Requires:")
+				.lore(" &7Iron Block &8(Default)")
+				.usage("&eUsage: &aRight Click an Anvil with an Iron Block to repair it.");
 	}
 
 	@EventHandler(ignoreCancelled = true)

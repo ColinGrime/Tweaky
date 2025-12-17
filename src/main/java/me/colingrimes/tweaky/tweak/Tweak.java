@@ -2,7 +2,9 @@ package me.colingrimes.tweaky.tweak;
 
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.config.Settings;
+import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.event.Listener;
 
 import javax.annotation.Nonnull;
@@ -23,6 +25,16 @@ public abstract class Tweak implements Listener {
 	}
 
 	/**
+	 * Gets the ID of the tweak.
+	 *
+	 * @return the tweak ID
+	 */
+	@Nonnull
+	public String getId() {
+		return id;
+	}
+
+	/**
 	 * Gets whether the tweak is enabled.
 	 *
 	 * @return true if the tweak is enabled
@@ -36,6 +48,19 @@ public abstract class Tweak implements Listener {
 	 */
 	public int getCount() {
 		return isEnabled() ? 1 : 0;
+	}
+
+	/**
+	 * Gets the GUI item representing this tweak.
+	 *
+	 * @return the gui item
+	 */
+	@Nonnull
+	public TweakItem getGuiItem() {
+		return TweakItem
+				.of(Material.STONE)
+				.name("&cUnknown Tweak")
+				.lore("&7" + id);
 	}
 
 	/**

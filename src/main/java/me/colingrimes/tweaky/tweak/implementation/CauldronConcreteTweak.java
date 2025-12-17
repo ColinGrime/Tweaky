@@ -1,6 +1,7 @@
 package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
+import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.bukkit.Blocks;
 import me.colingrimes.tweaky.util.bukkit.Players;
@@ -50,6 +51,16 @@ public class CauldronConcreteTweak extends Tweak {
 	@Override
 	public boolean isEnabled() {
 		return settings.TWEAK_CAULDRON_CONCRETE.get();
+	}
+
+	@Nonnull
+	@Override
+	public TweakItem getGuiItem() {
+		return TweakItem
+				.of(Material.WHITE_CONCRETE)
+				.name("&aCauldron Concrete &8(Throw)")
+				.lore("&7Turn Concrete Powder into Concrete.")
+				.usage("&eUsage: &aThrow Concrete Powder into a Cauldron for Concrete.");
 	}
 
 	@EventHandler

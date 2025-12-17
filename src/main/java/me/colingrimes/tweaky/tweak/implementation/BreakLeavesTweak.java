@@ -1,6 +1,7 @@
 package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
+import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.Util;
 import me.colingrimes.tweaky.util.bukkit.Blocks;
@@ -35,6 +36,20 @@ public class BreakLeavesTweak extends Tweak {
 	@Override
 	public boolean isEnabled() {
 		return settings.TWEAK_BREAK_LEAVES.get();
+	}
+
+	@Nonnull
+	@Override
+	public TweakItem getGuiItem() {
+		return TweakItem
+				.of(Material.MANGROVE_LEAVES)
+				.name("&aLeaves Break")
+				.lore("&7Breaks an extra block on each side.")
+				.lore()
+				.lore("&8Requires:")
+				.lore(" &7Hoe &8(Default)")
+				.lore(" &7Netherite Hoe &8(3x3x3)")
+				.usage("&eUsage: &aBreaking Leaves with a Hoe will break an extra block on each side. Netherite Hoes → 3x3x3.");
 	}
 
 	@EventHandler(ignoreCancelled = true)

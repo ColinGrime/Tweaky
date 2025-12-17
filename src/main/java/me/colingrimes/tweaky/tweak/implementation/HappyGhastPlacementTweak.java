@@ -1,6 +1,7 @@
 package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
+import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.bukkit.Blocks;
 import me.colingrimes.tweaky.util.bukkit.Players;
@@ -9,6 +10,7 @@ import me.colingrimes.tweaky.util.bukkit.Items;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.BlockDisplay;
 import org.bukkit.entity.EntityType;
@@ -39,6 +41,16 @@ public class HappyGhastPlacementTweak extends Tweak {
 	@Override
 	public boolean isEnabled() {
 		return settings.TWEAK_HAPPY_GHAST_PLACEMENT.get();
+	}
+
+	@Nonnull
+	@Override
+	public TweakItem getGuiItem() {
+		return TweakItem
+				.of(Material.HAPPY_GHAST_SPAWN_EGG)
+				.name("&aPlace Blocks on Happy Ghasts")
+				.lore("&7Blocks can be placed on top of their heads.")
+				.usage("&eUsage: &aBlocks can be placed on top of Happy Ghast's heads.");
 	}
 
 	@Override

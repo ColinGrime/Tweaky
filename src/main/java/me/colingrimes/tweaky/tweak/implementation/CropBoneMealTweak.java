@@ -2,6 +2,7 @@ package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.event.PlayerInteractBlockEvent;
+import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.bukkit.Blocks;
 import me.colingrimes.tweaky.util.bukkit.Items;
@@ -30,6 +31,16 @@ public class CropBoneMealTweak extends Tweak {
 	@Override
 	public boolean isEnabled() {
 		return settings.TWEAK_CROPS_BONE_MEAL.get();
+	}
+
+	@Nonnull
+	@Override
+	public TweakItem getGuiItem() {
+		return TweakItem
+				.of(Material.NETHER_WART)
+				.name("&aBone Meal Anything")
+				.lore("&7Can be used on any Crop.")
+				.usage("&eUsage: &aUse Bone Meal on any Crop to make it grow.");
 	}
 
 	@EventHandler(ignoreCancelled = true)

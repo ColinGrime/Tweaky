@@ -1,8 +1,11 @@
 package me.colingrimes.tweaky;
 
-import me.colingrimes.tweaky.command.TweakCommand;
+import me.colingrimes.tweaky.command.TweaksCommand;
+import me.colingrimes.tweaky.command.TweakyCommand;
 import me.colingrimes.tweaky.config.Settings;
+import me.colingrimes.tweaky.listener.MenuListeners;
 import me.colingrimes.tweaky.listener.PlayerListeners;
+import me.colingrimes.tweaky.menu.Gui;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.Introspector;
 import me.colingrimes.tweaky.util.Logger;
@@ -16,6 +19,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -23,6 +27,7 @@ public class Tweaky extends JavaPlugin {
 
 	private static Tweaky instance;
 	private final List<Tweak> tweaks = new ArrayList<>();
+	private int tweakCount = 0;
 	private List<NamespacedKey> allRecipes;
 	private Settings settings;
 
@@ -35,7 +40,9 @@ public class Tweaky extends JavaPlugin {
 		settings.reload();
 
 		// Setup commands + listeners.
-		Bukkit.getPluginCommand("tweaky").setExecutor(new TweakCommand(this));
+		Bukkit.getPluginCommand("tweaky").setExecutor(new TweakyCommand(this));
+		Bukkit.getPluginCommand("tweaks").setExecutor(new TweaksCommand(this));
+		Bukkit.getPluginManager().registerEvents(new MenuListeners(), this);
 		Bukkit.getPluginManager().registerEvents(new PlayerListeners(), this);
 
 		// Register all the tweaks.
@@ -49,35 +56,11 @@ public class Tweaky extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
+		new HashSet<>(Gui.players.values()).forEach(Gui::invalidate);
 		tweaks.forEach(tweak -> {
 			HandlerList.unregisterAll(tweak);
 			tweak.shutdown();
 		});
-	}
-
-	@Nonnull
-	public static Tweaky getInstance() {
-		return instance;
-	}
-
-	/**
-	 * Gets all the enabled tweaks.
-	 *
-	 * @return the list of enabled tweaks
-	 */
-	@Nonnull
-	public List<Tweak> getTweaks() {
-		return tweaks;
-	}
-
-	/**
-	 * Gets all the settings for the plugin.
-	 *
-	 * @return the plugin's settings
-	 */
-	@Nonnull
-	public Settings getSettings() {
-		return settings;
 	}
 
 	/**
@@ -97,9 +80,43 @@ public class Tweaky extends JavaPlugin {
 		tweaks.addAll(tweakClasses.stream().filter(Tweak::isEnabled).toList());
 		tweaks.forEach(Tweak::init);
 
-		int count = tweaks.stream().mapToInt(Tweak::getCount).sum();
-		Logger.log("Registered " + count + " tweaks.");
-		return count;
+		tweakCount = tweaks.stream().mapToInt(Tweak::getCount).sum();
+		Logger.log("Registered " + tweakCount + " tweaks.");
+		return tweakCount;
+	}
+
+	@Nonnull
+	public static Tweaky getInstance() {
+		return instance;
+	}
+
+	/**
+	 * Gets all the enabled tweaks.
+	 *
+	 * @return the list of enabled tweaks
+	 */
+	@Nonnull
+	public List<Tweak> getTweaks() {
+		return tweaks;
+	}
+
+	/**
+	 * Gets the number of activated tweaks.
+	 *
+	 * @return the count of activated tweaks
+	 */
+	public int getTweakCount() {
+		return tweakCount;
+	}
+
+	/**
+	 * Gets all the settings for the plugin.
+	 *
+	 * @return the plugin's settings
+	 */
+	@Nonnull
+	public Settings getSettings() {
+		return settings;
 	}
 
 	/**

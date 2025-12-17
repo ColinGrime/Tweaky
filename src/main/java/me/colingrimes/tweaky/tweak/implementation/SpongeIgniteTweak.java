@@ -2,6 +2,7 @@ package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.event.PlayerInteractBlockEvent;
+import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.bukkit.Items;
 import me.colingrimes.tweaky.util.bukkit.Sounds;
@@ -21,6 +22,20 @@ public class SpongeIgniteTweak extends Tweak {
 	@Override
 	public boolean isEnabled() {
 		return settings.TWEAK_SPONGE_IGNITE.get();
+	}
+
+	@Nonnull
+	@Override
+	public TweakItem getGuiItem() {
+		return TweakItem
+				.of(Material.WET_SPONGE)
+				.name("&aIgnite Sponge &8(Right Click)")
+				.lore("&7Instantly dry out Wet Sponges.")
+				.lore()
+				.lore("&8Requires (1):")
+				.lore(" &7Flint & Steel")
+				.lore(" &7Fire Charge")
+				.usage("&eUsage: &aRight Click a Wet Sponge with a Flint & Steel or Fire Charge to dry it out.");
 	}
 
 	@EventHandler(ignoreCancelled = true)

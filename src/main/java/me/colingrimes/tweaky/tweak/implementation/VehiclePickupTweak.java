@@ -1,6 +1,7 @@
 package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
+import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.bukkit.Players;
 import me.colingrimes.tweaky.util.bukkit.Sounds;
@@ -26,6 +27,16 @@ public class VehiclePickupTweak extends Tweak {
 	@Override
 	public boolean isEnabled() {
 		return settings.TWEAK_VEHICLE_PICKUP.get();
+	}
+
+	@Nonnull
+	@Override
+	public TweakItem getGuiItem() {
+		return TweakItem
+				.of(Material.MINECART)
+				.name("&aVehicle Pickup &8(Sneak Right Click)")
+				.lore("&7Boats and Minecarts can be picked up.")
+				.usage("&eUsage: &aBoats and Minecarts can be picked up by sneak-right-click.");
 	}
 
 	@EventHandler

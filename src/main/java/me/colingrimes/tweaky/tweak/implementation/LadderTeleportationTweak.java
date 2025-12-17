@@ -1,11 +1,13 @@
 package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
+import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.Util;
 import me.colingrimes.tweaky.util.bukkit.Sounds;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -49,6 +51,27 @@ public class LadderTeleportationTweak extends Tweak {
 	@Override
 	public boolean isEnabled() {
 		return settings.TWEAK_LADDER_TELEPORTATION.get();
+	}
+
+	@Nonnull
+	@Override
+	public TweakItem getGuiItem() {
+		Control control = Util.parse(Control.class, settings.TWEAK_LADDER_TELEPORTATION_CONTROL.get());
+		return switch (control) {
+			case Automatic ->
+					TweakItem
+							.of(Material.LADDER)
+							.name("&aLadder Teleportation")
+							.lore("&7Walk into a Ladder to teleport.")
+							.usage("&eUsage: &aTeleport up or down by walking into a Ladder.");
+			case Manual ->
+					TweakItem
+							.of(Material.LADDER)
+							.name("&aLadder Teleportation &8(Look Up or Down)")
+							.lore("&7Look straight up or down to teleport.")
+							.usage("&eUsage: &aTeleport by looking straight up or down while walking into a Ladder.");
+			case null -> super.getGuiItem();
+		};
 	}
 
 	@EventHandler

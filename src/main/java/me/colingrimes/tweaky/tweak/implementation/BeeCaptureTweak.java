@@ -1,8 +1,10 @@
 package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
+import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.bukkit.Items;
+import org.bukkit.Material;
 import org.bukkit.block.Beehive;
 import org.bukkit.entity.Bee;
 import org.bukkit.entity.Player;
@@ -23,6 +25,20 @@ public class BeeCaptureTweak extends Tweak {
 	@Override
 	public boolean isEnabled() {
 		return settings.TWEAK_BEE_CAPTURE.get();
+	}
+
+	@Nonnull
+	@Override
+	public TweakItem getGuiItem() {
+		return TweakItem
+				.of(Material.BEE_SPAWN_EGG)
+				.name("&aBee Capture &8(Right Click)")
+				.lore("&7Click on Bees to capture them.")
+				.lore()
+				.lore("&8Requires (1):")
+				.lore(" &7Bee Nest")
+				.lore(" &7Beehive")
+				.usage("&eUsage: &aRight Click a Bee with a Bee Nest to capture it.");
 	}
 
 	@EventHandler(ignoreCancelled = true)

@@ -2,6 +2,7 @@ package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.event.PlayerInteractBlockEvent;
+import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.bukkit.Experience;
 import me.colingrimes.tweaky.util.bukkit.Items;
@@ -23,6 +24,19 @@ public class XpFillTweak extends Tweak {
 	@Override
 	public boolean isEnabled() {
 		return settings.TWEAK_XP_FILL.get();
+	}
+
+	@Nonnull
+	@Override
+	public TweakItem getGuiItem() {
+		return TweakItem
+				.of(Material.EXPERIENCE_BOTTLE)
+				.name("&aXP Fill &8(Right Click)")
+				.lore("&7Click on an Enchanting Table to fill XP bottles.")
+				.lore()
+				.lore("&8Requires:")
+				.lore(" &7Glass Bottle &8(Default)")
+				.usage("&eUsage: &aRight Click on an Enchanting Table with Glass Bottles to convert them into XP bottles.");
 	}
 
 	@EventHandler(ignoreCancelled = true)

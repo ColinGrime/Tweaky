@@ -1,8 +1,10 @@
 package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
+import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.Util;
+import me.colingrimes.tweaky.util.text.Text;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
@@ -28,6 +30,27 @@ public class BreakEnderChestTweak extends Tweak {
 		return settings.TWEAK_BREAK_ENDER_CHEST.get();
 	}
 
+	@Nonnull
+	@Override
+	public TweakItem getGuiItem() {
+		Mode mode = Util.parse(Mode.class, settings.TWEAK_BREAK_ENDER_CHEST_MODE.get());
+		return switch (mode) {
+			case Drop ->
+					TweakItem
+							.of(Material.ENDER_CHEST)
+							.name("&aEnder Chest Break")
+							.lore("&7Always drops, even without Silk Touch.")
+							.usage("&eUsage: &aEnder Chests always drop when broken.");
+			case Protection ->
+					TweakItem
+							.of(Material.ENDER_CHEST)
+							.name("&aEnder Chest Break")
+							.lore("&7Cannot be broken without Silk Touch.")
+							.usage("&eUsage: &aEnder Chests cannot be broken without Silk Touch.");
+			case null -> super.getGuiItem();
+		};
+	}
+
 	@EventHandler(ignoreCancelled = true)
 	public void onBlockBreak(@Nonnull BlockBreakEvent event) {
 		Block block = event.getBlock();
@@ -50,7 +73,7 @@ public class BreakEnderChestTweak extends Tweak {
 				block.setType(Material.AIR);
 				block.getWorld().dropItem(block.getLocation(), new ItemStack(Material.ENDER_CHEST));
 			}
-			case Protection -> event.getPlayer().sendMessage(Util.color(settings.TWEAK_BREAK_ENDER_CHEST_PROTECTION.get()));
+			case Protection -> event.getPlayer().sendMessage(Text.color(settings.TWEAK_BREAK_ENDER_CHEST_PROTECTION.get()));
 		}
 
 		event.setCancelled(true);

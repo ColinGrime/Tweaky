@@ -1,6 +1,7 @@
 package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
+import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.bukkit.Items;
 import me.colingrimes.tweaky.util.bukkit.Sounds;
@@ -23,6 +24,19 @@ public class ItemFrameInvisibleTweak extends Tweak {
 	@Override
 	public boolean isEnabled() {
 		return settings.TWEAK_ITEM_FRAME_INVISIBLE.get();
+	}
+
+	@Nonnull
+	@Override
+	public TweakItem getGuiItem() {
+		return TweakItem
+				.of(Material.ITEM_FRAME)
+				.name("&aToggle Item Frames &8(Sneak Right Click)")
+				.lore("&7Toggle the visibility of Item Frames.")
+				.lore()
+				.lore("&8Requires:")
+				.lore(" &7Shears &8(Default)")
+				.usage("&eUsage: &aSneak Right Click an Item Frame with Shears to toggle its visibility.");
 	}
 
 	@EventHandler(ignoreCancelled = true)

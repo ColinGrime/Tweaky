@@ -1,10 +1,12 @@
 package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
+import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.bukkit.Players;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -38,6 +40,16 @@ public class EntityEquipTweak extends Tweak {
 	@Override
 	public boolean isEnabled() {
 		return settings.TWEAK_ENTITY_EQUIP.get();
+	}
+
+	@Nonnull
+	@Override
+	public TweakItem getGuiItem() {
+		return TweakItem
+				.of(Material.STONE_SWORD)
+				.name("&aEquip Mobs &8(Throw)")
+				.lore("&7Mobs will auto equip thrown items.")
+				.usage("&eUsage: &aThrowing items close to a Mob will cause them to auto equip it.");
 	}
 
 	@EventHandler

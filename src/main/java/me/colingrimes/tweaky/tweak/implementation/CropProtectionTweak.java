@@ -1,6 +1,7 @@
 package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
+import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -20,6 +21,16 @@ public class CropProtectionTweak extends Tweak {
 	@Override
 	public boolean isEnabled() {
 		return settings.TWEAK_CROPS_PROTECTION.get();
+	}
+
+	@Nonnull
+	@Override
+	public TweakItem getGuiItem() {
+		return TweakItem
+				.of(Material.WHEAT)
+				.name("&aCrop Protection")
+				.lore("&7Prevents the trampling of Crops.")
+				.usage("&eUsage: &aPrevents the trampling of Crops when jumped on.");
 	}
 
 	@EventHandler

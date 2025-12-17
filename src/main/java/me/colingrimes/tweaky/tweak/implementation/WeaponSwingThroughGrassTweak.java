@@ -2,8 +2,10 @@ package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.event.PlayerInteractBlockEvent;
+import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.bukkit.Players;
+import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.event.EventHandler;
 import org.bukkit.util.RayTraceResult;
@@ -19,6 +21,20 @@ public class WeaponSwingThroughGrassTweak extends Tweak {
 	@Override
 	public boolean isEnabled() {
 		return settings.TWEAK_WEAPON_SWING_THROUGH_GRASS.get();
+	}
+
+	@Nonnull
+	@Override
+	public TweakItem getGuiItem() {
+		return TweakItem
+				.of(Material.DIAMOND_SWORD)
+				.name("&aWeapon Swing Through Grass")
+				.lore("&7Attacks pass through grass.")
+				.lore()
+				.lore("&8Requires:")
+				.lore(" &7Sword &8(Any)")
+				.lore(" &7Axe &8(Any)")
+				.usage("&eUsage: &aWeapon attacks can swing through grass without destroying them.");
 	}
 
 	@EventHandler(ignoreCancelled = true)

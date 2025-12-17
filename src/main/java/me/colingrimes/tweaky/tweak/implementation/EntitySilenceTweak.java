@@ -1,6 +1,7 @@
 package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
+import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -20,6 +21,17 @@ public class EntitySilenceTweak extends Tweak {
 	@Override
 	public boolean isEnabled() {
 		return settings.TWEAK_ENTITY_SILENCE.get();
+	}
+
+	@Nonnull
+	@Override
+	public TweakItem getGuiItem() {
+		return TweakItem
+				.of(Material.NAME_TAG)
+				.name("&aSilence Mobs")
+				.lore("&7Name a Mob \"silence\" to make it silent.")
+				.lore("&7Name a Mob \"unsilence\" to make it audible.")
+				.usage("&eUsage: &aName a Mob \"silence\" or \"unsilence\" to toggle its sound.");
 	}
 
 	@EventHandler(ignoreCancelled = true)
