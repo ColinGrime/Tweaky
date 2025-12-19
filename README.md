@@ -17,6 +17,7 @@
 * `break-glass` - Glass breaks instantly when broken by a Netherite Pickaxe (configurable).
 * `break-leaves` - Breaking leaves with a hoe will break an extra block on each side. Netherite hoes = 3x3x3.
 * `break-plants` - Breaking grass/flowers with a hoe will 3x3 break them. Netherite hoes = 5x5.
+* `breeding-indicator` - Adds an indicator above mobs to show when they can breed again.
 * `cauldron-concrete` - Throw concrete powder into a cauldron to turn it into concrete.
 * `cauldron-mud` - Throw dirt into a cauldron to turn it into mud.
 * `coordinates` - Allows players to view their coordinates in the Action Bar.
@@ -41,8 +42,13 @@
 * `item-frame-invisible` - Shift-right-click an item frame with shears to toggle its visibility on/off.
 * `ladder-placement` - Place ladders up/down depending on your direction by right-clicking existing ladders.
 * `ladder-teleportation` - Allows you to instantly climb up/down ladders (different modes are available).
+* `pet-protection` - Prevents you from attacking your own pet.
 * `portal-protection` - Nether portals can no longer be destroyed by explosions.
 * `recipe-unlock-all` - Players who join the server will have all the recipes unlocked.
+* `revert-farmland` - Sneak-right-click on farmland with a hoe to revert it back to dirt.
+* `revert-path` - Sneak-right-click on dirt paths with a shovel to revert it back to dirt.
+* `revert-stripped` - Sneak-right-click on a stripped log or stem to revert it back to its previous variant.
+* `rotten-flesh-to-leather` - Allows you to smelt rotten flesh into leather.
 * `torch-throw` - Allows you to throw torches on the ground to place them.
 * `snowballs-add-snow-layer` - Throwing snowballs on existing snow layers will add snow layers.
 * `snowballs-break-plants` - Throwing snowballs on plants/flowers will break them.
@@ -54,6 +60,7 @@
 * `snowballs-knockback` - Allows you to change the knockback value of snowballs.
 * `sponge-ignite` - Setting a sponge on fire dries it out instantly.
 * `vehicle-pickup` - Allows vehicles to be picked up by sneak-right-click.
+* `villager-follow` - (PAPER ONLY) Villagers will follow you if you are holding an emerald.
 * `water-bottle-convert-lava` - Splashing a water bottle into lava converts it into obsidian.
 * `water-bottle-craft` - Allows you to convert a water bucket into splash water bottles.
 * `weapon-swing-through-grass` - Allows weapons to swing through grass without destroying them.
@@ -63,6 +70,7 @@
 * [`config.yml`](https://github.com/ColinGrime/Tweaky/blob/master/src/main/resources/config.yml) - Allows you to change the various tweaks associated with this plugin.
 
 ## Player Commands:
+* `/tweaks` - Allows players to view all the activated tweaks on the server.
 * `/coordinates` - Allows players to toggle the 'coordinates' tweak. Requires it to be enabled.
 
 ## Admin Commands:
