@@ -56,8 +56,15 @@ public class TweakMenu extends Gui {
 			"sponge_ignite",
 			"vehicle_pickup",
 			"drops_magnet",
+			"rotten_flesh_to_leather",
 			"snowballs",
 			"torch_throw",
+			"villager_follow",
+			"breeding_indicator",
+			"pet_protection",
+			"revert_farmland",
+			"revert_path",
+			"revert_stripped",
 			"water_bottle_convert_lava",
 			"water_bottle_craft"
 	);
@@ -65,13 +72,13 @@ public class TweakMenu extends Gui {
 	private final Tweaky plugin;
 
 	public TweakMenu(@Nonnull Tweaky plugin, @Nonnull Player player) {
-		super(player, "&8Tweaks (&2" + plugin.getTweakCount() + "&8)", 6);
+		super(player, "&8Tweaks (&2" + plugin.getTweakManager().getTweakCount() + "&8)", 6);
 		this.plugin = plugin;
 	}
 
 	@Override
 	public void draw() {
-		List<Tweak> tweaks = plugin.getTweaks().stream().sorted(Comparator.comparingInt(t -> ORDER.contains(t.getId()) ? ORDER.indexOf(t.getId()) : Integer.MAX_VALUE)).toList();
+		List<Tweak> tweaks = plugin.getTweakManager().getTweaks().stream().sorted(Comparator.comparingInt(t -> ORDER.contains(t.getId()) ? ORDER.indexOf(t.getId()) : Integer.MAX_VALUE)).toList();
 		for (int i=0; i<Math.min(54, tweaks.size()); i++) {
 			TweakItem tweakItem = tweaks.get(i).getGuiItem();
 			ItemStack item = tweakItem.hide().build();

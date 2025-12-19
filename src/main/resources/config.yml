@@ -27,6 +27,8 @@ tweaks:
   break-leaves: false
   # Breaking grass or flowers with a hoe will 3x3 break them. Netherite hoes will 5x5 break them.
   break-plants: false
+  # Adds an indicator above mobs to show when they can breed again.
+  breeding-indicator: false
   # Throw concrete powder into a cauldron to turn it into concrete.
   cauldron-concrete:
     toggle: false
@@ -105,12 +107,22 @@ tweaks:
     # - Automatic (simply walk into the ladder)
     # - Manual (look straight up/down to activate teleportation)
     control: Automatic
+  # Prevents you from attacking your own pet.
+  pet-protection: false
   # Nether portals can no longer be destroyed by explosions.
   # No more ghasts or creepers destroying them!
   portal-protection: false
   # Players who join the server will have all the recipes unlocked.
   # If you accidentally kept this on and didn't want this, just do '/tweaks resetrecipes'.
   recipe-unlock-all: false
+  # Sneak-right-click on farmland with a hoe to revert it back to dirt.
+  revert-farmland: false
+  # Sneak-right-click on dirt paths with a shovel to revert it back to dirt.
+  revert-path: false
+  # Sneak-right-click on a stripped log or stem to revert it back to its previous variant.
+  revert-stripped: false
+  # Allows you to smelt rotten flesh into leather.
+  rotten-flesh-to-leather: false
   # Throwing snowballs on existing snow layers will add snow layers.
   snowballs-add-snow-layer: false
   # Throwing snowballs on plants or flowers will break them.
@@ -140,6 +152,8 @@ tweaks:
   torch-throw: false
   # Allows vehicles to be picked up by sneak-right-click.
   vehicle-pickup: false
+  # (PAPER ONLY) Villagers will follow you if you are holding an emerald.
+  villager-follow: false
   # Splashing a water bottle into lava converts it into obsidian.
   water-bottle-convert-lava: false
   # Allows you to convert a water bucket into splash water bottles.

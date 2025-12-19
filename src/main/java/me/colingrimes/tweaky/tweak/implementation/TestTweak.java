@@ -3,7 +3,7 @@ package me.colingrimes.tweaky.tweak.implementation;
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.event.PlayerInteractBlockEvent;
 import me.colingrimes.tweaky.tweak.Tweak;
-import me.colingrimes.tweaky.util.bukkit.Items;
+import me.colingrimes.tweaky.util.Util;
 import me.colingrimes.tweaky.util.bukkit.Sounds;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -11,10 +11,13 @@ import org.bukkit.block.data.Levelled;
 import org.bukkit.damage.DamageType;
 import org.bukkit.entity.Chicken;
 import org.bukkit.entity.HappyGhast;
+import org.bukkit.entity.PiglinBrute;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.util.RayTraceResult;
@@ -65,18 +68,6 @@ public class TestTweak extends Tweak {
 		if (event.getEntity() instanceof Chicken && event.getDamageSource().getDamageType() == DamageType.LAVA) {
 			event.getEntity().getWorld().playSound(event.getEntity().getLocation(), Sound.MUSIC_DISC_LAVA_CHICKEN, 1F, 1F);
 		}
-	}
-
-	@EventHandler
-	public void onPlayerIntearact(@Nonnull PlayerInteractBlockEvent event) {
-		if (!event.isRightClick() || !Tag.ITEMS_SHOVELS.isTagged(event.getItemType()) || !event.isBlock(Material.DIRT_PATH)) {
-			return;
-		}
-
-		Items.damage(event.getItem(), event.getPlayer());
-		event.getPlayer().getWorld().playSound(event.getPlayer().getLocation(), Sound.ITEM_HOE_TILL, 1F, 1F);
-		event.getBlock().setType(Material.DIRT);
-		event.setCancelled(true);
 	}
 
 	@EventHandler
@@ -139,6 +130,26 @@ public class TestTweak extends Tweak {
 			Sounds.play(block, Sound.ITEM_BUCKET_FILL);
 			block.setType(Material.AIR, false);
 			event.setCancelled(true);
+		}
+	}
+
+	@EventHandler
+	public void onSomething(@Nonnull EntityTargetEvent event) {
+		if (event.getEntity() instanceof PiglinBrute brute && event.getTarget() instanceof Player player) {
+			if (player.getInventory().getItemInMainHand().getType() == Material.DIRT) {
+				event.setCancelled(true);
+			}
+			Bukkit.broadcastMessage("Targeted...");
+		}
+	}
+
+	@EventHandler
+	public void onSwap(@Nonnull PlayerSwapHandItemsEvent event) {
+		if (event.getMainHandItem().getType() == Material.DIRT) {
+			Util.nearby(PiglinBrute.class, event.getPlayer().getLocation(), 10).forEach(b -> {
+				Bukkit.broadcastMessage("CALLED! " + b.getTarget().getCustomName());
+				b.setTarget(null);
+			});
 		}
 	}
 }

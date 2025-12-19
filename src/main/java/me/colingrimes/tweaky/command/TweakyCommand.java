@@ -26,7 +26,7 @@ public class TweakyCommand implements CommandExecutor {
 			plugin.getSettings().RESET_RECIPES.send(sender);
 		} else {
 			plugin.getSettings().reload();
-			int amount = plugin.registerTweaks();
+			int amount = plugin.getTweakManager().register();
 			sender.sendMessage(Text.color(plugin.getSettings().RELOADED.get().replace("{amount}", String.valueOf(amount))));
 		}
 		return true;

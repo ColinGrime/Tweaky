@@ -28,6 +28,7 @@ public class Settings {
 	public final Option<Set<Material>> TWEAK_BREAK_GLASS_MATERIALS         = option("tweaks.break-glass", sec -> sec.getStringList("materials").stream().map(m -> Material.getMaterial(m.toUpperCase())).filter(Objects::nonNull).collect(Collectors.toSet()));
 	public final Option<Boolean>       TWEAK_BREAK_LEAVES                  = option("tweaks.break-leaves");
 	public final Option<Boolean>       TWEAK_BREAK_PLANTS                  = option("tweaks.break-plants");
+	public final Option<Boolean>       TWEAK_BREEDING_INDICATOR            = option("tweaks.breeding-indicator");
 	public final Option<Boolean>       TWEAK_CAULDRON_CONCRETE             = option("tweaks.cauldron-concrete.toggle");
 	public final Option<Boolean>       TWEAK_CAULDRON_CONCRETE_USE_WATER   = option("tweaks.cauldron-concrete.use-water");
 	public final Option<Boolean>       TWEAK_CAULDRON_MUD                  = option("tweaks.cauldron-mud.toggle");
@@ -60,8 +61,13 @@ public class Settings {
 	public final Option<Boolean>       TWEAK_LADDER_PLACEMENT              = option("tweaks.ladder-placement");
 	public final Option<Boolean>       TWEAK_LADDER_TELEPORTATION          = option("tweaks.ladder-teleportation.toggle");
 	public final Option<String>        TWEAK_LADDER_TELEPORTATION_CONTROL  = option("tweaks.ladder-teleportation.control", "Automatic");
+	public final Option<Boolean>       TWEAK_PET_PROTECTION                = option("tweaks.pet-protection");
 	public final Option<Boolean>       TWEAK_PORTAL_PROTECTION             = option("tweaks.portal-protection");
 	public final Option<Boolean>       TWEAK_RECIPE_UNLOCK_ALL             = option("tweaks.recipe-unlock-all");
+	public final Option<Boolean>       TWEAK_REVERT_FARMLAND               = option("tweaks.revert-farmland");
+	public final Option<Boolean>       TWEAK_REVERT_PATH                   = option("tweaks.revert-path");
+	public final Option<Boolean>       TWEAK_REVERT_STRIPPED               = option("tweaks.revert-stripped");
+	public final Option<Boolean>       TWEAK_ROTTEN_FLESH_TO_LEATHER       = option("tweaks.rotten-flesh-to-leather");
 	public final Option<Boolean>       TWEAK_SNOWBALLS_ADD_SNOW_LAYER      = option("tweaks.snowballs-add-snow-layer");
 	public final Option<Boolean>       TWEAK_SNOWBALLS_BREAK_PLANTS        = option("tweaks.snowballs-break-plants");
 	public final Option<Boolean>       TWEAK_SNOWBALLS_DAMAGE              = option("tweaks.snowballs-damage.toggle");
@@ -75,6 +81,7 @@ public class Settings {
 	public final Option<Boolean>       TWEAK_SPONGE_IGNITE                 = option("tweaks.sponge-ignite");
 	public final Option<Boolean>       TWEAK_TORCH_THROW                   = option("tweaks.torch-throw");
 	public final Option<Boolean>       TWEAK_VEHICLE_PICKUP                = option("tweaks.vehicle-pickup");
+	public final Option<Boolean>       TWEAK_VILLAGER_FOLLOW               = option("tweaks.villager-follow");
 	public final Option<Boolean>       TWEAK_WATER_BOTTLE_CONVERT_LAVA     = option("tweaks.water-bottle-convert-lava");
 	public final Option<Boolean>       TWEAK_WATER_BOTTLE_CRAFT            = option("tweaks.water-bottle-craft.toggle");
 	public final Option<Integer>       TWEAK_WATER_BOTTLE_CRAFT_AMOUNT     = option("tweaks.water-bottle-craft.amount", 8);

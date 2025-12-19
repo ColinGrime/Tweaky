@@ -6,14 +6,11 @@ import me.colingrimes.tweaky.config.Settings;
 import me.colingrimes.tweaky.listener.MenuListeners;
 import me.colingrimes.tweaky.listener.PlayerListeners;
 import me.colingrimes.tweaky.menu.Gui;
-import me.colingrimes.tweaky.tweak.Tweak;
-import me.colingrimes.tweaky.util.Introspector;
-import me.colingrimes.tweaky.util.Logger;
+import me.colingrimes.tweaky.tweak.TweakManager;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
-import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -26,10 +23,10 @@ import java.util.List;
 public class Tweaky extends JavaPlugin {
 
 	private static Tweaky instance;
-	private final List<Tweak> tweaks = new ArrayList<>();
-	private int tweakCount = 0;
-	private List<NamespacedKey> allRecipes;
+	private TweakManager tweakManager;
 	private Settings settings;
+	private boolean isPaper = false;
+	private List<NamespacedKey> allRecipes;
 
 	@Override
 	public void onEnable() {
@@ -46,7 +43,8 @@ public class Tweaky extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(new PlayerListeners(), this);
 
 		// Register all the tweaks.
-		registerTweaks();
+		tweakManager = new TweakManager(this);
+		tweakManager.register();
 
 		// Check for Metrics.
 		if (settings.ENABLE_METRICS.get()) {
@@ -57,32 +55,7 @@ public class Tweaky extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		new HashSet<>(Gui.players.values()).forEach(Gui::invalidate);
-		tweaks.forEach(tweak -> {
-			HandlerList.unregisterAll(tweak);
-			tweak.shutdown();
-		});
-	}
-
-	/**
-	 * Registers all the tweaks.
-	 */
-	public int registerTweaks() {
-		// Clean up.
-		tweaks.forEach(tweak -> {
-			HandlerList.unregisterAll(tweak);
-			tweak.shutdown();
-		});
-		tweaks.clear();
-
-		// Registration.
-		List<Class<?>> classes = Introspector.getClasses(getClassLoader(), getClass().getPackage().getName() + ".tweak.implementation");
-		List<Tweak> tweakClasses = Introspector.instantiateClasses(classes, Tweak.class, this);
-		tweaks.addAll(tweakClasses.stream().filter(Tweak::isEnabled).toList());
-		tweaks.forEach(Tweak::init);
-
-		tweakCount = tweaks.stream().mapToInt(Tweak::getCount).sum();
-		Logger.log("Registered " + tweakCount + " tweaks.");
-		return tweakCount;
+		tweakManager.shutdown();
 	}
 
 	@Nonnull
@@ -91,22 +64,13 @@ public class Tweaky extends JavaPlugin {
 	}
 
 	/**
-	 * Gets all the enabled tweaks.
+	 * Gets the manager responsible for tweaks.
 	 *
-	 * @return the list of enabled tweaks
+	 * @return the tweak manager
 	 */
 	@Nonnull
-	public List<Tweak> getTweaks() {
-		return tweaks;
-	}
-
-	/**
-	 * Gets the number of activated tweaks.
-	 *
-	 * @return the count of activated tweaks
-	 */
-	public int getTweakCount() {
-		return tweakCount;
+	public TweakManager getTweakManager() {
+		return tweakManager;
 	}
 
 	/**
@@ -117,6 +81,24 @@ public class Tweaky extends JavaPlugin {
 	@Nonnull
 	public Settings getSettings() {
 		return settings;
+	}
+
+	/**
+	 * Checks if the server is running Paper.
+	 *
+	 * @return true if the server is a Paper server
+	 */
+	public boolean isPaper() {
+		if (isPaper) {
+			return true;
+		}
+		try {
+			Class.forName("com.destroystokyo.paper.ParticleBuilder");
+			isPaper = true;
+			return true;
+		} catch (ClassNotFoundException ignored) {
+			return false;
+		}
 	}
 
 	/**
