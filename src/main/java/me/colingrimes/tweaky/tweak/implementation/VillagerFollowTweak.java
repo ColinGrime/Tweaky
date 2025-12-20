@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.scheduler.BukkitTask;
 
 import javax.annotation.Nonnull;
@@ -66,7 +67,7 @@ public class VillagerFollowTweak extends Tweak {
 	 * @param player the player
 	 */
 	private void checkPlayer(@Nonnull Player player) {
-		if (player.getInventory().getItemInMainHand().getType() == Material.EMERALD) {
+		if (holdingEmerald(player)) {
 			villagers.addAll(Util.nearby(Villager.class, player.getLocation(), 20));
 		}
 	}
@@ -81,7 +82,7 @@ public class VillagerFollowTweak extends Tweak {
 		Player closest = null;
 		double closestDistance = Double.MAX_VALUE;
 		for (Player player : villager.getWorld().getNearbyPlayers(villager.getLocation(), 20)) {
-			if (player.getInventory().getItemInMainHand().getType() != Material.EMERALD) {
+			if (!holdingEmerald(player)) {
 				continue;
 			}
 			double distance = player.getLocation().distanceSquared(villager.getLocation());
@@ -97,5 +98,16 @@ public class VillagerFollowTweak extends Tweak {
 			villager.getPathfinder().stopPathfinding();
 			villagers.remove(villager);
 		}
+	}
+
+	/**
+	 * Checks if the player is holding an emerald.
+	 *
+	 * @param player the player
+	 * @return true if the player is holding an emerald
+	 */
+	private boolean holdingEmerald(@Nonnull Player player) {
+		PlayerInventory inv = player.getInventory();
+		return inv.getItemInMainHand().getType() == Material.EMERALD || inv.getItemInOffHand().getType() == Material.EMERALD;
 	}
 }

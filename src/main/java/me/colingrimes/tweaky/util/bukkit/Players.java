@@ -114,6 +114,29 @@ public final class Players {
 		return true;
 	}
 
+	/**
+	 * Returns true if the handle should be handled by the event.
+	 *
+	 * @param player the player
+	 * @param hand the hand
+	 * @param predicate the condition to check against the hand's item
+	 * @return true if the hand should be handled
+	 */
+	public static boolean shouldHandleHand(@Nonnull Player player, @Nullable EquipmentSlot hand, @Nonnull Predicate<ItemStack> predicate) {
+		if (hand != EquipmentSlot.HAND && hand != EquipmentSlot.OFF_HAND) {
+			return false;
+		}
+
+		ItemStack main = player.getInventory().getItemInMainHand();
+		ItemStack curr = player.getInventory().getItem(hand);
+		if (!predicate.test(curr)) {
+			return false;
+		}
+
+		// Prioritize Main Hand.
+		return hand == EquipmentSlot.HAND || !predicate.test(main);
+	}
+
 	private Players() {
 		throw new UnsupportedOperationException("This class cannot be instantiated.");
 	}
