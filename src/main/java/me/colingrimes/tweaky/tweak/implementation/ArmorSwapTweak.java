@@ -48,6 +48,11 @@ public class ArmorSwapTweak extends Tweak {
 				return;
 			}
 
+			// Ignore custom Armor Stands (from other plugins like holograms, chairs, etc.)
+			if (stand.isMarker() || !stand.isVisible()) {
+				continue;
+			}
+
 			EntityEquipment playerEquipment = player.getEquipment();
 			EntityEquipment standEquipment = stand.getEquipment();
 			if (playerEquipment != null && standEquipment != null) {
