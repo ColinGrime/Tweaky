@@ -4,6 +4,7 @@ import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.bukkit.Items;
+import me.colingrimes.tweaky.util.bukkit.Players;
 import me.colingrimes.tweaky.util.bukkit.Sounds;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -44,20 +45,22 @@ public class EntityIgniteTweak extends Tweak {
 	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteractEntity(@Nonnull PlayerInteractEntityEvent event) {
 		Player player = event.getPlayer();
-		ItemStack item = player.getInventory().getItemInMainHand();
+		EquipmentSlot hand = event.getHand();
+		if (!Players.shouldHandleHand(player, hand, i -> i.getType() == Material.FLINT_AND_STEEL || i.getType() == Material.FIRE_CHARGE)) {
+			return;
+		}
+
+		ItemStack item = player.getInventory().getItem(hand);
 		Material type = item.getType();
-		if (event.getHand() != EquipmentSlot.HAND || (type != Material.FLINT_AND_STEEL && type != Material.FIRE_CHARGE)) {
+
+		// Ignore players and creepers.
+		if (event.getRightClicked().getType() == EntityType.PLAYER ||  event.getRightClicked().getType() == EntityType.CREEPER) {
 			return;
 		}
 
-		// Ignore creepers.
-		if (event.getRightClicked().getType() == EntityType.CREEPER) {
-			return;
-		}
-
+		player.swingHand(hand);
 		event.getRightClicked().setFireTicks(20 * 8);
 		event.setCancelled(true);
-		player.swingMainHand();
 
 		switch (type) {
 			case Material.FLINT_AND_STEEL -> {
