@@ -97,9 +97,15 @@ public class SnowballTweak extends Tweak {
 			return;
 		}
 
+		// Ignore Ghastlings and Happy Ghasts.
+		// Ghastlings require snowballs, so this avoids accidental damage to it if you throw snowballs at it.
+		if (hit.getType() == EntityType.HAPPY_GHAST) {
+			return;
+		}
+
 		// TWEAK -- damage
 		if (settings.TWEAK_SNOWBALLS_DAMAGE.get()) {
-			hit.setHealth(Math.max(0, hit.getHealth() - settings.TWEAK_SNOWBALLS_DAMAGE_AMOUNT.get()));
+			hit.damage(settings.TWEAK_SNOWBALLS_DAMAGE_AMOUNT.get());
 		}
 
 		// TWEAK -- knockback
