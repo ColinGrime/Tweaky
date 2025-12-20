@@ -10,6 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.data.type.Door;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 
 import javax.annotation.Nonnull;
 
@@ -34,12 +35,13 @@ public class DoorIronTweak extends Tweak {
 				.usage("&eUsage: &aAllows the opening of Iron Doors.");
 	}
 
-	@EventHandler(ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onPlayerInteractBlock(@Nonnull PlayerInteractBlockEvent event) {
 		if (event.isRightClick() && event.isBlock(Material.IRON_DOOR) && event.canBuild()) {
 			event.getPlayer().swingMainHand();
 			Sounds.play(event.getBlock(), Sound.BLOCK_IRON_DOOR_OPEN);
 			Blocks.edit(event.getBlock(), Door.class, d -> d.setOpen(!d.isOpen()));
+			event.setCancelled(true);
 		}
 	}
 }
