@@ -85,7 +85,7 @@ public class Settings {
 	public final Option<Boolean>       TWEAK_WATER_BOTTLE_CONVERT_LAVA     = option("tweaks.water-bottle-convert-lava");
 	public final Option<Boolean>       TWEAK_WATER_BOTTLE_CRAFT            = option("tweaks.water-bottle-craft.toggle");
 	public final Option<Integer>       TWEAK_WATER_BOTTLE_CRAFT_AMOUNT     = option("tweaks.water-bottle-craft.amount", 8);
-	public final Option<Boolean>       TWEAK_WEAPON_SWING_THROUGH_GRASS    = option("tweaks.weapon-swing-through-grass");
+	public final Option<Boolean>       TWEAK_WEAPON_SWING_THROUGH          = option("tweaks.weapon-swing-through");
 	public final Option<Boolean>       TWEAK_XP_FILL                       = option("tweaks.xp-fill.toggle");
 	public final Option<Integer>       TWEAK_XP_FILL_COST                  = option("tweaks.xp-fill.cost", 8);
 	public final Option<String>  RELOADED       = option("reloaded", "&2&l✓ &a&lTweaks &ahas been reloaded. Registered &l{amount} &atweaks.");

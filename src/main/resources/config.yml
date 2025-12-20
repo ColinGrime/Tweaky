@@ -161,8 +161,8 @@ tweaks:
     toggle: false
     # Amount of splash water bottles you get.
     amount: 4
-  # Allows weapons (swords/axes) to swing through grass without destroying them.
-  weapon-swing-through-grass: false
+  # Allows weapons (swords/axes) to swing through passable blocks to hit mobs.
+  weapon-swing-through: false
   # Allows the filling of empty bottles into XP bottles by right-clicking on an enchanting table.
   xp-fill:
     toggle: false

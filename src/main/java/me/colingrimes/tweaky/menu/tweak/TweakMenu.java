@@ -32,7 +32,7 @@ public class TweakMenu extends Gui {
 			"crops_bone_meal",
 			"crops_protection",
 			"hay_bale_bread",
-			"weapon_swing_through_grass",
+			"weapon_swing_through",
 			"doors_double",
 			"doors_iron",
 			"enchanting_lapis",
