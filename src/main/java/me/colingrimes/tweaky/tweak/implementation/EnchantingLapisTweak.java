@@ -12,6 +12,7 @@ import org.bukkit.block.EnchantingTable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
@@ -82,16 +83,6 @@ public class EnchantingLapisTweak extends Tweak {
 		}
 	}
 
-	@EventHandler
-	public void onInventoryClick(@Nonnull InventoryClickEvent event) {
-		save((Player) event.getWhoClicked(), event.getInventory());
-	}
-
-	@EventHandler
-	public void onInventoryDrag(@Nonnull InventoryDragEvent event) {
-		save((Player) event.getWhoClicked(), event.getInventory());
-	}
-
 	@EventHandler(ignoreCancelled = true)
 	public void onBlockBreak(@Nonnull BlockBreakEvent event) {
 		SharedEnchantingTable ench = shared.get(event.getBlock().getLocation());
@@ -109,10 +100,36 @@ public class EnchantingLapisTweak extends Tweak {
 		}
 	}
 
+	// EVERYTHING BELOW IS A SAVE EVENT.
+	@EventHandler
+	public void onInventoryClick(@Nonnull InventoryClickEvent event) {
+		save((Player) event.getWhoClicked(), event.getInventory());
+	}
+
+	@EventHandler
+	public void onInventoryDrag(@Nonnull InventoryDragEvent event) {
+		save((Player) event.getWhoClicked(), event.getInventory());
+	}
+
+	@EventHandler
+	public void onEnchantItem(@Nonnull EnchantItemEvent event) {
+		save(event.getEnchanter(), event.getInventory());
+	}
+
+	/**
+	 * Handles the saving of the enchanting table inventory.
+	 *
+	 * @param player the player
+	 * @param inventory the inventory
+	 */
 	private void save(@Nonnull Player player, @Nonnull Inventory inventory) {
-		Location location = inventory.getLocation();
-		if (shared.containsKey(location) && inventory instanceof EnchantingInventory inv) {
-			shared.get(location).save(player, inv);
+		if (!(inventory instanceof EnchantingInventory inv) || inv.getLocation() == null) {
+			return;
+		}
+
+		SharedEnchantingTable ench = shared.get(inv.getLocation());
+		if (ench != null) {
+			ench.save(player, inv, true);
 		}
 	}
 
@@ -160,6 +177,7 @@ public class EnchantingLapisTweak extends Tweak {
 		 * @param inventory the current enchanting inventory they have opened
 		 */
 		public void close(@Nonnull Player player, @Nonnull EnchantingInventory inventory) {
+			save(player, inventory);
 			inventory.setSecondary(null);
 			viewers.remove(player);
 		}
@@ -169,30 +187,42 @@ public class EnchantingLapisTweak extends Tweak {
 		 *
 		 * @param player the player
 		 * @param inventory the current enchanting inventory they have opened
+		 * @param delay whether to delay it by 1 tick
 		 */
-		public void save(@Nonnull Player player, @Nonnull EnchantingInventory inventory) {
+		public void save(@Nonnull Player player, @Nonnull EnchantingInventory inventory, boolean delay) {
+			if (delay) {
+				Bukkit.getScheduler().runTask(plugin, () -> save(player, inventory));
+			} else {
+				save(player, inventory);
+			}
+		}
+
+		/**
+		 * Handles the saving of the enchanting table when a player makes a change.
+		 *
+		 * @param player the player
+		 * @param inventory the current enchanting inventory they have opened
+		 */
+		private void save(@Nonnull Player player, @Nonnull EnchantingInventory inventory) {
 			if (!viewers.contains(player)) {
 				return;
 			}
 
-			// Delays it by 1 tick to make sure the inventory finished updating.
-			Bukkit.getScheduler().runTask(plugin, () -> {
-				lapisCount = inventory.getSecondary() != null ? inventory.getSecondary().getAmount() : 0;
-				if (lapisCount == 0) {
-					NBT.removeTag(ench, ENCHANTING_LAPIS_KEY);
-				} else {
-					NBT.setTag(ench, ENCHANTING_LAPIS_KEY, lapisCount);
-				}
+			lapisCount = inventory.getSecondary() != null ? inventory.getSecondary().getAmount() : 0;
+			if (lapisCount == 0) {
+				NBT.removeTag(ench, ENCHANTING_LAPIS_KEY);
+			} else {
+				NBT.setTag(ench, ENCHANTING_LAPIS_KEY, lapisCount);
+			}
 
-				ench.update();
+			ench.update();
 
-				// Update all viewers.
-				for (Player viewer : viewers) {
-					if (!viewer.equals(player) && viewer.getOpenInventory().getTopInventory() instanceof EnchantingInventory inv) {
-						open(player, inv);
-					}
+			// Update all viewers.
+			for (Player viewer : viewers) {
+				if (!viewer.equals(player) && viewer.getOpenInventory().getTopInventory() instanceof EnchantingInventory inv) {
+					open(viewer, inv);
 				}
-			});
+			}
 		}
 
 		/**
