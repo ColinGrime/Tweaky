@@ -11,7 +11,7 @@ java {
 }
 
 group 'me.colingrimes.tweaky'
-version '1.8.2'
+version '1.8.3'
 
 repositories {
     mavenCentral()
