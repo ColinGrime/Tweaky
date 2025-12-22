@@ -10,6 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 
 import javax.annotation.Nonnull;
@@ -38,19 +39,19 @@ public class CropHarvestTweak extends Tweak {
 				.usage("&eUsage: &aRight Click a Crop with a Hoe to instantly harvest & replant.");
 	}
 
-	@EventHandler(ignoreCancelled = true)
+	@EventHandler
 	public void onPlayerInteract(@Nonnull PlayerInteractBlockEvent event) {
-		if (!event.isRightClick() || !event.isItem(Tag.ITEMS_HOES) || !event.canBuild()) {
+		if (!event.isRightClick() || !event.isItem(Tag.ITEMS_HOES)) {
 			return;
 		}
 
+		Player player = event.getPlayer();
 		Block block = event.getBlock();
-		if (block.getBlockData() instanceof Ageable crop && crop.getAge() >= crop.getMaximumAge()) {
-			Items.damage(event.getItem(), event.getPlayer());
-			Blocks.breakSound(block);
-			event.getPlayer().breakBlock(block);
+		if (block.getBlockData() instanceof Ageable crop && crop.getAge() >= crop.getMaximumAge() && player.breakBlock(block)) {
 			crop.setAge(0);
 			block.setBlockData(crop);
+			Items.damage(event.getItem(), event.getPlayer());
+			Blocks.breakSound(block);
 		}
 	}
 }
