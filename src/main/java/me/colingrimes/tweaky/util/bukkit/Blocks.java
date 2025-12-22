@@ -12,12 +12,14 @@ import java.util.function.Consumer;
 
 public class Blocks {
 
-	private static final List<Material> GRASSES = List.of(
+	private static final List<Material> PLANTS = List.of(
 			Material.SHORT_GRASS,
 			Material.TALL_GRASS,
 			Material.FERN,
 			Material.LARGE_FERN,
-			Material.DEAD_BUSH
+			Material.DEAD_BUSH,
+			Material.LEAF_LITTER,
+			Material.BUSH
 	);
 
 	/**
@@ -73,6 +75,6 @@ public class Blocks {
 	 * @return true if the material is a plant
 	 */
 	public static boolean isPlant(@Nonnull Material type) {
-		return Tag.FLOWERS.isTagged(type) || Tag.SMALL_FLOWERS.isTagged(type) || GRASSES.contains(type);
+		return Tag.FLOWERS.isTagged(type) || Tag.SMALL_FLOWERS.isTagged(type) || PLANTS.contains(type);
 	}
 }
