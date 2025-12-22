@@ -4,11 +4,12 @@ import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.bukkit.Blocks;
-import me.colingrimes.tweaky.util.bukkit.Players;
+import me.colingrimes.tweaky.util.bukkit.Events;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockSupport;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -50,16 +51,16 @@ public class TorchThrowTweak extends Tweak {
 				return;
 			}
 
-			Location location = item.getLocation();
-			boolean readyToPlace = Math.abs(item.getVelocity().getY()) < 0.01 && !location.clone().add(0, -1, 0).getBlock().getType().isAir();
+			Block below = item.getLocation().clone().add(0, -1, 0).getBlock();
+			boolean readyToPlace = Math.abs(item.getVelocity().getY()) < 0.01 && below.getType().isSolid() && below.getBlockData().isFaceSturdy(BlockFace.UP, BlockSupport.CENTER);
 			if (!readyToPlace) {
 				return;
 			}
 
 			task.cancel();
 
-			Block block = location.getBlock();
-			if (!Players.canBuild(event.getPlayer(), block)) {
+			Block block = item.getLocation().getBlock();
+			if (!Events.canPlace(event.getPlayer(), block, block.getRelative(BlockFace.DOWN))) {
 				return;
 			}
 
