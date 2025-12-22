@@ -37,9 +37,9 @@ public class HayBaleBreadTweak extends Tweak {
 				.usage("&eUsage: &aRight Click a Hay Bale with a Hoe to automatically craft and drop Bread.");
 	}
 
-	@EventHandler(ignoreCancelled = true)
+	@EventHandler
 	public void onPlayerInteract(@Nonnull PlayerInteractBlockEvent event) {
-		if (event.isRightClick() && event.isItem(Tag.ITEMS_HOES) && event.isBlock(Material.HAY_BLOCK) && event.canBuild()) {
+		if (event.isRightClick() && event.isItem(Tag.ITEMS_HOES) && event.isBlock(Material.HAY_BLOCK) && event.canBreak()) {
 			Blocks.breakSound(event.getBlock());
 			event.getBlock().setType(Material.AIR);
 			Items.drop(new ItemStack(Material.BREAD, 3), event.getLocation());

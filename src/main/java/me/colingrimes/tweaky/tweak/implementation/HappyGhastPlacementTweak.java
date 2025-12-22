@@ -5,6 +5,7 @@ import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.bukkit.Blocks;
 import me.colingrimes.tweaky.util.bukkit.Players;
+import me.colingrimes.tweaky.util.bukkit.Events;
 import me.colingrimes.tweaky.util.display.Displays;
 import me.colingrimes.tweaky.util.bukkit.Items;
 import org.bukkit.Bukkit;
@@ -12,6 +13,7 @@ import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.BlockDisplay;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.HappyGhast;
@@ -97,7 +99,7 @@ public class HappyGhastPlacementTweak extends Tweak {
 		Target target = targets.get(player);
 
 		// Check for permission.
-		if (!Players.canBuild(player, target.block)) {
+		if (!Events.canPlace(player, target.block, target.block.getRelative(BlockFace.DOWN))) {
 			return false;
 		}
 

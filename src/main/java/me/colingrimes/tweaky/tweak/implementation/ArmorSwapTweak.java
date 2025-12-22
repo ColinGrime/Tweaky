@@ -4,7 +4,7 @@ import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.Util;
-import me.colingrimes.tweaky.util.bukkit.Players;
+import me.colingrimes.tweaky.util.bukkit.Events;
 import org.bukkit.Material;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
@@ -44,7 +44,7 @@ public class ArmorSwapTweak extends Tweak {
 
 		Player player = event.getPlayer();
 		for (ArmorStand stand : Util.nearby(ArmorStand.class, player.getLocation(), 0.5)) {
-			if (!Players.canBuild(player, stand.getLocation().getBlock())) {
+			if (!Events.canInteractEntity(player, stand)) {
 				return;
 			}
 

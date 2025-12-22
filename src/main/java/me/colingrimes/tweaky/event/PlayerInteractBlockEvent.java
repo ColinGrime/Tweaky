@@ -1,6 +1,6 @@
 package me.colingrimes.tweaky.event;
 
-import me.colingrimes.tweaky.util.bukkit.Players;
+import me.colingrimes.tweaky.util.bukkit.Events;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Tag;
@@ -206,12 +206,21 @@ public class PlayerInteractBlockEvent extends Event implements Cancellable {
     }
 
     /**
-     * Checks if the player can build on the block.
+     * Checks if the player can modify the block.
      *
-     * @return true if the player can build on the block.
+     * @return true if the player can modify the block
      */
-    public boolean canBuild() {
-        return Players.canBuild(player, block);
+    public boolean canModify() {
+        return Events.canModify(player, block);
+    }
+
+    /**
+     * Checks if the player can break the block.
+     *
+     * @return true if the player can break the block
+     */
+    public boolean canBreak() {
+        return Events.canBreak(player, block);
     }
 
     @Override

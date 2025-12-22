@@ -38,7 +38,7 @@ public class DoorDoubleTweak extends Tweak {
 
 	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteractBlock(@Nonnull PlayerInteractBlockEvent event) {
-		if (!event.isRightClick() || !event.isBlock(Tag.DOORS) || !event.canBuild()) {
+		if (!event.isRightClick() || !event.isBlock(Tag.DOORS) || !event.canModify()) {
 			return;
 		}
 

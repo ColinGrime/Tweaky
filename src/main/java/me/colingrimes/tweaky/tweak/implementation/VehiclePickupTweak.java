@@ -3,8 +3,8 @@ package me.colingrimes.tweaky.tweak.implementation;
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
-import me.colingrimes.tweaky.util.bukkit.Players;
 import me.colingrimes.tweaky.util.bukkit.Sounds;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Vehicle;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.vehicle.VehicleDamageEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
@@ -46,8 +47,14 @@ public class VehiclePickupTweak extends Tweak {
 			return;
 		}
 
+		VehicleDamageEvent vehicleDamage = new VehicleDamageEvent(vehicle, player, 0);
+		Bukkit.getPluginManager().callEvent(vehicleDamage);
+		if (vehicleDamage.isCancelled()) {
+			return;
+		}
+
 		ItemStack item = getVehicleItem(vehicle);
-		if (item == null || !Players.canBuild(player, vehicle.getLocation().getBlock())) {
+		if (item == null) {
 			return;
 		}
 

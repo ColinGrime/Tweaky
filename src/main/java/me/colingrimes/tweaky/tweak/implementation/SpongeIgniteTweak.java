@@ -38,9 +38,9 @@ public class SpongeIgniteTweak extends Tweak {
 				.usage("&eUsage: &aRight Click a Wet Sponge with a Flint & Steel or Fire Charge to dry it out.");
 	}
 
-	@EventHandler(ignoreCancelled = true)
+	@EventHandler
 	public void onPlayerInteract(@Nonnull PlayerInteractBlockEvent event) {
-		if (!event.isRightClick() || !event.isItem(Material.FLINT_AND_STEEL, Material.FIRE_CHARGE) || !event.isBlock(Material.WET_SPONGE) || !event.canBuild()) {
+		if (!event.isRightClick() || !event.isItem(Material.FLINT_AND_STEEL, Material.FIRE_CHARGE) || !event.isBlock(Material.WET_SPONGE) || !event.canModify()) {
 			return;
 		}
 

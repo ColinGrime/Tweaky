@@ -6,6 +6,7 @@ import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.bukkit.Blocks;
 import me.colingrimes.tweaky.util.bukkit.Items;
+import me.colingrimes.tweaky.util.bukkit.Events;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -41,10 +42,10 @@ public class LadderPlacementTweak extends Tweak {
 				.usage("&eUsage: &aPlace Ladders up or down depending on your direction by right-clicking existing Ladders.");
 	}
 
-	@EventHandler(ignoreCancelled = true)
+	@EventHandler
 	public void onPlayerInteract(@Nonnull PlayerInteractBlockEvent event) {
 		Block block = event.getBlock();
-		if (!event.isRightClick() || !event.isItem(Material.LADDER) || !(block.getBlockData() instanceof Ladder ladder) || !event.canBuild()) {
+		if (!event.isRightClick() || !event.isItem(Material.LADDER) || !(block.getBlockData() instanceof Ladder ladder)) {
 			return;
 		}
 
@@ -53,8 +54,10 @@ public class LadderPlacementTweak extends Tweak {
 			block = block.getLocation().add(direction).getBlock();
 		}
 
-		place(event.getItem(), block, ladder.getFacing());
-		event.setCancelled(true);
+		if (Events.canPlace(event.getPlayer(), block, block.getRelative(ladder.getFacing().getOppositeFace()))) {
+			place(event.getItem(), block, ladder.getFacing());
+			event.setCancelled(true);
+		}
 	}
 
 	/**

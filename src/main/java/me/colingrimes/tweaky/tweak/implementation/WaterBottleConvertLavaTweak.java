@@ -4,12 +4,14 @@ import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.Util;
-import me.colingrimes.tweaky.util.bukkit.Players;
+import me.colingrimes.tweaky.util.bukkit.Events;
 import me.colingrimes.tweaky.util.bukkit.Sounds;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.SplashPotion;
 import org.bukkit.event.EventHandler;
@@ -64,7 +66,8 @@ public class WaterBottleConvertLavaTweak extends Tweak {
 			task.cancel();
 
 			// Check for permission.
-			if (potion.getShooter() instanceof Player player && !Players.canBuild(player, potion.getLocation().getBlock())) {
+			Block block = potion.getLocation().getBlock();
+			if (potion.getShooter() instanceof Player player && !Events.canPlace(player, block, block.getRelative(BlockFace.DOWN))) {
 				return;
 			}
 

@@ -4,7 +4,7 @@ import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.bukkit.Blocks;
-import me.colingrimes.tweaky.util.bukkit.Players;
+import me.colingrimes.tweaky.util.bukkit.Events;
 import me.colingrimes.tweaky.util.bukkit.Sounds;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -62,7 +62,7 @@ public class CauldronMudTweak extends Tweak {
 			task.cancel();
 
 			// Check for permission
-			if (!Players.canBuild(event.getPlayer(), block)) {
+			if (!Events.canInteract(event.getPlayer(), block)) {
 				return;
 			}
 
