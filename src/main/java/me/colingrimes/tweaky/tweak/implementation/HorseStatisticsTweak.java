@@ -49,12 +49,14 @@ public class HorseStatisticsTweak extends Tweak {
 			double health = maxHealth.getBaseValue();
 			double speed = maxSpeed.getBaseValue();
 			double jump = horse.getJumpStrength();
+			player.sendMessage("");
 			for (String msg : settings.TWEAK_HORSE_STATISTICS_MESSAGE.get()) {
 				player.sendMessage(Text.color(msg
 						.replace("{health}", String.format("%.2f", health) + " HP")
 						.replace("{speed}", String.format("%.2f", convertSpeed(speed)) + " blocks/sec")
 						.replace("{jump}", String.format("%.2f", convertJump(jump)) + " blocks")));
 			}
+			player.sendMessage("");
 		}
 	}
 
@@ -66,7 +68,7 @@ public class HorseStatisticsTweak extends Tweak {
 	 */
 	private double convertSpeed(double speed) {
 		// https://minecraft.fandom.com/wiki/Tutorials/Horses
-		return speed * 42.16;
+		return speed * 42.163;
 	}
 
 	/**
@@ -79,7 +81,13 @@ public class HorseStatisticsTweak extends Tweak {
 		// Two equations exist to approximate jump blocks:
 		// 1. y = 7.56889e^(0.602676 * x) - 8.59434 (this is the one we are going to use, it seems a little more accurate).
 		// 2. y = 5.42044x1.61929 - 0.13636
-		return 7.56889 * Math.exp(0.602676 * jump) - 8.59434;
+//		return 7.56889 * Math.exp(0.602676 * jump) - 8.59434;
 //		return 5.42044 * Math.pow(jump, 1.61929) - 0.13636;
+
+		// Another potential one below:
+		return -0.1817584952d * jump * jump * jump +
+				3.689713992d * jump * jump +
+				2.128599134d * jump +
+				-0.343930367;
 	}
 }
