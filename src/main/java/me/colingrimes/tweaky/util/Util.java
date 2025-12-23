@@ -11,8 +11,6 @@ import java.util.*;
 
 public class Util {
 
-	private static final Random random = new Random();
-
 	/**
 	 * Retrieves all locations around a location.
 	 *
@@ -86,27 +84,6 @@ public class Util {
 	@Nonnull
 	public static Vector direction(@Nonnull Entity source, @Nonnull Entity target) {
 		return direction(source.getLocation(), target.getLocation());
-	}
-
-	/**
-	 * Gets a random number between two integers.
-	 *
-	 * @param lowNum  low integer
-	 * @param highNum high integer
-	 * @return random number
-	 */
-	public static int number(int lowNum, int highNum) {
-		return random.nextInt((highNum - lowNum) + 1) + lowNum;
-	}
-
-	/**
-	 * Returns true if the random number is higher than a random number 0-100.
-	 *
-	 * @param num any integer
-	 * @return true if num is higher than a random number 0-100
-	 */
-	public static boolean chance(int num) {
-		return num >= number(0, 100);
 	}
 
 	/**

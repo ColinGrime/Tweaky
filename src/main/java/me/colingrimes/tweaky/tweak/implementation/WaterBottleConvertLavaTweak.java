@@ -3,6 +3,7 @@ package me.colingrimes.tweaky.tweak.implementation;
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
+import me.colingrimes.tweaky.util.Random;
 import me.colingrimes.tweaky.util.Util;
 import me.colingrimes.tweaky.util.bukkit.Events;
 import me.colingrimes.tweaky.util.bukkit.Sounds;
@@ -71,7 +72,7 @@ public class WaterBottleConvertLavaTweak extends Tweak {
 				return;
 			}
 
-			int remaining = Util.number(6, 10);
+			int remaining = Random.number(6, 10);
 			if (remaining != convertLava(potion.getLocation(), 0.50, 0, remaining)) {
 				Sounds.play(potion, Sound.BLOCK_LAVA_EXTINGUISH);
 			}
@@ -93,7 +94,7 @@ public class WaterBottleConvertLavaTweak extends Tweak {
 		}
 
 		for (Location check : Util.around(location, radius)) {
-			if (check.getBlock().getType() == Material.LAVA && Util.chance(100 - skipChance)) {
+			if (check.getBlock().getType() == Material.LAVA && Random.chance(100 - skipChance)) {
 				check.getBlock().setType(Material.OBSIDIAN);
 				remaining -= 1;
 			}
