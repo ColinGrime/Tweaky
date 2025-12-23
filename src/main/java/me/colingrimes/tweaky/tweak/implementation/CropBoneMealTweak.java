@@ -7,7 +7,6 @@ import me.colingrimes.tweaky.util.bukkit.Blocks;
 import me.colingrimes.tweaky.util.bukkit.Items;
 import me.colingrimes.tweaky.util.bukkit.Players;
 import me.colingrimes.tweaky.util.bukkit.Sounds;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -66,13 +65,12 @@ public class CropBoneMealTweak extends Tweak {
 
 		// Grows height crops.
 		if (blockType == Material.SUGAR_CANE || blockType == Material.CACTUS) {
-			Location location = block.getLocation().clone();
-			while (location.getBlock().getType() == blockType) {
-				location.add(0, 1, 0);
+			Block top = block.getLocation().clone().add(0, 1, 0).getBlock();
+			while (top.getType() == blockType) {
+				top = top.getLocation().add(0, 1, 0).getBlock();
 			}
 
-			Block top = location.getBlock();
-			if (top.getType().isAir()) {
+			if (top.getY() < top.getWorld().getMaxHeight() && top.getType().isAir()) {
 				Sounds.play(block, Sound.ITEM_BONE_MEAL_USE);
 				Items.remove(item);
 				top.setType(blockType);
