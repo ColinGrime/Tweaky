@@ -2,6 +2,7 @@ package me.colingrimes.tweaky.util.bukkit;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.HashMultimap;
+import me.colingrimes.tweaky.util.Random;
 import me.colingrimes.tweaky.util.text.Text;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -103,6 +104,11 @@ public final class Items {
 	 */
 	public static void damage(@Nullable ItemStack item, @Nonnull Player player) {
 		if (item == null || !(item.getItemMeta() instanceof Damageable damageable)) {
+			return;
+		}
+
+		int unbreaking = item.getEnchantmentLevel(Enchantment.UNBREAKING);
+		if (!Random.chance(100.0 / (unbreaking + 1))) {
 			return;
 		}
 
