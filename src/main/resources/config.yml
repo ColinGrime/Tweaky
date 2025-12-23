@@ -89,9 +89,9 @@ tweaks:
   horse-statistics:
     toggle: false
     message:
-      - "&7Max Health: &e{health}"
-      - "&7Speed: &e{speed}"
-      - "&7Jump: &e{jump}"
+      - "&7Max Health: &e{health} &a(max: 30)"
+      - "&7Speed: &e{speed} &a(max: 14.23)"
+      - "&7Jump: &e{jump} &a(max: 5.3)"
   # Right-clicking a crafting table in your inventory opens it.
   inventory-crafting: false
   # Right-clicking an item frame on a chest will open the chest. Shift to go back to normal behavior.
