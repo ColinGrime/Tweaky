@@ -28,7 +28,7 @@ import java.util.*;
 public class EnchantingLapisTweak extends Tweak {
 
 	private static final String ENCHANTING_LAPIS_KEY = "enchanting_lapis";
-	private static final Map<Location, SharedEnchantingTable> shared = new HashMap<>();
+	private final Map<Location, SharedEnchantingTable> shared = new HashMap<>();
 
 	public EnchantingLapisTweak(@Nonnull Tweaky plugin) {
 		super(plugin, "enchanting_lapis");
@@ -85,9 +85,9 @@ public class EnchantingLapisTweak extends Tweak {
 
 	@EventHandler(ignoreCancelled = true)
 	public void onBlockBreak(@Nonnull BlockBreakEvent event) {
-		SharedEnchantingTable ench = shared.get(event.getBlock().getLocation());
-		if (ench != null) {
-			ench.destroy();
+		Block block = event.getBlock();
+		if (block.getState() instanceof EnchantingTable ench) {
+			shared.computeIfAbsent(block.getLocation(), __ -> new SharedEnchantingTable(ench)).destroy();
 		}
 	}
 
