@@ -25,7 +25,7 @@
 * `crops-harvest` - Right-click crops with a hoe to harvest them.
 * `crops-protection` - Prevents the trampling of crops.
 * `death-notify` - Notifies the dying player where they died.
-* `double-doors` - Allows the opening of double doors with 1 click.
+* `doors-double` - Allows the opening of double doors with 1 click.
 * `doors-iron` - Allows you to open iron doors with your hand.
 * `drops-magnet` - Breaking blocks nearby will cause their item drops to go towards the player a little.
 * `enchanting-lapis` - Lapis stays in the lapis slot in enchanting tables when you close it.
@@ -68,11 +68,15 @@
 
 ## Configurations:
 * [`config.yml`](https://github.com/ColinGrime/Tweaky/blob/master/src/main/resources/config.yml) - Allows you to change the various tweaks associated with this plugin.
+* [`menus.yml`](https://github.com/ColinGrime/Tweaky/blob/master/src/main/resources/menus.yml) - Allows you to change the Tweak Menu names, lores, and usage messages.
+* [`messages.yml`](https://github.com/ColinGrime/Tweaky/blob/master/src/main/resources/messages.yml) - Allows you to change the various messages associated with this plugin.
 
 ## Player Commands:
 * `/tweaks` - Allows players to view all the activated tweaks on the server.
 * `/coordinates` - Allows players to toggle the 'coordinates' tweak. Requires it to be enabled.
 
 ## Admin Commands:
-* `/tweaky` (tweaky.admin)
-* `/tweaky resetrecipes` (tweaky.admin) - Resets the recipes of all online players.
+All Admin commands require the `tweaky.admin` permission node.
+* `/tweaky list` - Lists all enabled/disabled tweaks.
+* `/tweaky toggle <tweak_id>` - Toggles the specific tweak.
+* `/tweaky reload` - Reloads all configuration files.
