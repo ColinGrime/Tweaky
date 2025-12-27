@@ -1,21 +1,19 @@
-package me.colingrimes.tweaky.config;
+package me.colingrimes.tweaky.config.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
+import me.colingrimes.tweaky.config.Configuration;
+import me.colingrimes.tweaky.config.option.Option;
+import me.colingrimes.tweaky.message.Message;
 import org.bukkit.Material;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class Settings {
+public class Settings extends Configuration {
 
-	private final List<Option<?>> options = new ArrayList<>();
 	public final Option<Boolean>       TWEAK_ANVIL_COLOR                   = option("tweaks.anvil-color");
 	public final Option<Boolean>       TWEAK_ANVIL_REPAIR                  = option("tweaks.anvil-repair");
 	public final Option<Boolean>       TWEAK_ARMOR_SWAP                    = option("tweaks.armor-swap");
@@ -33,14 +31,14 @@ public class Settings {
 	public final Option<Boolean>       TWEAK_CAULDRON_CONCRETE_USE_WATER   = option("tweaks.cauldron-concrete.use-water");
 	public final Option<Boolean>       TWEAK_CAULDRON_MUD                  = option("tweaks.cauldron-mud.toggle");
 	public final Option<Boolean>       TWEAK_CAULDRON_MUD_USE_WATER        = option("tweaks.cauldron-mud.use-water");
-	public final Option<Boolean>       TWEAK_COORDINATES_TOGGLE            = option("tweaks.coordinates.toggle");
-	public final Option<String>        TWEAK_COORDINATES_MESSAGE_DAY       = option("tweaks.coordinates.message-day", "&a{x} &7| &a{y} &7| &a{z}");
-	public final Option<String>        TWEAK_COORDINATES_MESSAGE_NIGHT     = option("tweaks.coordinates.message-night", "&c{x} &7| &c{y} &7| &c{z}");
+	public final Option<Boolean>       TWEAK_COORDINATES                   = option("tweaks.coordinates.toggle");
+	public final Message<?>            TWEAK_COORDINATES_MESSAGE_DAY       = message("tweaks.coordinates.message-day", "&a{x} &7| &a{y} &7| &a{z}");
+	public final Message<?>            TWEAK_COORDINATES_MESSAGE_NIGHT     = message("tweaks.coordinates.message-night", "&c{x} &7| &c{y} &7| &c{z}");
 	public final Option<Boolean>       TWEAK_CROPS_BONE_MEAL               = option("tweaks.crops-bone-meal");
 	public final Option<Boolean>       TWEAK_CROPS_HARVEST                 = option("tweaks.crops-harvest");
 	public final Option<Boolean>       TWEAK_CROPS_PROTECTION              = option("tweaks.crops-protection");
 	public final Option<Boolean>       TWEAK_DEATH_NOTIFY                  = option("tweaks.death-notify.toggle");
-	public final Option<String>        TWEAK_DEATH_NOTIFY_MESSAGE          = option("tweaks.death-notify.message", "&7You died at (&a{x}&7, &a{y}&7, &a{z}&7) in the {world} &7with &a{levels} &7levels.");
+	public final Message<?>            TWEAK_DEATH_NOTIFY_MESSAGE          = message("tweaks.death-notify.message", "&7You died at (&a{x}&7, &a{y}&7, &a{z}&7) in the {world} &7with &a{levels} &7levels.");
 	public final Option<Boolean>       TWEAK_DOORS_DOUBLE                  = option("tweaks.doors-double");
 	public final Option<Boolean>       TWEAK_DOORS_IRON                    = option("tweaks.doors-iron");
 	public final Option<Boolean>       TWEAK_DROPS_MAGNET                  = option("tweaks.drops-magnet");
@@ -54,7 +52,7 @@ public class Settings {
 	public final Option<Double>        TWEAK_HAPPY_GHAST_SPEED_VALUE       = option("tweaks.happy-ghast-speed.value", 1.5);
 	public final Option<Boolean>       TWEAK_HAY_BALE_BREAD                = option("tweaks.hay-bale-bread");
 	public final Option<Boolean>       TWEAK_HORSE_STATISTICS              = option("tweaks.horse-statistics.toggle");
-	public final Option<List<String>>  TWEAK_HORSE_STATISTICS_MESSAGE      = option("tweaks.horse-statistics.message", List.of());
+	public final Message<?>            TWEAK_HORSE_STATISTICS_MESSAGE      = message("tweaks.horse-statistics.message", List.of());
 	public final Option<Boolean>       TWEAK_INVENTORY_CRAFTING            = option("tweaks.inventory-crafting");
 	public final Option<Boolean>       TWEAK_ITEM_FRAME_CLICK_THROUGH      = option("tweaks.item-frame-click-through");
 	public final Option<Boolean>       TWEAK_ITEM_FRAME_INVISIBLE          = option("tweaks.item-frame-invisible");
@@ -88,76 +86,12 @@ public class Settings {
 	public final Option<Boolean>       TWEAK_WEAPON_SWING_THROUGH          = option("tweaks.weapon-swing-through");
 	public final Option<Boolean>       TWEAK_XP_FILL                       = option("tweaks.xp-fill.toggle");
 	public final Option<Integer>       TWEAK_XP_FILL_COST                  = option("tweaks.xp-fill.cost", 8);
-	public final Option<String>  RELOADED       = option("reloaded", "&2&l✓ &a&lTweaks &ahas been reloaded. Registered &l{amount} &atweaks.");
-	public final Option<String>  RESET_RECIPES  = option("reset-recipes", "&2&l✓ &aRecipes have been reset for all online players.");
-	public final Option<String>  NO_PERMISSION  = option("no-permission", "&4&l❌ &cYou lack the required permission for this command.");
-	public final Option<Boolean> ENABLE_METRICS = option("enable-metrics", true);
-
-	private final Tweaky plugin;
+	public final Option<Boolean> UPDATE_CHECKER_LOG     = option("update-checker.log", true);
+	public final Option<Boolean> UPDATE_CHECKER_NOTIFY  = option("update-checker.notify", true);
+	public final Message<?>      UPDATE_CHECKER_MESSAGE = message("update-checker.message", List.of());
+	public final Option<Boolean> ENABLE_METRICS         = option("enable-metrics", true);
 
 	public Settings(@Nonnull Tweaky plugin) {
-		this.plugin = plugin;
-		plugin.saveDefaultConfig();
-	}
-
-	/**
-	 * Reloads the settings, updating the values of all options.
-	 */
-	public void reload() {
-		plugin.reloadConfig();
-		FileConfiguration config = plugin.getConfig();
-		options.forEach(option -> option.reload(config));
-	}
-
-	@Nonnull
-	private Option<Boolean> option(@Nonnull String path) {
-		Option<Boolean> option = new Option<>(config -> config.getBoolean(path, false));
-		options.add(option);
-		return option;
-	}
-
-	@Nonnull
-	private Option<String> option(@Nonnull String path, @Nonnull String def) {
-		Option<String> option = new Option<>(config -> config.getString(path, def));
-		options.add(option);
-		return option;
-	}
-
-	@Nonnull
-	private Option<List<String>> option(@Nonnull String path, @Nonnull List<String> def) {
-		Option<List<String>> option = new Option<>(config -> {
-			List<String> value = config.getStringList(path);
-			return value.isEmpty() ? def : value;
-		});
-		options.add(option);
-		return option;
-	}
-
-	@Nonnull
-	private Option<Integer> option(@Nonnull String path, int def) {
-		Option<Integer> option = new Option<>(config -> config.getInt(path, def));
-		options.add(option);
-		return option;
-	}
-
-	@Nonnull
-	private Option<Double> option(@Nonnull String path, double def) {
-		Option<Double> option = new Option<>(config -> config.getDouble(path, def));
-		options.add(option);
-		return option;
-	}
-
-	@Nonnull
-	private Option<Boolean> option(@Nonnull String path, boolean def) {
-		Option<Boolean> option = new Option<>(config -> config.getBoolean(path, def));
-		options.add(option);
-		return option;
-	}
-
-	@Nonnull
-	private <T> Option<T> option(@Nonnull String path, @Nonnull Function<ConfigurationSection, T> extractor) {
-		Option<T> option = new Option<>(config -> extractor.apply(config.getConfigurationSection(path)));
-		options.add(option);
-		return option;
+		super(plugin, "config.yml");
 	}
 }
