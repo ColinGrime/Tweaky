@@ -189,15 +189,6 @@ public final class Text {
 		return message == null ? "" : message.replace("\\s+", "").replace("-", "").replace(":", "");
 	}
 
-	/**
-	 * Use {@link Text#format(Duration)} instead.
-	 */
-	@Deprecated
-	@Nonnull
-	public static String formatTime(@Nullable Duration duration) {
-		return format(duration);
-	}
-
 	private Text() {
 		throw new UnsupportedOperationException("This class cannot be instantiated.");
 	}
