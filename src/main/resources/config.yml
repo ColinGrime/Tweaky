@@ -170,10 +170,16 @@ tweaks:
     # In vanilla Minecraft, an XP bottle drops an average of 7 experience.
     cost: 8
 
-# Random admin stuff. No need to mess with this!
-reloaded: "&2&l✓ &a&lTweaky &ahas been reloaded. Registered &l{amount} &atweaks."
-reset-recipes: "&2&l✓ &aRecipes have been reset for all online players."
-no-permission: "&4&l❌ &cYou lack the required permission for this command."
+# Checks for any plugin updates.
+update-checker:
+  # Logs the update to console.
+  log: true
+  # Any player with the "tweaky.admin" permission will be notified of the update on join.
+  notify: true
+  # The update message.
+  message:
+    - "&7[&eTweaky&7] &aNew update available: &ev{latest} &7(current v{current})"
+    - "            &8{download}"
 
 # Allows us to collect anonymous data about the plugin.
 enable-metrics: true
