@@ -3,6 +3,7 @@ package me.colingrimes.tweaky.tweak;
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.util.Introspector;
 import me.colingrimes.tweaky.util.Logger;
+import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
 import javax.annotation.Nonnull;
@@ -15,11 +16,13 @@ public class TweakManager {
 	private static final Set<String> PAPER_ONLY_TWEAKS = Set.of("VillagerFollowTweak");
 	private final Tweaky plugin;
 	private final List<Tweak> tweaks;
+	private final List<String> availableTweaks;
 	private int tweakCount = 0;
 
 	public TweakManager(@Nonnull Tweaky plugin) {
 		this.plugin = plugin;
 		this.tweaks = new ArrayList<>();
+		this.availableTweaks = plugin.getConfig().getConfigurationSection("tweaks").getKeys(false).stream().toList();
 	}
 
 	/**
@@ -44,7 +47,7 @@ public class TweakManager {
 
 		// Tweak count.
 		tweakCount = tweaks.stream().mapToInt(Tweak::getCount).sum();
-		Logger.log("Registered " + tweakCount + " tweaks.");
+		Logger.log(plugin, "Registered " + tweakCount + " tweaks.");
 		return tweakCount;
 	}
 
@@ -60,6 +63,16 @@ public class TweakManager {
 	}
 
 	/**
+	 * Gets the names of all available tweaks, including disabled tweaks.
+	 *
+	 * @return the list of all available tweak names
+	 */
+	@Nonnull
+	public List<String> getAvailableTweaks() {
+		return availableTweaks;
+	}
+
+	/**
 	 * Gets all the enabled tweaks.
 	 *
 	 * @return the list of enabled tweaks
@@ -70,12 +83,32 @@ public class TweakManager {
 	}
 
 	/**
+	 * Gets all the enabled tweaks for the specified player.
+	 *
+	 * @param player the player
+	 * @return the list of enabled tweaks for the player
+	 */
+	@Nonnull
+	public List<Tweak> getTweaks(@Nonnull Player player) {
+		return tweaks.stream().filter(tweak -> tweak.hasPermission(player)).toList();
+	}
+
+	/**
 	 * Gets the number of activated tweaks.
 	 *
 	 * @return the count of activated tweaks
 	 */
 	public int getTweakCount() {
 		return tweakCount;
+	}
+
+	/**
+	 * Gets the number of activated tweaks for the specific player.
+	 *
+	 * @return the count of activated tweaks for the player
+	 */
+	public int getTweakCount(@Nonnull Player player) {
+		return getTweaks(player).stream().mapToInt(Tweak::getCount).sum();
 	}
 
 	/**

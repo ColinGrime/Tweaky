@@ -140,10 +140,12 @@ public final class Items {
 	 *   <li>Supports parsing of {@link Material} enums from string formats.</li>
 	 *   <li>Supports setting the colored name and lore of the item.</li>
 	 *   <li>Supports hiding item attributes, glowing the item, and making it unbreakable. </li>
+	 *   <li>Supports replacing placeholders from the name/lore.</li>
 	 * </ul>
 	 */
 	public static class Builder {
 
+		protected final Map<String, String> placeholders = new HashMap<>();
 		private final Material defMaterial;
 		private final ItemStack baseItem;
 
@@ -324,6 +326,19 @@ public final class Items {
 		}
 
 		/**
+		 * Adds a placeholder to the list of placeholders.
+		 *
+		 * @param placeholder the placeholder you want to add
+		 * @param replacement the value you want to replace the placeholder with
+		 * @return the item builder object
+		 */
+		@Nonnull
+		public <T> Builder placeholder(@Nonnull String placeholder, @Nonnull T replacement) {
+			placeholders.put(placeholder, String.valueOf(replacement));
+			return this;
+		}
+
+		/**
 		 * Builds the {@link ItemStack} item.
 		 *
 		 * @return the item
@@ -333,6 +348,11 @@ public final class Items {
 			Material type = material != null ? material : defMaterial;
 			ItemStack item = baseItem != null ? baseItem : new ItemStack(Objects.requireNonNull(type, "Material is null."));
 			ItemMeta meta = Objects.requireNonNull(item.getItemMeta(), "Item meta is null.");
+
+			for (var entry : placeholders.entrySet()) {
+				name = name.replace(entry.getKey(), entry.getValue());
+				lore = lore.stream().map(l -> l.replace(entry.getKey(), entry.getValue())).toList();
+			}
 
 			if (name != null) meta.setDisplayName(Text.color(name));
 			if (lore != null && !lore.isEmpty()) meta.setLore(Text.color(lore));

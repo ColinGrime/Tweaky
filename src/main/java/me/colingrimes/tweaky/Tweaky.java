@@ -2,54 +2,59 @@ package me.colingrimes.tweaky;
 
 import me.colingrimes.tweaky.command.TweaksCommand;
 import me.colingrimes.tweaky.command.TweakyCommand;
-import me.colingrimes.tweaky.config.Settings;
+import me.colingrimes.tweaky.config.implementation.Menus;
+import me.colingrimes.tweaky.config.implementation.Messages;
+import me.colingrimes.tweaky.config.implementation.Settings;
+import me.colingrimes.tweaky.config.manager.ConfigurationManager;
 import me.colingrimes.tweaky.listener.MenuListeners;
 import me.colingrimes.tweaky.listener.PlayerListeners;
 import me.colingrimes.tweaky.menu.Gui;
 import me.colingrimes.tweaky.tweak.TweakManager;
+import me.colingrimes.tweaky.update.UpdateCheckerSpigot;
+import me.colingrimes.tweaky.util.Logger;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
-import org.bukkit.Keyed;
-import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.Recipe;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
 
 public class Tweaky extends JavaPlugin {
 
 	private static Tweaky instance;
 	private TweakManager tweakManager;
-	private Settings settings;
+	private ConfigurationManager configManager;
 	private boolean isPaper = false;
-	private List<NamespacedKey> allRecipes;
 
 	@Override
 	public void onEnable() {
 		instance = this;
 
 		// Initialize settings.
-		settings = new Settings(this);
-		settings.reload();
+		configManager = new ConfigurationManager(this);
+		configManager.reload();
 
 		// Setup commands + listeners.
 		Bukkit.getPluginCommand("tweaky").setExecutor(new TweakyCommand(this));
 		Bukkit.getPluginCommand("tweaks").setExecutor(new TweaksCommand(this));
 		Bukkit.getPluginManager().registerEvents(new MenuListeners(), this);
 		Bukkit.getPluginManager().registerEvents(new PlayerListeners(), this);
+		Logger.log(this, "Registered all commands and events.");
 
 		// Register all the tweaks.
 		tweakManager = new TweakManager(this);
 		tweakManager.register();
 
 		// Check for Metrics.
-		if (settings.ENABLE_METRICS.get()) {
+		if (getSettings().ENABLE_METRICS.get()) {
 			new Metrics(this, 25315);
 		}
+
+		// Check for updates.
+		new UpdateCheckerSpigot(this, 123654);
+
+		// Finished starting plugin.
+		Logger.log(this, "Tweaky v" + getDescription().getVersion() + " has been fully enabled.");
 	}
 
 	@Override
@@ -74,13 +79,43 @@ public class Tweaky extends JavaPlugin {
 	}
 
 	/**
+	 * Gets the manager responsible for the configurations.
+	 *
+	 * @return the configuration manager
+	 */
+	@Nonnull
+	public ConfigurationManager getConfigManager() {
+		return configManager;
+	}
+
+	/**
 	 * Gets all the settings for the plugin.
 	 *
 	 * @return the plugin's settings
 	 */
 	@Nonnull
 	public Settings getSettings() {
-		return settings;
+		return configManager.getSettings();
+	}
+
+	/**
+	 * Gets all the menus for the plugin.
+	 *
+	 * @return the plugin's menus
+	 */
+	@Nonnull
+	public Menus getMenus() {
+		return configManager.getMenus();
+	}
+
+	/**
+	 * Gets all the messages for the plugin.
+	 *
+	 * @return the plugin's messages
+	 */
+	@Nonnull
+	public Messages getMessages() {
+		return configManager.getMessages();
 	}
 
 	/**
@@ -99,28 +134,5 @@ public class Tweaky extends JavaPlugin {
 		} catch (ClassNotFoundException ignored) {
 			return false;
 		}
-	}
-
-	/**
-	 * Gets a list of all recipes in Minecraft.
-	 *
-	 * @return a list of all recipes
-	 */
-	@Nonnull
-	public List<NamespacedKey> getAllRecipes() {
-		if (allRecipes != null) {
-			return allRecipes;
-		}
-
-		List<NamespacedKey> recipes = new ArrayList<>();
-		Iterator<Recipe> recipeIterator = Bukkit.recipeIterator();
-		while (recipeIterator.hasNext()) {
-			Recipe recipe = recipeIterator.next();
-			if (recipe instanceof Keyed keyed) {
-				recipes.add(keyed.getKey());
-			}
-		}
-		allRecipes = recipes;
-		return recipes;
 	}
 }

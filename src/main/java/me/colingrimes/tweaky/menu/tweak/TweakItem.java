@@ -12,15 +12,32 @@ import java.util.List;
 
 public class TweakItem extends Items.Builder {
 
-	private final List<String> usage = new ArrayList<>();
+	private List<String> usage = new ArrayList<>();
 
 	@Nonnull
-	public static TweakItem of(@Nonnull Material def) {
-		return new TweakItem(def);
+	public static TweakItem create() {
+		return of(Material.STONE);
+	}
+
+	@Nonnull
+	public static TweakItem create(@Nonnull String message) {
+		return create().name("&cUnknown Tweak").lore("&7" + message);
+	}
+
+	@Nonnull
+	public static TweakItem of(@Nonnull Material material) {
+		return new TweakItem(material);
 	}
 
 	public TweakItem(@Nonnull Material def) {
 		super(def);
+	}
+
+	@Nonnull
+	@Override
+	public TweakItem material(@Nullable Material material) {
+		super.material(material);
+		return this;
 	}
 
 	@Nonnull
@@ -44,6 +61,13 @@ public class TweakItem extends Items.Builder {
 		return this;
 	}
 
+	@Nonnull
+	@Override
+	public <T> TweakItem placeholder(@Nonnull String placeholder, @Nonnull T replacement) {
+		super.placeholder(placeholder, replacement);
+		return this;
+	}
+
 	/**
 	 * Adds a line to the usage message.
 	 *
@@ -57,6 +81,18 @@ public class TweakItem extends Items.Builder {
 	}
 
 	/**
+	 * Sets the usage message of the item.
+	 *
+	 * @param usage the usage message you want the item to have
+	 * @return the tweak item object
+	 */
+	@Nonnull
+	public TweakItem usage(@Nullable List<String> usage) {
+		this.usage = usage;
+		return this;
+	}
+
+	/**
 	 * Sends the usage messages to the player.
 	 *
 	 * @param player the player
@@ -64,6 +100,10 @@ public class TweakItem extends Items.Builder {
 	public void sendUsage(@Nonnull HumanEntity player) {
 		if (usage.isEmpty()) {
 			return;
+		}
+
+		for (var entry : placeholders.entrySet()) {
+			usage = usage.stream().map(l -> l.replace(entry.getKey(), entry.getValue())).toList();
 		}
 
 		player.sendMessage("");
