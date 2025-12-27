@@ -2,10 +2,10 @@ package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.menu.tweak.TweakItem;
+import me.colingrimes.tweaky.message.Message;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.bukkit.NBT;
 import me.colingrimes.tweaky.util.bukkit.Players;
-import me.colingrimes.tweaky.util.text.Text;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -37,17 +37,13 @@ public class CoordinatesTweak extends Tweak implements CommandExecutor {
 
 	@Override
 	public boolean isEnabled() {
-		return settings.TWEAK_COORDINATES_TOGGLE.get();
+		return settings.TWEAK_COORDINATES.get();
 	}
 
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		return TweakItem
-				.of(Material.PLAYER_HEAD)
-				.name("&aCoordinates &8(Command)")
-				.lore("&7Toggle your coordinates.")
-				.usage("&eUsage: &aType /coords &ato toggle your coordinates.");
+		return menus.TWEAK_COORDINATES.get().material(Material.PLAYER_HEAD);
 	}
 
 	@Override
@@ -66,7 +62,7 @@ public class CoordinatesTweak extends Tweak implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(@Nonnull CommandSender sender, @Nonnull Command command, @Nonnull String label, @Nonnull String[] args) {
-		if (!(sender instanceof Player player)) {
+		if (!(sender instanceof Player player) || !hasPermission(player)) {
 			return true;
 		}
 		if (hide.contains(player.getUniqueId())) {
@@ -114,13 +110,16 @@ public class CoordinatesTweak extends Tweak implements CommandExecutor {
 	 * @param player the player
 	 */
 	private void sendCoordinates(@Nonnull Player player) {
+		if (!hasPermission(player)) {
+			return;
+		}
+
 		Location location = player.getLocation();
-		String message = player.getWorld().getTime() <= 12541 ? settings.TWEAK_COORDINATES_MESSAGE_DAY.get() : settings.TWEAK_COORDINATES_MESSAGE_NIGHT.get();
-		message = Text.color(message
+		Message<?> message = player.getWorld().getTime() <= 12541 ? settings.TWEAK_COORDINATES_MESSAGE_DAY : settings.TWEAK_COORDINATES_MESSAGE_NIGHT;
+		message = message
 				.replace("{x}", String.valueOf(location.getBlockX()))
 				.replace("{y}", String.valueOf(location.getBlockY()))
-				.replace("{z}", String.valueOf(location.getBlockZ()))
-		);
-		player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(message));
+				.replace("{z}", String.valueOf(location.getBlockZ()));
+		player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(message.toText()));
 	}
 }

@@ -12,6 +12,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockSupport;
 import org.bukkit.block.data.type.Ladder;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -32,29 +33,27 @@ public class LadderPlacementTweak extends Tweak {
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		return TweakItem
-				.of(Material.LADDER)
-				.name("&aLadder Placement &8(Right Click)")
-				.lore("&7Click on existing Ladders to expand Ladder.")
-				.lore()
-				.lore("&8Requires:")
-				.lore(" &7Ladder &8(Default)")
-				.usage("&eUsage: &aPlace Ladders up or down depending on your direction by right-clicking existing Ladders.");
+		return menus.TWEAK_LADDER_PLACEMENT.get().material(Material.LADDER);
 	}
 
 	@EventHandler
 	public void onPlayerInteract(@Nonnull PlayerInteractBlockEvent event) {
+		Player player = event.getPlayer();
+		if (!hasPermission(player)) {
+			return;
+		}
+
 		Block block = event.getBlock();
 		if (!event.isRightClick() || !event.isItem(Material.LADDER) || !(block.getBlockData() instanceof Ladder ladder)) {
 			return;
 		}
 
-		Vector direction = event.getPlayer().getLocation().getPitch() <= 0 ? new Vector(0, 1, 0) : new Vector(0, -1, 0);
+		Vector direction = player.getLocation().getPitch() <= 0 ? new Vector(0, 1, 0) : new Vector(0, -1, 0);
 		while (block.getType() == Material.LADDER) {
 			block = block.getLocation().add(direction).getBlock();
 		}
 
-		if (Events.canPlace(event.getPlayer(), block, block.getRelative(ladder.getFacing().getOppositeFace()))) {
+		if (Events.canPlace(player, block, block.getRelative(ladder.getFacing().getOppositeFace()))) {
 			place(event.getItem(), block, ladder.getFacing());
 			event.setCancelled(true);
 		}

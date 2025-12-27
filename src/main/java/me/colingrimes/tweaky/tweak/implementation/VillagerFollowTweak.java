@@ -33,14 +33,7 @@ public class VillagerFollowTweak extends Tweak {
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		return TweakItem
-				.of(Material.VILLAGER_SPAWN_EGG)
-				.name("&aVillager Follow")
-				.lore("&7Follows you if you have an Emerald out.")
-				.lore()
-				.lore("&8Requires:")
-				.lore(" &7Emerald &8(Default)")
-				.usage("&eUsage: &aVillagers will follow you if you are holding an Emerald.");
+		return menus.TWEAK_VILLAGER_FOLLOW.get().material(Material.VILLAGER_SPAWN_EGG);
 	}
 
 	@Override
@@ -67,7 +60,7 @@ public class VillagerFollowTweak extends Tweak {
 	 * @param player the player
 	 */
 	private void checkPlayer(@Nonnull Player player) {
-		if (holdingEmerald(player)) {
+		if (hasPermission(player) && holdingEmerald(player)) {
 			villagers.addAll(Util.nearby(Villager.class, player.getLocation(), 20));
 		}
 	}
@@ -82,7 +75,7 @@ public class VillagerFollowTweak extends Tweak {
 		Player closest = null;
 		double closestDistance = Double.MAX_VALUE;
 		for (Player player : villager.getWorld().getNearbyPlayers(villager.getLocation(), 20)) {
-			if (!holdingEmerald(player)) {
+			if (!hasPermission(player) || !holdingEmerald(player)) {
 				continue;
 			}
 			double distance = player.getLocation().distanceSquared(villager.getLocation());

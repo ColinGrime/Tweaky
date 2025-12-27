@@ -9,6 +9,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
@@ -29,22 +30,18 @@ public class BreakPlantsTweak extends Tweak {
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		return TweakItem
-				.of(Material.TALL_GRASS)
-				.name("&aPlants Break")
-				.lore("&7Breaks a radius of plants.")
-				.lore()
-				.lore("&8Requires:")
-				.lore(" &7Hoe &8(3x3)")
-				.lore(" &7Netherite Hoe &8(5x5)")
-				.usage("&eUsage: &aBreak Plants with a Hoe to 3x3 break them.")
-				.usage("         &aUsing a Netherite Hoe → 5x5 break.");
+		return menus.TWEAK_BREAK_PLANTS.get().material(Material.TALL_GRASS);
 	}
 
 	@EventHandler(ignoreCancelled = true)
 	public void onBlockBreak(@Nonnull BlockBreakEvent event) {
+		Player player = event.getPlayer();
+		if (!hasPermission(player)) {
+			return;
+		}
+
 		Block block = event.getBlock();
-		ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
+		ItemStack item = player.getInventory().getItemInMainHand();
 		if (!Blocks.isPlant(block.getType()) || !Tag.ITEMS_HOES.isTagged(item.getType())) {
 			return;
 		}

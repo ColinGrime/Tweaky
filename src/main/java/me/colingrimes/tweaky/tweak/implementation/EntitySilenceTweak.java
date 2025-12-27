@@ -6,6 +6,7 @@ import me.colingrimes.tweaky.tweak.Tweak;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
@@ -26,17 +27,17 @@ public class EntitySilenceTweak extends Tweak {
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		return TweakItem
-				.of(Material.NAME_TAG)
-				.name("&aSilence Mobs")
-				.lore("&7Name a Mob \"silence\" to make it silent.")
-				.lore("&7Name a Mob \"unsilence\" to make it audible.")
-				.usage("&eUsage: &aName a Mob \"silence\" or \"unsilence\" to toggle its sound.");
+		return menus.TWEAK_ENTITY_SILENCE.get().material(Material.NAME_TAG);
 	}
 
 	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteract(@Nonnull PlayerInteractEntityEvent event) {
-		Material itemType = event.getPlayer().getInventory().getItemInMainHand().getType();
+		Player player = event.getPlayer();
+		if (!hasPermission(player)) {
+			return;
+		}
+
+		Material itemType = player.getInventory().getItemInMainHand().getType();
 		if (event.getHand() != EquipmentSlot.HAND || itemType != Material.NAME_TAG || !(event.getRightClicked() instanceof LivingEntity entity)) {
 			return;
 		}

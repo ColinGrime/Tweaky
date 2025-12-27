@@ -9,6 +9,7 @@ import me.colingrimes.tweaky.util.bukkit.Sounds;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.data.type.Door;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
@@ -28,17 +29,14 @@ public class DoorIronTweak extends Tweak {
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		return TweakItem
-				.of(Material.IRON_DOOR)
-				.name("&aIron Doors &8(Right Click)")
-				.lore("&7Open Iron Doors with your hands.")
-				.usage("&eUsage: &aAllows the opening of Iron Doors.");
+		return menus.TWEAK_DOORS_IRON.get().material(Material.IRON_DOOR);
 	}
 
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onPlayerInteractBlock(@Nonnull PlayerInteractBlockEvent event) {
-		if (event.isRightClick() && event.isBlock(Material.IRON_DOOR) && event.canModify()) {
-			event.getPlayer().swingMainHand();
+		Player player = event.getPlayer();
+		if (hasPermission(player) && event.isRightClick() && event.isBlock(Material.IRON_DOOR) && event.canModify()) {
+			player.swingMainHand();
 			Sounds.play(event.getBlock(), Sound.BLOCK_IRON_DOOR_OPEN);
 			Blocks.edit(event.getBlock(), Door.class, d -> d.setOpen(!d.isOpen()));
 			event.setCancelled(true);

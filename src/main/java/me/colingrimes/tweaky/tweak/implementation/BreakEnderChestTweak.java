@@ -35,18 +35,8 @@ public class BreakEnderChestTweak extends Tweak {
 	public TweakItem getGuiItem() {
 		Mode mode = Util.parse(Mode.class, settings.TWEAK_BREAK_ENDER_CHEST_MODE.get());
 		return switch (mode) {
-			case Drop ->
-					TweakItem
-							.of(Material.ENDER_CHEST)
-							.name("&aEnder Chest Break")
-							.lore("&7Always drops, even without Silk Touch.")
-							.usage("&eUsage: &aEnder Chests always drop when broken.");
-			case Protection ->
-					TweakItem
-							.of(Material.ENDER_CHEST)
-							.name("&aEnder Chest Break")
-							.lore("&7Cannot be broken without Silk Touch.")
-							.usage("&eUsage: &aEnder Chests cannot be broken without Silk Touch.");
+			case Drop -> menus.TWEAK_BREAK_ENDER_CHEST_DROP.get().material(Material.ENDER_CHEST);
+			case Protection -> menus.TWEAK_BREAK_ENDER_CHEST_PROTECTION.get().material(Material.ENDER_CHEST);
 			case null -> super.getGuiItem();
 		};
 	}
@@ -54,7 +44,7 @@ public class BreakEnderChestTweak extends Tweak {
 	@EventHandler(ignoreCancelled = true)
 	public void onBlockBreak(@Nonnull BlockBreakEvent event) {
 		Block block = event.getBlock();
-		if (block.getType() != Material.ENDER_CHEST) {
+		if (!hasPermission(event.getPlayer()) || block.getType() != Material.ENDER_CHEST) {
 			return;
 		}
 

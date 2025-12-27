@@ -28,18 +28,15 @@ public class BreakDeepslateTweak extends Tweak {
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		return TweakItem
-				.of(Material.DEEPSLATE)
-				.name("&aDeepslate Break")
-				.lore("&7Instantly break Deepslate.")
-				.lore()
-				.lore("&8Requires:")
-				.lore(" &7Netherite Pick, Eff 5, Haste II.")
-				.usage("&eUsage: &aBreak Deepslate instantly with a Netherite Pickaxe, Efficiency V, and Haste II.");
+		return menus.TWEAK_BREAK_DEEPSLATE.get().material(Material.DEEPSLATE);
 	}
 
 	@EventHandler
 	public void onBlockDamage(@Nonnull BlockDamageEvent event) {
+		if (!hasPermission(event.getPlayer())) {
+			return;
+		}
+
 		ItemStack item = event.getItemInHand();
 		Material blockType = event.getBlock().getType();
 		if (item.getType() != Material.NETHERITE_PICKAXE || (blockType != Material.DEEPSLATE && blockType != Material.COBBLED_DEEPSLATE)) {

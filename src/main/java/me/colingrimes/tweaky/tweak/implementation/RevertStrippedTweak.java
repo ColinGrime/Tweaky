@@ -8,6 +8,7 @@ import me.colingrimes.tweaky.util.bukkit.Items;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.Tag;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 
 import javax.annotation.Nonnull;
@@ -26,19 +27,13 @@ public class RevertStrippedTweak extends Tweak {
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		return TweakItem
-				.of(Material.STRIPPED_OAK_LOG)
-				.name("&aRevert Stripped &8(Sneak Right Click)")
-				.lore("&7Goes back to previous Log or Stem variant.")
-				.lore()
-				.lore("&8Requires:")
-				.lore(" &7Axe &8(Any)")
-				.usage("&eUsage: &aSneak Right Click on a Stripped Log or Stem with an Axe to revert it back to its previous variant.");
+		return menus.TWEAK_REVERT_STRIPPED.get().material(Material.STRIPPED_OAK_LOG);
 	}
 
 	@EventHandler(ignoreCancelled = true)
 	public void onPlayerIntearact(@Nonnull PlayerInteractBlockEvent event) {
-		if (!event.isShiftRightClick() || !Tag.ITEMS_AXES.isTagged(event.getItemType())) {
+		Player player = event.getPlayer();
+		if (!hasPermission(player) || !event.isShiftRightClick() || !Tag.ITEMS_AXES.isTagged(event.getItemType())) {
 			return;
 		}
 
@@ -47,9 +42,9 @@ public class RevertStrippedTweak extends Tweak {
 			return;
 		}
 
-		Items.damage(event.getItem(), event.getPlayer());
-		event.getPlayer().swingMainHand();
-		event.getPlayer().getWorld().playSound(event.getPlayer().getLocation(), Sound.ITEM_AXE_STRIP, 1F, 1F);
+		Items.damage(event.getItem(), player);
+		player.swingMainHand();
+		player.getWorld().playSound(player.getLocation(), Sound.ITEM_AXE_STRIP, 1F, 1F);
 		event.getBlock().setType(unstripped);
 		event.setCancelled(true);
 	}

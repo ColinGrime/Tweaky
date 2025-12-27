@@ -29,20 +29,16 @@ public class ArmorSwapTweak extends Tweak {
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		return TweakItem
-				.of(Material.CHAINMAIL_CHESTPLATE)
-				.name("&aArmor Swap &8(Sneak)")
-				.lore("&7Armor Stands can quick swap Armor.")
-				.usage("&eUsage: &aSneak over an Armor Stand to quick swap Armor.");
+		return menus.TWEAK_ARMOR_SWAP.get().material(Material.CHAINMAIL_CHESTPLATE);
 	}
 
 	@EventHandler
 	public void onPlayerSneak(@Nonnull PlayerToggleSneakEvent event) {
-		if (!event.isSneaking()) {
+		Player player = event.getPlayer();
+		if (!hasPermission(player) || !event.isSneaking()) {
 			return;
 		}
 
-		Player player = event.getPlayer();
 		for (ArmorStand stand : Util.nearby(ArmorStand.class, player.getLocation(), 0.5)) {
 			if (!Events.canInteractEntity(player, stand)) {
 				return;

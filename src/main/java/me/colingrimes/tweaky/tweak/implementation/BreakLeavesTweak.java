@@ -10,6 +10,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
@@ -41,21 +42,18 @@ public class BreakLeavesTweak extends Tweak {
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		return TweakItem
-				.of(Material.MANGROVE_LEAVES)
-				.name("&aLeaves Break")
-				.lore("&7Breaks an extra block on each side.")
-				.lore()
-				.lore("&8Requires:")
-				.lore(" &7Hoe &8(Default)")
-				.lore(" &7Netherite Hoe &8(3x3x3)")
-				.usage("&eUsage: &aBreaking Leaves with a Hoe will break an extra block on each side. Netherite Hoes → 3x3x3.");
+		return menus.TWEAK_BREAK_LEAVES.get().material(Material.MANGROVE_LEAVES);
 	}
 
 	@EventHandler(ignoreCancelled = true)
 	public void onBlockBreak(@Nonnull BlockBreakEvent event) {
+		Player player = event.getPlayer();
+		if (!hasPermission(player)) {
+			return;
+		}
+
 		Block block = event.getBlock();
-		ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
+		ItemStack item = player.getInventory().getItemInMainHand();
 		if (!Tag.ITEMS_HOES.isTagged(item.getType()) || !Tag.LEAVES.isTagged(block.getType())) {
 			return;
 		}
@@ -75,7 +73,7 @@ public class BreakLeavesTweak extends Tweak {
 			}
 		}
 
-		Items.damage(item, event.getPlayer());
+		Items.damage(item, player);
 		event.setCancelled(true);
 	}
 }

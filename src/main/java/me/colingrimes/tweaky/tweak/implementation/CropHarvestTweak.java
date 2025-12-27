@@ -29,23 +29,16 @@ public class CropHarvestTweak extends Tweak {
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		return TweakItem
-				.of(Material.NETHERITE_HOE)
-				.name("&aHarvest Crops &8(Right Click)")
-				.lore("&7Instantly harvest Crops.")
-				.lore()
-				.lore("&8Requires:")
-				.lore(" &7Hoe &8(Any)")
-				.usage("&eUsage: &aRight Click a Crop with a Hoe to instantly harvest & replant.");
+		return menus.TWEAK_CROPS_HARVEST.get().material(Material.NETHERITE_HOE);
 	}
 
 	@EventHandler
 	public void onPlayerInteract(@Nonnull PlayerInteractBlockEvent event) {
-		if (!event.isRightClick() || !event.isItem(Tag.ITEMS_HOES)) {
+		Player player = event.getPlayer();
+		if (!hasPermission(player) || !event.isRightClick() || !event.isItem(Tag.ITEMS_HOES)) {
 			return;
 		}
 
-		Player player = event.getPlayer();
 		Block block = event.getBlock();
 		if (block.getBlockData() instanceof Ageable crop && crop.getAge() >= crop.getMaximumAge() && player.breakBlock(block)) {
 			crop.setAge(0);

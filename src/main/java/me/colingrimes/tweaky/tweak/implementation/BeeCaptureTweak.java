@@ -30,24 +30,16 @@ public class BeeCaptureTweak extends Tweak {
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		return TweakItem
-				.of(Material.BEE_SPAWN_EGG)
-				.name("&aBee Capture &8(Right Click)")
-				.lore("&7Click on Bees to capture them.")
-				.lore()
-				.lore("&8Requires (1):")
-				.lore(" &7Bee Nest")
-				.lore(" &7Beehive")
-				.usage("&eUsage: &aRight Click a Bee with a Bee Nest to capture it.");
+		return menus.TWEAK_BEE_CAPTURE.get().material(Material.BEE_SPAWN_EGG);
 	}
 
 	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteract(@Nonnull PlayerInteractEntityEvent event) {
-		if (event.getHand() != EquipmentSlot.HAND || !(event.getRightClicked() instanceof Bee bee)) {
+		Player player = event.getPlayer();
+		if (!hasPermission(player) || event.getHand() != EquipmentSlot.HAND || !(event.getRightClicked() instanceof Bee bee)) {
 			return;
 		}
 
-		Player player = event.getPlayer();
 		ItemStack item = player.getInventory().getItemInMainHand();
 		if (!(item.getItemMeta() instanceof BlockStateMeta meta) || !(meta.getBlockState() instanceof Beehive beehive) || beehive.isFull()) {
 			return;

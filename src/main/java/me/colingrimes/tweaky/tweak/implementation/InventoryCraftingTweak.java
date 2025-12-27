@@ -27,21 +27,17 @@ public class InventoryCraftingTweak extends Tweak {
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		return TweakItem
-				.of(Material.CRAFTING_TABLE)
-				.name("&aInventory Crafting &8(Right Click)")
-				.lore("&7Open up a Crafting Table in your inventory.")
-				.usage("&eUsage: &aRight Click a Crafting Table in your inventory to open it.");
+		return menus.TWEAK_INVENTORY_CRAFTING.get().material(Material.CRAFTING_TABLE);
 	}
 
 	@EventHandler
 	public void onInventoryClick(@Nonnull InventoryClickEvent event) {
-		if (event.getView().getTopInventory().getType() != InventoryType.CRAFTING) {
+		Player player = (Player) event.getWhoClicked();
+		if (!hasPermission(player) || event.getView().getTopInventory().getType() != InventoryType.CRAFTING) {
 			return;
 		}
 
 		ItemStack item = event.getCurrentItem();
-		Player player = (Player) event.getWhoClicked();
 		if (event.getClick().isRightClick() && item != null && item.getType() == Material.CRAFTING_TABLE) {
 			event.setCancelled(true);
 			Bukkit.getScheduler().runTask(plugin, () -> player.openWorkbench(null, true));

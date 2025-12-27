@@ -5,12 +5,14 @@ import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityInteractEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class CropProtectionTweak extends Tweak {
 
@@ -26,11 +28,12 @@ public class CropProtectionTweak extends Tweak {
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		return TweakItem
-				.of(Material.WHEAT)
-				.name("&aCrop Protection")
-				.lore("&7Prevents the trampling of Crops.")
-				.usage("&eUsage: &aPrevents the trampling of Crops when jumped on.");
+		return menus.TWEAK_CROPS_PROTECTION.get().material(Material.WHEAT);
+	}
+
+	@Override
+	public boolean hasPermission(@Nullable Entity entity) {
+		return true;
 	}
 
 	@EventHandler

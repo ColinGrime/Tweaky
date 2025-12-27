@@ -13,6 +13,7 @@ import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Levelled;
 import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
@@ -56,15 +57,16 @@ public class CauldronConcreteTweak extends Tweak {
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		return TweakItem
-				.of(Material.WHITE_CONCRETE)
-				.name("&aCauldron Concrete &8(Throw)")
-				.lore("&7Turn Concrete Powder into Concrete.")
-				.usage("&eUsage: &aThrow Concrete Powder into a Cauldron for Concrete.");
+		return menus.TWEAK_CAULDRON_CONCRETE.get().material(Material.WHITE_CONCRETE);
 	}
 
 	@EventHandler
 	public void onPlayerDropItem(@Nonnull PlayerDropItemEvent event) {
+		Player player = event.getPlayer();
+		if (!hasPermission(player)) {
+			return;
+		}
+
 		Item powder = event.getItemDrop();
 		Material concrete = POWDER_TO_CONCRETE.get(powder.getItemStack().getType());
 		if (concrete == null) {
@@ -86,7 +88,7 @@ public class CauldronConcreteTweak extends Tweak {
 			task.cancel();
 
 			// Check for permission
-			if (!Events.canInteract(event.getPlayer(), block)) {
+			if (!Events.canInteract(player, block)) {
 				return;
 			}
 

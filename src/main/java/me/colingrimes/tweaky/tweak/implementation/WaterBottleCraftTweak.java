@@ -6,6 +6,7 @@ import me.colingrimes.tweaky.tweak.Tweak;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.inventory.CraftingInventory;
@@ -15,6 +16,7 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionType;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class WaterBottleCraftTweak extends Tweak {
 
@@ -30,14 +32,7 @@ public class WaterBottleCraftTweak extends Tweak {
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		return TweakItem
-				.of(Material.SPLASH_POTION)
-				.name("&aWater Bottle Craft &8(Craft)")
-				.lore("&7Craft Splash Water Bottles.")
-				.lore()
-				.lore("&8Requires:")
-				.lore(" &7Water Bucket &8(Default)")
-				.usage("&eUsage: &aConvert a Water Bucket into Splash Water Bottles.");
+		return menus.TWEAK_WATER_BOTTLE_CRAFT.get().material(Material.SPLASH_POTION);
 	}
 
 	@Override
@@ -60,6 +55,11 @@ public class WaterBottleCraftTweak extends Tweak {
 	@Override
 	public void shutdown() {
 		Bukkit.removeRecipe(new NamespacedKey(plugin, "water_bottles"));
+	}
+
+	@Override
+	public boolean hasPermission(@Nullable Entity entity) {
+		return true;
 	}
 
 	@EventHandler

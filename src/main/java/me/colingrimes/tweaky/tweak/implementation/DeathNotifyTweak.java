@@ -3,7 +3,6 @@ package me.colingrimes.tweaky.tweak.implementation;
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
-import me.colingrimes.tweaky.util.text.Text;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -26,23 +25,24 @@ public class DeathNotifyTweak extends Tweak {
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		return TweakItem
-				.of(Material.SKELETON_SKULL)
-				.name("&aDeath Notify &8(Die)")
-				.lore("&7Notifies where you died.")
-				.usage("&eUsage: &aNotifies you of your death location.");
+		return menus.TWEAK_DEATH_NOTIFY.get().material(Material.SKELETON_SKULL);
 	}
 
 	@EventHandler
 	public void onPlayerDeath(@Nonnull PlayerDeathEvent event) {
 		Player player = event.getEntity();
+		if (!hasPermission(player)) {
+			return;
+		}
+
 		Location location = player.getLocation();
-		player.sendMessage(Text.color(settings.TWEAK_DEATH_NOTIFY_MESSAGE.get()
+		settings.TWEAK_DEATH_NOTIFY_MESSAGE
 				.replace("{x}", String.valueOf(location.getBlockX()))
 				.replace("{y}", String.valueOf(location.getBlockY()))
 				.replace("{z}", String.valueOf(location.getBlockZ()))
 				.replace("{world}", getWorld(player))
-				.replace("{levels}", String.valueOf(player.getLevel()))));
+				.replace("{levels}", String.valueOf(player.getLevel()))
+				.send(player);
 	}
 
 	/**

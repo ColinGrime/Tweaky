@@ -7,6 +7,7 @@ import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.bukkit.Players;
 import org.bukkit.Material;
 import org.bukkit.Tag;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.util.RayTraceResult;
 
@@ -26,26 +27,19 @@ public class WeaponSwingThroughTweak extends Tweak {
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		return TweakItem
-				.of(Material.DIAMOND_SWORD)
-				.name("&aWeapon Swing Through")
-				.lore("&7Attacks pass through passable blocks.")
-				.lore()
-				.lore("&8Requires:")
-				.lore(" &7Sword &8(Any)")
-				.lore(" &7Axe &8(Any)")
-				.usage("&eUsage: &aWeapon attacks can swing through passable blocks to hit Mobs.");
+		return menus.TWEAK_WEAPON_SWING_THROUGH.get().material(Material.DIAMOND_SWORD);
 	}
 
 	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteract(@Nonnull PlayerInteractBlockEvent event) {
-		if (!event.isLeftClick() || !event.getBlock().isPassable() || !event.isItem(Tag.ITEMS_SWORDS, Tag.ITEMS_AXES)) {
+		Player player = event.getPlayer();
+		if (!hasPermission(player) || !event.isLeftClick() || !event.getBlock().isPassable() || !event.isItem(Tag.ITEMS_SWORDS, Tag.ITEMS_AXES)) {
 			return;
 		}
 
-		RayTraceResult result = Players.rayTrace(event.getPlayer(), 3);
+		RayTraceResult result = Players.rayTrace(player, 3);
 		if (result != null && result.getHitEntity() != null) {
-			event.getPlayer().attack(result.getHitEntity());
+			player.attack(result.getHitEntity());
 		}
 	}
 }

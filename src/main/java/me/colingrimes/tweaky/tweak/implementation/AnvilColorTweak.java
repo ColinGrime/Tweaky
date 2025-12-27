@@ -24,21 +24,15 @@ public class AnvilColorTweak extends Tweak {
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		return TweakItem
-				.of(Material.ANVIL)
-				.name("&aColored Names")
-				.lore("&7Items can be colored in the anvil.")
-				.lore()
-				.lore("&8Minecraft Colors:")
-				.lore("&00&11&22&33&44&55&66&77&88&99&aa&bb&cc&dd&ee&ff")
-				.lore("&fk &7→ &k12345  &fl &7→ &lBold")
-				.lore("&fm &7→ &mStrike&r  &fn &7→ &nUline")
-				.lore("&fo &7→ &oItalic&r   &fr &7→ Reset")
-				.usage("&eUsage: &aPlace an item in an Anvil with the listed color codes.");
+		return menus.TWEAK_ANVIL_COLOR.get().material(Material.ANVIL);
 	}
 
 	@EventHandler
 	public void onPrepareAnvil(@Nonnull PrepareAnvilEvent event) {
+		if (!hasPermission(event.getView().getPlayer())) {
+			return;
+		}
+
 		String renameText = event.getView().getRenameText();
 		if (event.getResult() != null && renameText != null && renameText.contains("&")) {
 			event.setResult(Items.rename(event.getResult(), renameText));

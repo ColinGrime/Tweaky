@@ -29,23 +29,16 @@ public class XpFillTweak extends Tweak {
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		return TweakItem
-				.of(Material.EXPERIENCE_BOTTLE)
-				.name("&aXP Fill &8(Right Click)")
-				.lore("&7Click on an Enchanting Table to fill XP bottles.")
-				.lore()
-				.lore("&8Requires:")
-				.lore(" &7Glass Bottle &8(Default)")
-				.usage("&eUsage: &aRight Click on an Enchanting Table with Glass Bottles to convert them into XP bottles.");
+		return menus.TWEAK_XP_FILL.get().material(Material.EXPERIENCE_BOTTLE);
 	}
 
 	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteract(@Nonnull PlayerInteractBlockEvent event) {
-		if (!event.isRightClick() || !event.isItem(Material.GLASS_BOTTLE) || !event.isBlock(Material.ENCHANTING_TABLE)) {
+		Player player = event.getPlayer();
+		if (!hasPermission(player) || !event.isRightClick() || !event.isItem(Material.GLASS_BOTTLE) || !event.isBlock(Material.ENCHANTING_TABLE)) {
 			return;
 		}
 
-		Player player = event.getPlayer();
 		if (Experience.fromPlayer(player) >= settings.TWEAK_XP_FILL_COST.get()) {
 			Sounds.play(event.getBlock(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP);
 			Experience.remove(player, settings.TWEAK_XP_FILL_COST.get());

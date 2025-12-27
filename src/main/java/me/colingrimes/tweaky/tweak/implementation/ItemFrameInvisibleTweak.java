@@ -29,19 +29,16 @@ public class ItemFrameInvisibleTweak extends Tweak {
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		return TweakItem
-				.of(Material.ITEM_FRAME)
-				.name("&aToggle Item Frames &8(Sneak Right Click)")
-				.lore("&7Toggle the visibility of Item Frames.")
-				.lore()
-				.lore("&8Requires:")
-				.lore(" &7Shears &8(Default)")
-				.usage("&eUsage: &aSneak Right Click an Item Frame with Shears to toggle its visibility.");
+		return menus.TWEAK_ITEM_FRAME_INVISIBLE.get().material(Material.ITEM_FRAME);
 	}
 
 	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteract(@Nonnull PlayerInteractEntityEvent event) {
 		Player player = event.getPlayer();
+		if (!hasPermission(player)) {
+			return;
+		}
+
 		ItemStack item = player.getInventory().getItemInMainHand();
 		if (event.getRightClicked() instanceof ItemFrame frame && player.isSneaking() && item.getType() == Material.SHEARS) {
 			Sounds.play(frame, Sound.ITEM_SHEARS_SNIP);

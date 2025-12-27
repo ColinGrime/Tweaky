@@ -31,16 +31,13 @@ public class TorchThrowTweak extends Tweak {
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		return TweakItem
-				.of(Material.TORCH)
-				.name("&aTorch Placement &8(Throw)")
-				.lore("&7Places a Torch on the ground.")
-				.usage("&eUsage: &aThrow Torches on the ground to place them.");
+		return menus.TWEAK_TORCH_THROW.get().material(Material.TORCH);
 	}
 
 	@EventHandler
 	public void onPlayerDropItem(@Nonnull PlayerDropItemEvent event) {
-		if (event.getItemDrop().getItemStack().getType() != Material.TORCH) {
+		Player player = event.getPlayer();
+		if (!hasPermission(player) || event.getItemDrop().getItemStack().getType() != Material.TORCH) {
 			return;
 		}
 
@@ -60,7 +57,7 @@ public class TorchThrowTweak extends Tweak {
 			task.cancel();
 
 			Block block = item.getLocation().getBlock();
-			if (!Events.canPlace(event.getPlayer(), block, block.getRelative(BlockFace.DOWN))) {
+			if (!Events.canPlace(player, block, block.getRelative(BlockFace.DOWN))) {
 				return;
 			}
 

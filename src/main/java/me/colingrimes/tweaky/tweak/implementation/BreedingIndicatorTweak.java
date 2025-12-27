@@ -38,11 +38,7 @@ public class BreedingIndicatorTweak extends Tweak {
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		return TweakItem
-				.of(Material.COW_SPAWN_EGG)
-				.name("&aBreeding Indicator")
-				.lore("&7Shows when Mobs can breed again.")
-				.usage("&eUsage: &aAdds an indicator above Mobs to show when they can breed again.");
+		return menus.TWEAK_BREEDING_INDICATOR.get().material(Material.COW_SPAWN_EGG);
 	}
 
 	@Override
@@ -76,12 +72,14 @@ public class BreedingIndicatorTweak extends Tweak {
 
 	@EventHandler
 	public void onEntityBreed(@Nonnull EntityBreedEvent event) {
-		breedingEntities.put(event.getMother().getUniqueId(), Instant.now().plusSeconds(300));
-		breedingEntities.put(event.getFather().getUniqueId(), Instant.now().plusSeconds(300));
-		event.getMother().setCustomName(Text.color("&a5:00"));
-		event.getFather().setCustomName(Text.color("&a5:00"));
-		event.getMother().setCustomNameVisible(true);
-		event.getFather().setCustomNameVisible(true);
+		if (hasPermission(event.getBreeder())) {
+			breedingEntities.put(event.getMother().getUniqueId(), Instant.now().plusSeconds(300));
+			breedingEntities.put(event.getFather().getUniqueId(), Instant.now().plusSeconds(300));
+			event.getMother().setCustomName(Text.color("&a5:00"));
+			event.getFather().setCustomName(Text.color("&a5:00"));
+			event.getMother().setCustomNameVisible(true);
+			event.getFather().setCustomNameVisible(true);
+		}
 	}
 
 	/**

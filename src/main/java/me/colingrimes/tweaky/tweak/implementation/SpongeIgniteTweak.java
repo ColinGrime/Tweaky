@@ -9,6 +9,7 @@ import me.colingrimes.tweaky.util.bukkit.Sounds;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 
 import javax.annotation.Nonnull;
@@ -27,20 +28,13 @@ public class SpongeIgniteTweak extends Tweak {
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		return TweakItem
-				.of(Material.WET_SPONGE)
-				.name("&aIgnite Sponge &8(Right Click)")
-				.lore("&7Instantly dry out Wet Sponges.")
-				.lore()
-				.lore("&8Requires (1):")
-				.lore(" &7Flint & Steel")
-				.lore(" &7Fire Charge")
-				.usage("&eUsage: &aRight Click a Wet Sponge with a Flint & Steel or Fire Charge to dry it out.");
+		return menus.TWEAK_SPONGE_IGNITE.get().material(Material.WET_SPONGE);
 	}
 
 	@EventHandler
 	public void onPlayerInteract(@Nonnull PlayerInteractBlockEvent event) {
-		if (!event.isRightClick() || !event.isItem(Material.FLINT_AND_STEEL, Material.FIRE_CHARGE) || !event.isBlock(Material.WET_SPONGE) || !event.canModify()) {
+		Player player = event.getPlayer();
+		if (!hasPermission(player) || !event.isRightClick() || !event.isItem(Material.FLINT_AND_STEEL, Material.FIRE_CHARGE) || !event.isBlock(Material.WET_SPONGE) || !event.canModify()) {
 			return;
 		}
 
@@ -50,7 +44,7 @@ public class SpongeIgniteTweak extends Tweak {
 		event.setCancelled(true);
 
 		switch (event.getItemType()) {
-			case Material.FLINT_AND_STEEL -> Items.damage(event.getItem(), event.getPlayer());
+			case Material.FLINT_AND_STEEL -> Items.damage(event.getItem(), player);
 			case Material.FIRE_CHARGE -> Items.remove(event.getItem());
 		}
 	}

@@ -27,16 +27,12 @@ public class PetProtectionTweak extends Tweak {
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		return TweakItem
-				.of(Material.WOLF_SPAWN_EGG)
-				.name("&aPet Protection")
-				.lore("&7Protects your Pets from yourself.")
-				.usage("&eUsage: &aPrevents you from attacking your own Pet.");
+		return menus.TWEAK_PET_PROTECTION.get().material(Material.WOLF_SPAWN_EGG);
 	}
 
 	@EventHandler
 	public void onEntityDamageByEntity(@Nonnull EntityDamageByEntityEvent event) {
-		if (!(event.getEntity() instanceof Tameable tameable) || !(tameable.getOwner() instanceof Player owner)) {
+		if (!(event.getEntity() instanceof Tameable tameable) || !(tameable.getOwner() instanceof Player owner) || !hasPermission(owner)) {
 			return;
 		}
 

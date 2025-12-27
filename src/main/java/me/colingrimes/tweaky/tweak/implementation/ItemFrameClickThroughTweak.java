@@ -28,18 +28,13 @@ public class ItemFrameClickThroughTweak extends Tweak {
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		return TweakItem
-				.of(Material.ITEM_FRAME)
-				.name("&aClick Through Item Frames &8(Right Click)")
-				.lore("&7Open Chests with Item Frames on them.")
-				.usage("&eUsage: &aRight Click an Item Frame on a Chest to open it.")
-				.usage("         &aShift for normal behavior.");
+		return menus.TWEAK_ITEM_FRAME_CLICK_THROUGH.get().material(Material.ITEM_FRAME);
 	}
 
 	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteract(@Nonnull PlayerInteractEntityEvent event) {
 		Player player = event.getPlayer();
-		if (!(event.getRightClicked() instanceof ItemFrame frame) || player.isSneaking()) {
+		if (!hasPermission(player) || !(event.getRightClicked() instanceof ItemFrame frame) || player.isSneaking()) {
 			return;
 		}
 

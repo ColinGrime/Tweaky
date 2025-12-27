@@ -9,6 +9,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.EnchantingTable;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -23,6 +24,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.*;
 
 public class EnchantingLapisTweak extends Tweak {
@@ -42,11 +44,7 @@ public class EnchantingLapisTweak extends Tweak {
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		return TweakItem
-				.of(Material.LAPIS_LAZULI)
-				.name("&aLapis Store")
-				.lore("&7Permanently store Lapis in Enchanting Tables.")
-				.usage("&eUsage: &aLapis stays in the Lapis slot in Enchanting Tables when you close it.");
+		return menus.TWEAK_ENCHANTING_LAPIS.get().material(Material.LAPIS_LAZULI);
 	}
 
 	@Override
@@ -56,6 +54,11 @@ public class EnchantingLapisTweak extends Tweak {
 			viewer.closeInventory();
 		}));
 		shared.clear();
+	}
+
+	@Override
+	public boolean hasPermission(@Nullable Entity entity) {
+		return true;
 	}
 
 	@EventHandler

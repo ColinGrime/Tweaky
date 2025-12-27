@@ -6,10 +6,12 @@ import me.colingrimes.tweaky.tweak.Tweak;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Entity;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class RottenFleshToLeatherTweak extends Tweak {
 
@@ -28,11 +30,7 @@ public class RottenFleshToLeatherTweak extends Tweak {
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		return TweakItem
-				.of(Material.ROTTEN_FLESH)
-				.name("&aRotten Flesh to Leather &8(Smelt)")
-				.lore("&7Smelt Rotten Flesh into Leather.")
-				.usage("&eUsage: &aAllows you to smelt Rotten Flesh into Leather.");
+		return menus.TWEAK_ROTTEN_FLESH_TO_LEATHER.get().material(Material.ROTTEN_FLESH);
 	}
 
 	@Override
@@ -50,5 +48,10 @@ public class RottenFleshToLeatherTweak extends Tweak {
 	@Override
 	public void shutdown() {
 		Bukkit.removeRecipe(ROTTEN_FLESH_TO_LEATHER_KEY);
+	}
+
+	@Override
+	public boolean hasPermission(@Nullable Entity entity) {
+		return true;
 	}
 }

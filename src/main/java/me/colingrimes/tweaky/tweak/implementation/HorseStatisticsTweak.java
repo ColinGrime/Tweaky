@@ -3,7 +3,6 @@ package me.colingrimes.tweaky.tweak.implementation;
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
-import me.colingrimes.tweaky.util.text.Text;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -29,17 +28,13 @@ public class HorseStatisticsTweak extends Tweak {
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		return TweakItem
-				.of(Material.HORSE_SPAWN_EGG)
-				.name("&aHorse Statistics &8(Sneak Right Click)")
-				.lore("&7View the statistics of Horses.")
-				.usage("&eUsage: &aView the statistics (health-speed-jump) of Horses by sneak-right-click.");
+		return menus.TWEAK_HORSE_STATISTICS.get().material(Material.HORSE_SPAWN_EGG);
 	}
 
 	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteract(@Nonnull PlayerInteractEntityEvent event) {
 		Player player = event.getPlayer();
-		if (event.getHand() != EquipmentSlot.HAND || !player.isSneaking() || !(event.getRightClicked() instanceof AbstractHorse horse)) {
+		if (!hasPermission(player) || event.getHand() != EquipmentSlot.HAND || !player.isSneaking() || !(event.getRightClicked() instanceof AbstractHorse horse)) {
 			return;
 		}
 
@@ -50,12 +45,11 @@ public class HorseStatisticsTweak extends Tweak {
 			double speed = maxSpeed.getBaseValue();
 			double jump = horse.getJumpStrength();
 			player.sendMessage("");
-			for (String msg : settings.TWEAK_HORSE_STATISTICS_MESSAGE.get()) {
-				player.sendMessage(Text.color(msg
-						.replace("{health}", String.format("%.2f", health) + " HP")
-						.replace("{speed}", String.format("%.2f", convertSpeed(speed)) + " blocks/sec")
-						.replace("{jump}", String.format("%.2f", convertJump(jump)) + " blocks")));
-			}
+			settings.TWEAK_HORSE_STATISTICS_MESSAGE
+					.replace("{health}", String.format("%.2f", health) + " HP")
+					.replace("{speed}", String.format("%.2f", convertSpeed(speed)) + " blocks/sec")
+					.replace("{jump}", String.format("%.2f", convertJump(jump)) + " blocks")
+					.send(player);
 			player.sendMessage("");
 		}
 	}

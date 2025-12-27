@@ -51,45 +51,22 @@ public class SnowballTweak extends Tweak {
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		TweakItem item = TweakItem
-				.of(Material.SNOWBALL)
-				.name("&aSnowball Tweaks &8(" + getCount() + ")")
-				.usage("&eUsage: &aThrow Snowballs to activate the listed tweaks.");
-		if (settings.TWEAK_SNOWBALLS_DAMAGE.get()) {
-			item.lore("&a► &7Damage: &l" + settings.TWEAK_SNOWBALLS_DAMAGE_AMOUNT.get());
-		}
-		if (settings.TWEAK_SNOWBALLS_KNOCKBACK.get()) {
-			item.lore("&a► &7Knockback is increased.");
-		}
-		if (settings.TWEAK_SNOWBALLS_FORM_SNOW.get()) {
-			item.lore("&a► &7Form Snow on Blocks.");
-		}
-		if (settings.TWEAK_SNOWBALLS_ADD_SNOW_LAYER.get()) {
-			item.lore("&a► &7Adds Snow Layers to existing layers.");
-		}
-		if (settings.TWEAK_SNOWBALLS_FORM_ICE.get()) {
-			item.lore("&a► &7Freeze Water to Ice.");
-		}
-		if (settings.TWEAK_SNOWBALLS_BREAK_PLANTS.get()) {
-			item.lore("&a► &7Breaks Plants on hit.");
-		}
-		if (settings.TWEAK_SNOWBALLS_EXTINGUISH_ENTITIES.get()) {
-			item.lore("&a► &7Extinguish Mobs on hit.");
-		}
-		if (settings.TWEAK_SNOWBALLS_EXTINGUISH_FIRE.get()) {
-			item.lore("&a► &7Extinguish Fire on hit.");
-		}
-		return item;
+		return menus.TWEAK_SNOWBALLS.get()
+				.material(Material.SNOWBALL)
+				.placeholder("{count}", getCount())
+				.placeholder("{damage}", settings.TWEAK_SNOWBALLS_DAMAGE_AMOUNT.get());
 	}
 
 	@EventHandler
 	public void onProjectileHit(@Nonnull ProjectileHitEvent event) {
-		if (event.getEntity().getType() != EntityType.SNOWBALL) {
+		if (event.getEntity().getShooter() instanceof Player player && !hasPermission(player)) {
 			return;
 		}
 
-		hitTweaks(event);
-		blockTweaks(event);
+		if (event.getEntity().getType() == EntityType.SNOWBALL) {
+			hitTweaks(event);
+			blockTweaks(event);
+		}
 	}
 
 	private void hitTweaks(@Nonnull ProjectileHitEvent event) {
@@ -173,6 +150,10 @@ public class SnowballTweak extends Tweak {
 	//       we have to run a timer on snowball throw to detect midair collisions.
 	@EventHandler
 	public void onProjectileLaunch(@Nonnull ProjectileLaunchEvent event) {
+		if (event.getEntity().getShooter() instanceof Player player && !hasPermission(player)) {
+			return;
+		}
+
 		Entity snowball = event.getEntity();
 		if (event.getEntity().getType() != EntityType.SNOWBALL) {
 			return;

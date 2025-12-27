@@ -29,16 +29,12 @@ public class DoorDoubleTweak extends Tweak {
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		return TweakItem
-				.of(Material.SPRUCE_DOOR)
-				.name("&aDouble Doors")
-				.lore("&7Open connected Doors with 1 click.")
-				.usage("&eUsage: &aAllows the opening of connected Doors with 1 click.");
+		return menus.TWEAK_DOORS_DOUBLE.get().material(Material.SPRUCE_DOOR);
 	}
 
 	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteractBlock(@Nonnull PlayerInteractBlockEvent event) {
-		if (!event.isRightClick() || !event.isBlock(Tag.DOORS) || !event.canModify()) {
+		if (!hasPermission(event.getPlayer()) || !event.isRightClick() || !event.isBlock(Tag.DOORS) || !event.canModify()) {
 			return;
 		}
 

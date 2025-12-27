@@ -45,15 +45,15 @@ public class EntityEquipTweak extends Tweak {
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		return TweakItem
-				.of(Material.STONE_SWORD)
-				.name("&aEquip Mobs &8(Throw)")
-				.lore("&7Mobs will auto equip thrown items.")
-				.usage("&eUsage: &aThrowing items close to a Mob will cause them to auto equip it.");
+		return menus.TWEAK_ENTITY_EQUIP.get().material(Material.STONE_SWORD);
 	}
 
 	@EventHandler
 	public void onPlayerDropItem(@Nonnull PlayerDropItemEvent event) {
+		if (!hasPermission(event.getPlayer())) {
+			return;
+		}
+
 		Bukkit.getScheduler().runTaskLater(plugin, () -> {
 			if (event.getItemDrop().isDead()) {
 				return;

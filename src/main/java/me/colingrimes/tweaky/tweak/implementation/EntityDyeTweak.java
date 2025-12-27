@@ -7,6 +7,7 @@ import me.colingrimes.tweaky.util.bukkit.Items;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
@@ -28,20 +29,17 @@ public class EntityDyeTweak extends Tweak {
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		return TweakItem
-				.of(Material.RED_DYE)
-				.name("&aDye Mobs &8(Right Click)")
-				.lore("&7Change the color of named Mobs.")
-				.usage("&eUsage: &aRight Click on a Mob with a Dye to change its name color.");
+		return menus.TWEAK_ENTITY_DYE.get().material(Material.RED_DYE);
 	}
 
 	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteract(@Nonnull PlayerInteractEntityEvent event) {
-		if (event.getHand() != EquipmentSlot.HAND) {
+		Player player = event.getPlayer();
+		if (!hasPermission(player) || event.getHand() != EquipmentSlot.HAND) {
 			return;
 		}
 
-		ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
+		ItemStack item = player.getInventory().getItemInMainHand();
 		Entity entity = event.getRightClicked();
 		if (item.getType().name().endsWith("DYE") && entity.getCustomName() != null) {
 			entity.setCustomName(convertDye(item.getType()) + ChatColor.stripColor(entity.getCustomName()));

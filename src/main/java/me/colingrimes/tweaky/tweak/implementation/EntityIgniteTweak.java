@@ -31,20 +31,16 @@ public class EntityIgniteTweak extends Tweak {
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		return TweakItem
-				.of(Material.FLINT_AND_STEEL)
-				.name("&aIgnite Mobs &8(Right Click)")
-				.lore("&7Set any Mob on fire.")
-				.lore()
-				.lore("&8Requires (1):")
-				.lore(" &7Flint & Steel")
-				.lore(" &7Fire Charge")
-				.usage("&eUsage: &aRight Click a Mob with a Flint & Steel or Fire Charge to set it on fire.");
+		return menus.TWEAK_ENTITY_IGNITE.get().material(Material.FLINT_AND_STEEL);
 	}
 
 	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteractEntity(@Nonnull PlayerInteractEntityEvent event) {
 		Player player = event.getPlayer();
+		if (!hasPermission(player)) {
+			return;
+		}
+
 		EquipmentSlot hand = event.getHand();
 		if (!Players.shouldHandleHand(player, hand, i -> i.getType() == Material.FLINT_AND_STEEL || i.getType() == Material.FIRE_CHARGE)) {
 			return;

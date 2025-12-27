@@ -33,16 +33,14 @@ public class HappyGhastSpeedTweak extends Tweak {
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		return TweakItem
-				.of(Material.HAPPY_GHAST_SPAWN_EGG)
-				.name("&aIncreased Speed of Happy Ghasts")
-				.lore("&7Speed Multipler: &l" + settings.TWEAK_HAPPY_GHAST_SPEED_VALUE.get() + "x")
-				.usage("&eUsage: &aIncreases the speed of Happy Ghasts by &l" + settings.TWEAK_HAPPY_GHAST_SPEED_VALUE.get() + "x&a.");
+		return menus.TWEAK_HAPPY_GHAST_SPEED.get()
+				.material(Material.HAPPY_GHAST_SPAWN_EGG)
+				.placeholder("{speed}", settings.TWEAK_HAPPY_GHAST_SPEED_VALUE.get());
 	}
 
 	@EventHandler
 	public void onEntityMount(@Nonnull EntityMountEvent event) {
-		if (!(event.getMount() instanceof HappyGhast ghast)) {
+		if (!hasPermission(event.getEntity()) || !(event.getMount() instanceof HappyGhast ghast)) {
 			return;
 		}
 

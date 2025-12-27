@@ -37,19 +37,12 @@ public class WaterBottleConvertLavaTweak extends Tweak {
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		return TweakItem
-				.of(Material.SPLASH_POTION)
-				.name("&aWater Bottles Convert Lava &8(Throw)")
-				.lore("&7Converts Lava into Obsidian.")
-				.lore()
-				.lore("&8Requires:")
-				.lore(" &7Splash Water Bottle &8(Default)")
-				.usage("&eUsage: &aSplashing a Water Bottle into Lava converts it into Obsidian.");
+		return menus.TWEAK_WATER_BOTTLE_CONVERT_LAVA.get().material(Material.SPLASH_POTION);
 	}
 
 	@EventHandler
 	public void onProjectileLaunch(@Nonnull ProjectileLaunchEvent event) {
-		if (!(event.getEntity() instanceof SplashPotion potion)) {
+		if (!(event.getEntity() instanceof SplashPotion potion) || !(potion.getShooter() instanceof Player player) || !hasPermission(player)) {
 			return;
 		}
 
@@ -68,7 +61,7 @@ public class WaterBottleConvertLavaTweak extends Tweak {
 
 			// Check for permission.
 			Block block = potion.getLocation().getBlock();
-			if (potion.getShooter() instanceof Player player && !Events.canPlace(player, block, block.getRelative(BlockFace.DOWN))) {
+			if (!Events.canPlace(player, block, block.getRelative(BlockFace.DOWN))) {
 				return;
 			}
 

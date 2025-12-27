@@ -48,11 +48,7 @@ public class HappyGhastPlacementTweak extends Tweak {
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		return TweakItem
-				.of(Material.HAPPY_GHAST_SPAWN_EGG)
-				.name("&aPlace Blocks on Happy Ghasts")
-				.lore("&7Blocks can be placed on top of their heads.")
-				.usage("&eUsage: &aBlocks can be placed on top of Happy Ghast's heads.");
+		return menus.TWEAK_HAPPY_GHAST_PLACEMENT.get().material(Material.HAPPY_GHAST_SPAWN_EGG);
 	}
 
 	@Override
@@ -68,14 +64,16 @@ public class HappyGhastPlacementTweak extends Tweak {
 
 	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteract(@Nonnull PlayerInteractEvent event) {
-		if (event.getHand() == EquipmentSlot.HAND && placeOnGhast(event.getPlayer())) {
+		Player player = event.getPlayer();
+		if (hasPermission(player) && event.getHand() == EquipmentSlot.HAND && placeOnGhast(player)) {
 			event.setCancelled(true);
 		}
 	}
 
 	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteractEntity(@Nonnull PlayerInteractEntityEvent event) {
-		if (event.getRightClicked().getType() == EntityType.HAPPY_GHAST && placeOnGhast(event.getPlayer())) {
+		Player player = event.getPlayer();
+		if (hasPermission(player) && event.getRightClicked().getType() == EntityType.HAPPY_GHAST && placeOnGhast(player)) {
 			event.setCancelled(true);
 		}
 	}
@@ -119,6 +117,11 @@ public class HappyGhastPlacementTweak extends Tweak {
 	 */
 	private void getTarget(@Nonnull Player player) {
 		Target existing = targets.get(player);
+		if (!hasPermission(player)) {
+			removeTarget(player, existing);
+			return;
+		}
+
 		ItemStack item = player.getInventory().getItemInMainHand();
 		if (player.isInsideVehicle() || item.getType().isAir() || !item.getType().isBlock()) {
 			removeTarget(player, existing);

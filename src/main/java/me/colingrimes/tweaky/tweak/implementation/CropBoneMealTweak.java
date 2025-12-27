@@ -40,18 +40,14 @@ public class CropBoneMealTweak extends Tweak {
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		return TweakItem
-				.of(Material.NETHER_WART)
-				.name("&aBone Meal Anything")
-				.lore("&7Can be used on any Crop.")
-				.usage("&eUsage: &aUse Bone Meal on any Crop to make it grow.");
+		return menus.TWEAK_CROPS_BONE_MEAL.get().material(Material.NETHER_WART);
 	}
 
 	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteract(@Nonnull PlayerInteractEvent event) {
 		Player player = event.getPlayer();
 		EquipmentSlot hand = event.getHand();
-		if (hand == null || !Players.shouldHandleHand(player, hand, i -> i.getType() == Material.BONE_MEAL)) {
+		if (!hasPermission(player) || hand == null || !Players.shouldHandleHand(player, hand, i -> i.getType() == Material.BONE_MEAL)) {
 			return;
 		}
 

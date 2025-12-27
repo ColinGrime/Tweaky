@@ -30,19 +30,12 @@ public class AnvilRepairTweak extends Tweak {
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		return TweakItem
-				.of(Material.DAMAGED_ANVIL)
-				.name("&aAnvil Repair &8(Right Click)")
-				.lore("&7Repair an Anvil by 1 level.")
-				.lore()
-				.lore("&8Requires:")
-				.lore(" &7Iron Block &8(Default)")
-				.usage("&eUsage: &aRight Click an Anvil with an Iron Block to repair it.");
+		return menus.TWEAK_ANVIL_REPAIR.get().material(Material.DAMAGED_ANVIL);
 	}
 
 	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteract(@Nonnull PlayerInteractBlockEvent event) {
-		if (!event.isRightClick() || !event.isItem(Material.IRON_BLOCK) || !event.isBlock(Material.CHIPPED_ANVIL, Material.DAMAGED_ANVIL)) {
+		if (!hasPermission(event.getPlayer()) || !event.isRightClick() || !event.isItem(Material.IRON_BLOCK) || !event.isBlock(Material.CHIPPED_ANVIL, Material.DAMAGED_ANVIL)) {
 			return;
 		}
 

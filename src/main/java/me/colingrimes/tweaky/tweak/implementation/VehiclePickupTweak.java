@@ -33,17 +33,13 @@ public class VehiclePickupTweak extends Tweak {
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		return TweakItem
-				.of(Material.MINECART)
-				.name("&aVehicle Pickup &8(Sneak Right Click)")
-				.lore("&7Boats and Minecarts can be picked up.")
-				.usage("&eUsage: &aBoats and Minecarts can be picked up by sneak-right-click.");
+		return menus.TWEAK_VEHICLE_PICKUP.get().material(Material.MINECART);
 	}
 
 	@EventHandler
 	public void onPlayerInteract(@Nonnull PlayerInteractEntityEvent event) {
 		Player player = event.getPlayer();
-		if (event.getHand() != EquipmentSlot.HAND || !player.isSneaking() || !(event.getRightClicked() instanceof Vehicle vehicle)) {
+		if (!hasPermission(player) || event.getHand() != EquipmentSlot.HAND || !player.isSneaking() || !(event.getRightClicked() instanceof Vehicle vehicle)) {
 			return;
 		}
 

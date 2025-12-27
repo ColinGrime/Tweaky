@@ -4,10 +4,12 @@ import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import org.bukkit.Material;
+import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityExplodeEvent;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class PortalProtectionTweak extends Tweak {
 
@@ -23,11 +25,12 @@ public class PortalProtectionTweak extends Tweak {
 	@Nonnull
 	@Override
 	public TweakItem getGuiItem() {
-		return TweakItem
-				.of(Material.OBSIDIAN)
-				.name("&aPortal Protection")
-				.lore("&7Protects Nether Portals from explosions.")
-				.usage("&eUsage: &aNether Portals can no longer be destroyed by explosions.");
+		return menus.TWEAK_PORTAL_PROTECTION.get().material(Material.OBSIDIAN);
+	}
+
+	@Override
+	public boolean hasPermission(@Nullable Entity entity) {
+		return true;
 	}
 
 	@EventHandler

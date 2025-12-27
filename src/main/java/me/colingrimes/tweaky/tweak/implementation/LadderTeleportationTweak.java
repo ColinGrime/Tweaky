@@ -58,18 +58,8 @@ public class LadderTeleportationTweak extends Tweak {
 	public TweakItem getGuiItem() {
 		Control control = Util.parse(Control.class, settings.TWEAK_LADDER_TELEPORTATION_CONTROL.get());
 		return switch (control) {
-			case Automatic ->
-					TweakItem
-							.of(Material.LADDER)
-							.name("&aLadder Teleportation")
-							.lore("&7Walk into a Ladder to teleport.")
-							.usage("&eUsage: &aTeleport up or down by walking into a Ladder.");
-			case Manual ->
-					TweakItem
-							.of(Material.LADDER)
-							.name("&aLadder Teleportation &8(Look Up or Down)")
-							.lore("&7Look straight up or down to teleport.")
-							.usage("&eUsage: &aTeleport by looking straight up or down while walking into a Ladder.");
+			case Automatic -> menus.TWEAK_LADDER_TELEPORTATION_AUTOMATIC.get().material(Material.LADDER);
+			case Manual -> menus.TWEAK_LADDER_TELEPORTATION_MANUAL.get().material(Material.LADDER);
 			case null -> super.getGuiItem();
 		};
 	}
@@ -82,7 +72,7 @@ public class LadderTeleportationTweak extends Tweak {
 		}
 
 		Player player = event.getPlayer();
-		if (!player.isClimbing() || !(to.getBlock().getBlockData() instanceof Ladder ladder)) {
+		if (!hasPermission(player) || !player.isClimbing() || !(to.getBlock().getBlockData() instanceof Ladder ladder)) {
 			return;
 		}
 
