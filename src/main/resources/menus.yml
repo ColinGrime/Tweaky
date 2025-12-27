@@ -1,0 +1,325 @@
+# Below you can edit the names, lores, and usage messages in the '/tweaks' menu.
+# The ordering in this file does not matter (it gets reordered automatically).
+tweak-menu:
+  name: "&8Tweaks (&2{count}&8)"
+  tweaks:
+    anvil-color:
+      name: "&aColored Names"
+      lore:
+        - "&7Items can be colored in the anvil."
+        - ""
+        - "&8Minecraft Colors:"
+        - "&00&11&22&33&44&55&66&77&88&99&aa&bb&cc&dd&ee&ff"
+        - "&fk &7→ &k12345  &fl &7→ &lBold"
+        - "&fm &7→ &mStrike&r  &fn &7→ &nUline"
+        - "&fo &7→ &oItalic&r   &fr &7→ Reset"
+      usage: "&eUsage: &aPlace an item in an Anvil with the listed color codes."
+    anvil-repair:
+      name: "&aAnvil Repair &8(Right Click)"
+      lore:
+        - "&7Repair an Anvil by 1 level."
+        - ""
+        - "&8Requires:"
+        - " &7Iron Block &8(Default)"
+      usage: "&eUsage: &aRight Click an Anvil with an Iron Block to repair it."
+    armor-swap:
+      name: "&aArmor Swap &8(Sneak)"
+      lore: "&7Armor Stands can quick swap Armor."
+      usage: "&eUsage: &aSneak over an Armor Stand to quick swap Armor."
+    bee-capture:
+      name: "&aBee Capture &8(Right Click)"
+      lore:
+        - "&7Click on Bees to capture them."
+        - ""
+        - "&8Requires (1):"
+        - " &7Bee Nest"
+        - " &7Beehive"
+      usage: "&eUsage: &aRight Click a Bee with a Bee Nest to capture it."
+    break-deepslate:
+      name: "&aDeepslate Break"
+      lore:
+        - "&7Instantly break Deepslate."
+        - ""
+        - "&8Requires:"
+        - " &7Netherite Pick, Eff 5, Haste II."
+      usage: "&eUsage: &aBreak Deepslate instantly with a Netherite Pickaxe, Efficiency V, and Haste II."
+    # Only shows the one you have active in the config.yml file.
+    break-ender-chest:
+      drop:
+        name: "&aEnder Chest Break"
+        lore: "&7Always drops, even without Silk Touch."
+        usage: "&eUsage: &aEnder Chests always drop when broken."
+      protection:
+        name: "&aEnder Chest Break"
+        lore: "&7Cannot be broken without Silk Touch."
+        usage: "&eUsage: &aEnder Chests cannot be broken without Silk Touch."
+    break-glass:
+      name: "&aGlass Break"
+      lore:
+        - "&7Instantly break Glass."
+        - ""
+        - "&8Requires:"
+        - " &7Netherite Pickaxe"
+      usage: "&eUsage: &aBreak Glass instantly with the listed tools."
+    break-leaves:
+      name: "&aLeaves Break"
+      lore:
+        - "&7Breaks an extra block on each side."
+        - ""
+        - "&8Requires:"
+        - " &7Hoe &8(Default)"
+        - " &7Netherite Hoe &8(3x3x3)"
+      usage: "&eUsage: &aBreaking Leaves with a Hoe will break an extra block on each side. Netherite Hoes → 3x3x3."
+    break-plants:
+      name: "&aPlants Break"
+      lore:
+        - "&7Breaks a radius of plants."
+        - ""
+        - "&8Requires:"
+        - " &7Hoe &8(3x3)"
+        - " &7Netherite Hoe &8(5x5)"
+      usage:
+        - "&eUsage: &aBreak Plants with a Hoe to 3x3 break them."
+        - "         &aUsing a Netherite Hoe → 5x5 break."
+    breeding-indicator:
+      name: "&aBreeding Indicator"
+      lore: "&7Shows when Mobs can breed again."
+      usage: "&eUsage: &aAdds an indicator above Mobs to show when they can breed again."
+    cauldron-concrete:
+      name: "&aCauldron Concrete &8(Throw)"
+      lore: "&7Turn Concrete Powder into Concrete."
+      usage: "&eUsage: &aThrow Concrete Powder into a Cauldron for Concrete."
+    cauldron-mud:
+      name: "&aCauldron Mud &8(Throw)"
+      lore: "&7Turn Dirt into Mud."
+      usage: "&eUsage: &aThrow Dirt into a Cauldron for Mud."
+    coordinates:
+      name: "&aCoordinates &8(Command)"
+      lore: "&7Toggle your coordinates."
+      usage: "&eUsage: &aType /coords &ato toggle your coordinates."
+    crops-bone-meal:
+      name: "&aBone Meal Anything"
+      lore: "&7Can be used on any Crop."
+      usage: "&eUsage: &aUse Bone Meal on any Crop to make it grow."
+    crops-harvest:
+      name: "&aHarvest Crops &8(Right Click)"
+      lore:
+        - "&7Instantly harvest Crops."
+        - ""
+        - "&8Requires:"
+        - " &7Hoe &8(Any)"
+      usage: "&eUsage: &aRight Click a Crop with a Hoe to instantly harvest & replant."
+    crops-protection:
+      name: "&aCrop Protection"
+      lore: "&7Prevents the trampling of Crops."
+      usage: "&eUsage: &aPrevents the trampling of Crops when jumped on."
+    death-notify:
+      name: "&aDeath Notify &8(Die)"
+      lore: "&7Notifies where you died."
+      usage: "&eUsage: &aNotifies you of your death location."
+    doors-double:
+      name: "&aDouble Doors"
+      lore: "&7Open connected Doors with 1 click."
+      usage: "&eUsage: &aAllows the opening of connected Doors with 1 click."
+    doors-iron:
+      name: "&aIron Doors &8(Right Click)"
+      lore: "&7Open Iron Doors with your hands."
+      usage: "&eUsage: &aAllows the opening of Iron Doors."
+    drops-magnet:
+      name: "&aDrops Magnet &8(Break)"
+      lore: "&7Broken blocks get boosted towards you."
+      usage: "&eUsage: &aBreaking blocks nearby will cause their item drops to go towards you a little."
+    enchanting-lapis:
+      name: "&aLapis Store"
+      lore: "&7Permanently store Lapis in Enchanting Tables."
+      usage: "&eUsage: &aLapis stays in the Lapis slot in Enchanting Tables when you close it."
+    entity-dye:
+      name: "&aDye Mobs &8(Right Click)"
+      lore: "&7Change the color of named Mobs."
+      usage: "&eUsage: &aRight Click on a Mob with a Dye to change its name color."
+    entity-equip:
+      name: "&aEquip Mobs &8(Throw)"
+      lore: "&7Mobs will auto equip thrown items."
+      usage: "&eUsage: &aThrowing items close to a Mob will cause them to auto equip it."
+    entity-ignite:
+      name: "&aIgnite Mobs &8(Right Click)"
+      lore:
+        - "&7Set any Mob on fire."
+        - ""
+        - "&8Requires (1):"
+        - " &7Flint & Steel"
+        - " &7Fire Charge"
+      usage: "&eUsage: &aRight Click a Mob with a Flint & Steel or Fire Charge to set it on fire."
+    entity-silence:
+      name: "&aSilence Mobs"
+      lore:
+        - "&7Name a Mob \"&esilence&7\" to make it silent."
+        - "&7Name a Mob \"&eunsilence&7\" to make it audible."
+      usage: "&eUsage: &aName a Mob \"silence\" or \"unsilence\" to toggle its sound."
+    happy-ghast-placement:
+      name: "&aPlace Blocks on Happy Ghasts"
+      lore: "&7Blocks can be placed on top of their heads."
+      usage: "&eUsage: &aBlocks can be placed on top of Happy Ghast's heads."
+    happy-ghast-speed:
+      name: "&aIncreased Speed of Happy Ghasts"
+      lore: "&7Speed Multipler: &e{speed}x"
+      usage: "&eUsage: &aIncreases the speed of Happy Ghasts by &e{speed}x&a."
+    hay-bale-bread:
+      name: "&aHarvest Hay Bale &8(Right Click)"
+      lore:
+        - "&7Automatically crafts & drops bread."
+        - ""
+        - "&8Requires:"
+        - " &7Hoe &8(Any)"
+      usage: "&eUsage: &aRight Click a Hay Bale with a Hoe to automatically craft and drop Bread."
+    horse-statistics:
+      name: "&aHorse Statistics &8(Sneak Right Click)"
+      lore: "&7View the statistics of Horses."
+      usage: "&eUsage: &aView the statistics (health-speed-jump) of Horses by sneak-right-click."
+    inventory-crafting:
+      name: "&aInventory Crafting &8(Right Click)"
+      lore: "&7Open up a Crafting Table in your inventory."
+      usage: "&eUsage: &aRight Click a Crafting Table in your inventory to open it."
+    item-frame-click-through:
+      name: "&aClick Through Item Frames &8(Right Click)"
+      lore: "&7Open Chests with Item Frames on them."
+      usage:
+        - "&eUsage: &aRight Click an Item Frame on a Chest to open it."
+        - "         &aShift for normal behavior."
+    item-frame-invisible:
+      name: "&aToggle Item Frames &8(Sneak Right Click)"
+      lore:
+        - "&7Toggle the visibility of Item Frames."
+        - ""
+        - "&8Requires:"
+        - " &7Shears &8(Default)"
+      usage: "&eUsage: &aSneak Right Click an Item Frame with Shears to toggle its visibility."
+    ladder-placement:
+      name: "&aLadder Placement &8(Right Click)"
+      lore:
+        - "&7Click on existing Ladders to expand Ladder."
+        - ""
+        - "&8Requires:"
+        - " &7Ladder &8(Default)"
+      usage: "&eUsage: &aPlace Ladders up or down depending on your direction by right-clicking existing Ladders."
+    # Only shows the one you have active in the config.yml file.
+    ladder-teleportation:
+      automatic:
+        name: "&aLadder Teleportation"
+        lore: "&7Walk into a Ladder to teleport."
+        usage: "&eUsage: &aTeleport up or down by walking into a Ladder."
+      manual:
+        name: "&aLadder Teleportation &8(Look Up or Down)"
+        lore: "&7Look straight up or down to teleport."
+        usage: "&eUsage: &aTeleport by looking straight up or down while walking into a Ladder."
+    pet-protection:
+      name: "&aPet Protection"
+      lore: "&7Protects your Pets from yourself."
+      usage: "&eUsage: &aPrevents you from attacking your own Pet."
+    portal-protection:
+      name: "&aPortal Protection"
+      lore: "&7Protects Nether Portals from explosions."
+      usage: "&eUsage: &aNether Portals can no longer be destroyed by explosions."
+    recipe-unlock-all:
+      name: "&aUnlock All Recipes"
+      lore: "&7All recipes are unlocked."
+      usage: "&eUsage: &aAutomatically unlock all recipes."
+    revert-farmland:
+      name: "&aRevert Farmland &8(Sneak Right Click)"
+      lore:
+        - "&7Goes back to Dirt."
+        - ""
+        - "&8Requires:"
+        - " &7Hoe &8(Any)"
+      usage: "&eUsage: &aSneak Right Click on Farmland with a Hoe to revert it back to Dirt."
+    revert-path:
+      name: "&aRevert Path &8(Sneak Right Click)"
+      lore:
+        - "&7Goes back to Dirt."
+        - ""
+        - "&8Requires:"
+        - " &7Shovel &8(Any)"
+      usage: "&eUsage: &aSneak Right Click on Dirt Paths with a Shovel to revert it back to Dirt."
+    revert-stripped:
+      name: "&aRevert Stripped &8(Sneak Right Click)"
+      lore:
+        - "&7Goes back to previous Log or Stem variant."
+        - ""
+        - "&8Requires:"
+        - " &7Axe &8(Any)"
+      usage: "&eUsage: &aSneak Right Click on a Stripped Log or Stem with an Axe to revert it back to its previous variant."
+    rotten-flesh-to-leather:
+      name: "&aRotten Flesh to Leather &8(Smelt)"
+      lore: "&7Smelt Rotten Flesh into Leather."
+      usage: "&eUsage: &aAllows you to smelt Rotten Flesh into Leather."
+    snowballs:
+      name: "&aSnowball Tweaks &8({count})"
+      # Only shows the ones you have active in the config.yml file.
+      lore:
+        damage: "&a► &7Damage: &l{damage}"
+        knockback: "&a► &7Knockback is increased."
+        form-snow: "&a► &7Form Snow on Blocks."
+        add-snow-layer: "&a► &7Adds Snow Layers to existing layers."
+        form-ice: "&a► &7Freeze Water to Ice."
+        break-plants: "&a► &7Breaks Plants on hit."
+        extinguish-entities: "&a► &7Extinguish Mobs on hit."
+        extinguish-fire: "&a► &7Extinguish Fire on hit."
+      usage: "&eUsage: &aThrow Snowballs to activate the listed tweaks."
+    sponge-ignite:
+      name: "&aIgnite Sponge &8(Right Click)"
+      lore:
+        - "&7Instantly dry out Wet Sponges."
+        - ""
+        - "&8Requires (1):"
+        - " &7Flint & Steel"
+        - " &7Fire Charge"
+      usage: "&eUsage: &aRight Click a Wet Sponge with a Flint & Steel or Fire Charge to dry it out."
+    torch-throw:
+      name: "&aTorch Placement &8(Throw)"
+      lore: "&7Places a Torch on the ground."
+      usage: "&eUsage: &aThrow Torches on the ground to place them."
+    vehicle-pickup:
+      name: "&aVehicle Pickup &8(Sneak Right Click)"
+      lore: "&7Boats and Minecarts can be picked up."
+      usage: "&eUsage: &aBoats and Minecarts can be picked up by sneak-right-click."
+    villager-follow:
+      name: "&aVillager Follow"
+      lore:
+        - "&7Follows you if you have an Emerald out."
+        - ""
+        - "&8Requires:"
+        - " &7Emerald &8(Default)"
+      usage: "&eUsage: &aVillagers will follow you if you are holding an Emerald."
+    water-bottle-convert-lava:
+      name: "&aWater Bottles Convert Lava &8(Throw)"
+      lore:
+        - "&7Converts Lava into Obsidian."
+        - ""
+        - "&8Requires:"
+        - " &7Splash Water Bottle &8(Default)"
+      usage: "&eUsage: &aSplashing a Water Bottle into Lava converts it into Obsidian."
+    water-bottle-craft:
+      name: "&aWater Bottle Craft &8(Craft)"
+      lore:
+        - "&7Craft Splash Water Bottles."
+        - ""
+        - "&8Requires:"
+        - " &7Water Bucket &8(Default)"
+      usage: "&eUsage: &aConvert a Water Bucket into Splash Water Bottles."
+    weapon-swing-through:
+      name: "&aWeapon Swing Through"
+      lore:
+        - "&7Attacks pass through passable blocks."
+        - ""
+        - "&8Requires:"
+        - " &7Sword &8(Any)"
+        - " &7Axe &8(Any)"
+      usage: "&eUsage: &aWeapon attacks can swing through passable blocks to hit Mobs."
+    xp-fill:
+      name: "&aXP Fill &8(Right Click)"
+      lore:
+        - "&7Click on an Enchanting Table to fill XP bottles."
+        - ""
+        - "&8Requires:"
+        - " &7Glass Bottle &8(Default)"
+      usage: "&eUsage: &aRight Click on an Enchanting Table with Glass Bottles to convert them into XP bottles."

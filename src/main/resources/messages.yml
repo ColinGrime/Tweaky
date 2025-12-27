@@ -1,0 +1,24 @@
+# Messages that regular players can receive.
+player:
+  no-permission: "&7[&eTweaky&7] &cYou lack the required permission for this command."
+
+# Messages that only admins can receive.
+admin:
+  general:
+    list: "&6Loaded Tweaks &7(&f{enabled}/{amount}&7): {tweaks}"
+  success:
+    toggle-on: "&7[&eTweaky&7] &aYou have toggled on the &e{tweak} &atweak."
+    toggle-off: "&7[&eTweaky&7] &cYou have toggled off the &e{tweak} &ctweak."
+    reloaded: "&7[&eTweaky&7] &aReloaded configuration files. Registered &e{amount} &atweaks."
+  failure:
+    invalid-tweak: "&7[&eTweaky&7] &cThere is no tweak with the name &e{tweak}&c."
+  usage:
+    tweaky:
+      - "&8&l&m━━━━━━━━━━━━━━&7 &e&lTweaky &cAdmin Commands &8&l&m━━━━━━━━━━━━━━"
+      - "&7- &c/tweaky list &e: &7Lists all enabled/disabled tweaks."
+      - "&7- &c/tweaky toggle <tweak_id> &e: &7Toggles the specific tweak."
+      - "&7- &c/tweaky reload &e: &7Reloads config files."
+      - "&8&l&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    tweaky-toggle:
+      - "&eUsage: &c/tweaky toggle <tweak_id>"
+      - "&c► &7Toggles the specific tweak."
