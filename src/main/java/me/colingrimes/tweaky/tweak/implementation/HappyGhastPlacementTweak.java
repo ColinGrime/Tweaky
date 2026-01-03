@@ -62,7 +62,7 @@ public class HappyGhastPlacementTweak extends Tweak {
 		targets.values().forEach(t -> t.blockDisplay.remove());
 	}
 
-	@EventHandler(ignoreCancelled = true)
+	@EventHandler
 	public void onPlayerInteract(@Nonnull PlayerInteractEvent event) {
 		Player player = event.getPlayer();
 		if (hasPermission(player) && event.getHand() == EquipmentSlot.HAND && placeOnGhast(player)) {
