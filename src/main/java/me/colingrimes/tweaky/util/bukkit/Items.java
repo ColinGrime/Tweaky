@@ -112,8 +112,15 @@ public final class Items {
 			return;
 		}
 
+		int maxDamage;
+		if (damageable.hasMaxDamage()) {
+			maxDamage = damageable.getMaxDamage();
+		} else {
+			maxDamage = item.getType().getMaxDurability();
+		}
+
 		int damage = damageable.getDamage() + 1;
-		if (damage < item.getType().getMaxDurability()) {
+		if (damage < maxDamage) {
 			damageable.setDamage(damage);
 			item.setItemMeta(damageable);
 		} else {
@@ -147,7 +154,7 @@ public final class Items {
 
 		protected final Map<String, String> placeholders = new HashMap<>();
 		private final Material defMaterial;
-		private final ItemStack baseItem;
+		private ItemStack baseItem;
 
 		private Material material;
 		private String name;
@@ -167,6 +174,18 @@ public final class Items {
 			this.baseItem = base;
 			this.name = base.getItemMeta().hasDisplayName() ? base.getItemMeta().getDisplayName() : null;
 			this.lore = base.getItemMeta().hasLore() ? base.getItemMeta().getLore() : new ArrayList<>();
+		}
+
+		/**
+		 * Sets the {@link ItemStack} of the item.
+		 *
+		 * @param base the base item stack to build on
+		 * @return the item builder object
+		 */
+		@Nonnull
+		public Builder item(@Nullable ItemStack base) {
+			this.baseItem = base;
+			return this;
 		}
 
 		/**
