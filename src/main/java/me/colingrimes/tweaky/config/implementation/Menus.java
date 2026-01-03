@@ -108,6 +108,11 @@ public class Menus extends Configuration {
 		return item;
 	});
 
+	// Drop Filter Menu
+	public final Message<?> FILTER_MENU_TITLE     = message("filter-menu.title", "&8Drop Filter");
+	public final Message<?> FILTER_MENU_ITEM_NAME = message("filter-menu.item-name", "&a{item}");
+	public final Message<?> FILTER_MENU_ITEM_LORE = message("filter-menu.item-lore", "&7Click to Remove");
+
 	public Menus(@Nonnull Tweaky plugin) {
 		super(plugin, "menus.yml");
 		this.plugin = plugin;

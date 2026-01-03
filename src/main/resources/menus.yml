@@ -353,3 +353,9 @@ tweak-menu:
         - "&8Requires:"
         - " &7Glass Bottle &8(Default)"
       usage: "&eUsage: &aRight Click on an Enchanting Table with Glass Bottles to convert them into XP bottles."
+
+# Allows you to edit the Drop Filter menu (tweak: drops-filter).
+filter-menu:
+  title: "&8Drop Filter"
+  item-name: "&a{item}"
+  item-lore: "&7Click to Remove"

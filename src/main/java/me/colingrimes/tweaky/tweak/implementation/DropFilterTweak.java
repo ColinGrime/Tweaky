@@ -97,7 +97,7 @@ public class DropFilterTweak extends ToggleTweak {
 
 	private class FilterMenu extends Gui {
 		public FilterMenu(@Nonnull Player player) {
-			super(player, "&8Drop Filter", 6);
+			super(player, menus.FILTER_MENU_TITLE.toText(), 6);
 		}
 
 		@Override
@@ -105,7 +105,9 @@ public class DropFilterTweak extends ToggleTweak {
 			List<Material> materials = filter.get(player.getUniqueId());
 			for (int i=0; i<Math.min(54, materials.size()); i++) {
 				Material type = materials.get(i);
-				ItemStack preview = Items.of(type).name("&a" + Text.format(type.name())).lore("&7Click to Remove").build();
+				String name = menus.FILTER_MENU_ITEM_NAME.replace("{item}", Text.format(type.name())).toText();
+				List<String> lore = menus.FILTER_MENU_ITEM_LORE.toTextList();
+				ItemStack preview = Items.of(type).name(name).lore(lore).build();
 				getSlot(i).setItem(preview).bind(this::remove, ClickType.LEFT, ClickType.RIGHT);
 			}
 
@@ -130,14 +132,15 @@ public class DropFilterTweak extends ToggleTweak {
 				return;
 			}
 
-			Material type = item.getType();
 			for (int i=0; i<inventory.getSize(); i++) {
 				if (getSlot(i).getItem() != null) {
 					continue;
 				}
 
-				String name = Text.format(type.name());
-				ItemStack preview = Items.of(type).name("&a" + name).lore("&7Click to Remove").build();
+				Material type = item.getType();
+				String name = menus.FILTER_MENU_ITEM_NAME.replace("{item}", Text.format(type.name())).toText();
+				List<String> lore = menus.FILTER_MENU_ITEM_LORE.toTextList();
+				ItemStack preview = Items.of(type).name(name).lore(lore).build();
 				getSlot(i).setItem(preview).bind(this::remove, ClickType.LEFT, ClickType.RIGHT);
 
 				msg.TWEAK_FILTER_ADD.replace("{item}", name).send(player);
