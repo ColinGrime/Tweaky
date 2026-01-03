@@ -20,6 +20,8 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionType;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -77,10 +79,25 @@ public class DropFilterTweak extends ToggleTweak {
 
 	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteract(@Nonnull PlayerInteractBlockEvent event) {
-		if (hasPermission(event.getPlayer()) && event.isRightClick() && event.isBlock(Tag.CAULDRONS) && !event.getPlayer().isSneaking()) {
-			new FilterMenu(event.getPlayer()).open();
-			event.setCancelled(true);
+		Player player = event.getPlayer();
+		if (!hasPermission(player) || !event.isRightClick() || !event.isBlock(Tag.CAULDRONS) || player.isSneaking()) {
+			return;
 		}
+
+		ItemStack item = player.getInventory().getItemInMainHand();
+		Material type = item.getType();
+		if (type == Material.BUCKET ||
+				type == Material.WATER_BUCKET ||
+				type == Material.LAVA_BUCKET ||
+				type == Material.POWDER_SNOW_BUCKET ||
+				type == Material.GLASS_BOTTLE ||
+				(item.getItemMeta() instanceof PotionMeta potion && potion.getBasePotionType() == PotionType.WATER)) {
+			return;
+		}
+
+		player.swingMainHand();
+		new FilterMenu(player).open();
+		event.setCancelled(true);
 	}
 
 	@EventHandler
