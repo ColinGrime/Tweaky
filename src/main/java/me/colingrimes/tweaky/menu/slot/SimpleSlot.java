@@ -56,8 +56,8 @@ public class SimpleSlot implements Slot {
 
 	@Nonnull
 	@Override
-	public Slot setItem(@Nonnull ItemStack item) {
-		this.gui.getHandle().setItem(id, Objects.requireNonNull(item, "Item is null."));
+	public Slot setItem(@Nullable ItemStack item) {
+		this.gui.getHandle().setItem(id, item);
 		return this;
 	}
 

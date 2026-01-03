@@ -37,6 +37,7 @@ public class TweakMenu extends Gui {
 			"doors_iron",
 			"enchanting_lapis",
 			"xp_fill",
+			"fortune_silk_swap",
 			"armor_swap",
 			"entity_ignite",
 			"entity_silence",
@@ -45,6 +46,7 @@ public class TweakMenu extends Gui {
 			"happy_ghast_placement",
 			"happy_ghast_speed",
 			"portal_protection",
+			"inventory_ender_chest",
 			"inventory_crafting",
 			"recipe_unlock_all",
 			"item_frame_click_through",
@@ -55,6 +57,7 @@ public class TweakMenu extends Gui {
 			"bee_capture",
 			"sponge_ignite",
 			"vehicle_pickup",
+			"drops_filter",
 			"drops_magnet",
 			"rotten_flesh_to_leather",
 			"snowballs",
@@ -66,7 +69,8 @@ public class TweakMenu extends Gui {
 			"revert_path",
 			"revert_stripped",
 			"water_bottle_convert_lava",
-			"water_bottle_craft"
+			"water_bottle_craft",
+			"night_vision"
 	);
 
 	private final Tweaky plugin;

@@ -4,6 +4,7 @@ import me.colingrimes.tweaky.util.bukkit.Items;
 import me.colingrimes.tweaky.util.text.Text;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
+import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -31,6 +32,13 @@ public class TweakItem extends Items.Builder {
 
 	public TweakItem(@Nonnull Material def) {
 		super(def);
+	}
+
+	@Nonnull
+	@Override
+	public TweakItem item(@Nullable ItemStack base) {
+		super.item(base);
+		return this;
 	}
 
 	@Nonnull

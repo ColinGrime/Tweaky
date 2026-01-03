@@ -16,8 +16,6 @@ tweaks:
     # - Drop (ender chests always drop, even without silk touch)
     # - Protection (ender chests cannot be broken without silk touch)
     mode: Protection
-    # Message to send to player if they attempt to break an ender chest without silk touch.
-    protection-message: "&2[Protected] &aYour Pickaxe needs &2Silk Touch &ato break this."
   # Glass breaks instantly when broken by the materials below.
   break-glass:
     toggle: false
@@ -41,11 +39,7 @@ tweaks:
     use-water: false
   # Allows players to view their coordinates in the Action Bar.
   # This gives them permission to the '/coordinates' command to toggle it.
-  coordinates:
-    toggle: false
-    # I think it's pretty cool to have different colors for day/night.
-    message-day: "&7(&a{x}&7, &a{y}&7, &a{z}&7)"
-    message-night: "&7(&c{x}&7, &c{y}&7, &c{z}&7)"
+  coordinates: false
   # Allows players to bone meal any crop.
   crops-bone-meal: false
   # Right-click crops with a hoe to harvest them.
@@ -53,14 +47,16 @@ tweaks:
   # Prevents the trampling of crops.
   crops-protection: false
   # Notifies the dying player where they died.
-  death-notify:
-    toggle: false
-    message: "&7You died at (&a{x}&7, &a{y}&7, &a{z}&7) in the {world} &7with &a{levels} &7levels."
+  death-notify: false
   # Double doors can be opened with 1 click.
   doors-double: false
   # Allows you to open iron doors with your hand.
   # This works with the 'doors-double' option above!
   doors-iron: false
+  # Right-click a cauldron to open up the drop filter.
+  # Adding items to the filter prevents you from picking them up.
+  # This also gives players permission to use the '/drops' command to toggle it.
+  drops-filter: false
   # Breaking blocks nearby will cause their item drops to go towards the player a little.
   # This means if you are building high up, you won't lose all your drops.
   drops-magnet: false
@@ -75,6 +71,12 @@ tweaks:
   # If you name an entity with "silent" or "silence", it will be permanently silent.
   # To undo this, simply name the entity "unsilent" or "unsilence".
   entity-silence: false
+  # Allows you to add fortune and silk touch to the same tool.
+  # Right-click to swap the enchantment used.
+  fortune-silk-swap:
+    toggle: false
+    # EXP levels required. (max: 39 levels)
+    cost: 30
   # Blocks can now be placed on the top of happy ghast's heads.
   happy-ghast-placement: false
   # Happy ghasts will now fly faster than normal (only while riding).
@@ -86,14 +88,15 @@ tweaks:
   hay-bale-bread: false
   # Allows you to view the statistics (health-speed-jump) of horses by sneak-right-click.
   # This lets you find the best horses without having to tame them all first! :)
-  horse-statistics:
-    toggle: false
-    message:
-      - "&7Max Health: &e{health} &a(max: 30)"
-      - "&7Speed: &e{speed} &a(max: 14.23)"
-      - "&7Jump: &e{jump} &a(max: 5.3)"
+  horse-statistics: false
   # Right-clicking a crafting table in your inventory opens it.
   inventory-crafting: false
+  # Allows you to add silk touch to your ender chest.
+  # Right-clicking a silk touch ender chest in your inventory opens it.
+  inventory-ender-chest:
+    toggle: false
+    # EXP levels required. (max: 39 levels)
+    cost: 30
   # Right-clicking an item frame on a chest will open the chest. Shift to go back to normal behavior.
   item-frame-click-through: false
   # Shift-right-click an item frame with shears to make it invisible. Do it again to make it visible.
@@ -107,13 +110,14 @@ tweaks:
     # - Automatic (simply walk into the ladder)
     # - Manual (look straight up/down to activate teleportation)
     control: Automatic
+  # Gives players unlimited night vision if they activate it with '/nv' or '/gamma'.
+  night-vision: false
   # Prevents you from attacking your own pet.
   pet-protection: false
   # Nether portals can no longer be destroyed by explosions.
   # No more ghasts or creepers destroying them!
   portal-protection: false
   # Players who join the server will have all the recipes unlocked.
-  # If you accidentally kept this on and didn't want this, just do '/tweaks resetrecipes'.
   recipe-unlock-all: false
   # Sneak-right-click on farmland with a hoe to revert it back to dirt.
   revert-farmland: false
@@ -176,10 +180,6 @@ update-checker:
   log: true
   # Any player with the "tweaky.admin" permission will be notified of the update on join.
   notify: true
-  # The update message.
-  message:
-    - "&7[&eTweaky&7] &aNew update available: &ev{latest} &7(current v{current})"
-    - "            &8{download}"
 
 # Allows us to collect anonymous data about the plugin.
 enable-metrics: true

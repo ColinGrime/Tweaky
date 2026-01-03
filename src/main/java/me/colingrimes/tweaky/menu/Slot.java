@@ -56,7 +56,7 @@ public interface Slot {
 	 * @return the slot object
 	 */
 	@Nonnull
-	Slot setItem(@Nonnull ItemStack item);
+	Slot setItem(@Nullable ItemStack item);
 
 	/**
 	 * Sets an empty item of the slot.

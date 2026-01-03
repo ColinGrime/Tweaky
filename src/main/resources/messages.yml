@@ -1,3 +1,35 @@
+# All tweak-related messages.
+tweaks:
+  # (break-ender-chest) Message to send to players if they attempt to break an ender chest without silk touch.
+  ender-chest-protected: "&2[Protected] &aYour Pickaxe needs &2Silk Touch &ato break this."
+  # (coordinates) Coordinates message during the day.
+  coordinates-day: "&7(&a{x}&7, &a{y}&7, &a{z}&7)"
+  # (coordinates) Coordinates message during the night.
+  coordinates-night: "&7(&c{x}&7, &c{y}&7, &c{z}&7)"
+  # (death-notify) Message to send to players when they die.
+  death-message: "&7You died at (&a{x}&7, &a{y}&7, &a{z}&7) in the {world} &7with &a{levels} &7levels."
+  # (drops-filter) Message to send to players when they add an item to their filter.
+  filter-add: "&2[Filter] &aAdded &e{item} &ato your drop filter."
+  # (drops-filter) Message to send to players when they remove an item from their filter.
+  filter-remove: "&4[Filter] &cRemoved &e{item} &cfrom your drop filter."
+  # (drops-filter) Message to send to players when they attempt to add an item already in their filter.
+  filter-exists: "&4[Filter] &cThat item is already in your drop filter."
+  # (drops-filter) Message to send to players when their filter is full.
+  filter-full: "&4[Filter] &cSorry, your drop filter is full."
+  # (drops-filter) Message to send to players when they toggle on the drop filter.
+  filter-on: "&2[Filter] &aYou have toggled on the drop filter."
+  # (drops-filter) Message to send to players when they toggle off the drop filter.
+  filter-off: "&4[Filter] &cYou have toggled off the drop filter."
+  # (fortune-silk-swap) Suffix to attach to items when toggled to Fortune mode.
+  fortune-suffix: "&7(&aFortune&7)"
+  # (fortune-silk-swap) Suffix to attach to items when toggled to Silk Touch mode.
+  silk-touch-suffix: "&7(&aSilk Touch&7)"
+  # (horse-statistics) Message to send to players when they shift-right-click a horse.
+  horse-statistics:
+    - "&7Max Health: &e{health} &a(max: 30)"
+    - "&7Speed: &e{speed} &a(max: 14.23)"
+    - "&7Jump: &e{jump} &a(max: 5.3)"
+
 # Messages that regular players can receive.
 player:
   no-permission: "&7[&eTweaky&7] &cYou lack the required permission for this command."
@@ -6,6 +38,9 @@ player:
 admin:
   general:
     list: "&6Loaded Tweaks &7(&f{enabled}/{amount}&7): {tweaks}"
+    new-update:
+      - "&7[&eTweaky&7] &aNew update available: &ev{latest} &7(current v{current})"
+      - "            &8{download}"
   success:
     toggle-on: "&7[&eTweaky&7] &aYou have toggled on the &e{tweak} &atweak."
     toggle-off: "&7[&eTweaky&7] &cYou have toggled off the &e{tweak} &ctweak."

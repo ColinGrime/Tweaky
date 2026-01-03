@@ -6,9 +6,27 @@ author: Scill
 commands:
   tweaky:
     description: Main command for the Tweaky plugin.
+    permission: tweaky.admin
   tweaks:
     description: Opens up the Tweaks menu.
     aliases: [tweak]
+    permission: tweaky.use
   coordinates:
     description: Toggles the coordinates HUD.
     aliases: [coords]
+    permission: tweaky.use
+  drops:
+    description: Toggles the drop filter.
+    aliases: [drop, filter]
+    permission: tweaky.use
+  nightvision:
+    description: Toggles night vision.
+    aliases: [nv, gamma]
+    permission: tweaky.use
+permissions:
+  tweaky.admin:
+    description: Allows use of all Admin commands and features.
+    default: op
+  tweaky.use:
+    description: Allows use of general player commands.
+    default: true

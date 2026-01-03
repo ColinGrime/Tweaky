@@ -96,7 +96,7 @@ tweak-menu:
     coordinates:
       name: "&aCoordinates &8(Command)"
       lore: "&7Toggle your coordinates."
-      usage: "&eUsage: &aType /coords &ato toggle your coordinates."
+      usage: "&eUsage: &aType &e/coords &ato toggle your coordinates."
     crops-bone-meal:
       name: "&aBone Meal Anything"
       lore: "&7Can be used on any Crop."
@@ -125,10 +125,16 @@ tweak-menu:
       name: "&aIron Doors &8(Right Click)"
       lore: "&7Open Iron Doors with your hands."
       usage: "&eUsage: &aAllows the opening of Iron Doors."
+    drops-filter:
+      name: "&aDrop Filter &8(Right Click)"
+      lore: "&7Open your Drop Filter."
+      usage:
+        - "&eUsage: &aRight Click a Cauldron to open up your Drop Filter."
+        - "         &aType &e/filter &aor &e/drops &ato easily toggle it on or off."
     drops-magnet:
       name: "&aDrops Magnet &8(Break)"
       lore: "&7Broken blocks get boosted towards you."
-      usage: "&eUsage: &aBreaking blocks nearby will cause their item drops to go towards you a little."
+      usage: "&eUsage: &aBreaking blocks will cause their item drops to get boosted towards you."
     enchanting-lapis:
       name: "&aLapis Store"
       lore: "&7Permanently store Lapis in Enchanting Tables."
@@ -156,6 +162,20 @@ tweak-menu:
         - "&7Name a Mob \"&esilence&7\" to make it silent."
         - "&7Name a Mob \"&eunsilence&7\" to make it audible."
       usage: "&eUsage: &aName a Mob \"silence\" or \"unsilence\" to toggle its sound."
+    fortune-silk-swap:
+      name: "&aFortune Silk Swap &8(Right Click)"
+      lore:
+        - "&7Add Fortune and Silk Touch to the same tool."
+        - "&7Grants you the ability to toggle between modes."
+        - ""
+        - "&8Requires:"
+        - " &7Pickaxe &8(Any)"
+        - " &7Axe &8(Any)"
+        - " &7Shovel &8(Any)"
+        - " &7Hoe &8(Any)"
+      usage:
+        - "&eUsage: &aAdd Fortune and Silk Touch to the same tool."
+        - "         &aOnce added, right-click to toggle between enchants."
     happy-ghast-placement:
       name: "&aPlace Blocks on Happy Ghasts"
       lore: "&7Blocks can be placed on top of their heads."
@@ -180,6 +200,12 @@ tweak-menu:
       name: "&aInventory Crafting &8(Right Click)"
       lore: "&7Open up a Crafting Table in your inventory."
       usage: "&eUsage: &aRight Click a Crafting Table in your inventory to open it."
+    inventory-ender-chest:
+      name: "&aInventory Ender Chest &8(Right Click)"
+      lore: "&7Add Silk Touch to your Ender Chest to open it."
+      usage:
+        - "&eUsage: &aAllows you to add Silk Touch to your Ender Chest."
+        - "         &aOnce added, right-click it in your inventory to open it."
     item-frame-click-through:
       name: "&aClick Through Item Frames &8(Right Click)"
       lore: "&7Open Chests with Item Frames on them."
@@ -197,7 +223,7 @@ tweak-menu:
     ladder-placement:
       name: "&aLadder Placement &8(Right Click)"
       lore:
-        - "&7Click on existing Ladders to expand Ladder."
+        - "&7Click on an existing Ladder to expand it."
         - ""
         - "&8Requires:"
         - " &7Ladder &8(Default)"
@@ -212,6 +238,10 @@ tweak-menu:
         name: "&aLadder Teleportation &8(Look Up or Down)"
         lore: "&7Look straight up or down to teleport."
         usage: "&eUsage: &aTeleport by looking straight up or down while walking into a Ladder."
+    night-vision:
+      name: "&aNight Vision &8(Command)"
+      lore: "&7Toggle Night Vision."
+      usage: "&eUsage: &aType &e/nightvision &ato toggle Night Vision."
     pet-protection:
       name: "&aPet Protection"
       lore: "&7Protects your Pets from yourself."

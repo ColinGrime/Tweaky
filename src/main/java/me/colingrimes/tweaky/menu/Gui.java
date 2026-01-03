@@ -67,7 +67,6 @@ public abstract class Gui {
 	 */
 	@Nonnull
 	public Slot getSlot(int slot) {
-		Preconditions.checkArgument(slot >= 0 && slot < inventory.getSize(), "Invalid slot: " + slot);
 		return slots.computeIfAbsent(slot, i -> new SimpleSlot(this, i));
 	}
 
