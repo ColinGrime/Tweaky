@@ -52,7 +52,7 @@ public class UpdateCheckerSpigot implements UpdateChecker, Listener {
 
 	@Override
 	public void log(@Nonnull CommandSender sender) {
-		plugin.getSettings().UPDATE_CHECKER_MESSAGE
+		plugin.getMessages().ADMIN_GENERAL_NEW_UPGRADE
 				.replace("{latest}", latest)
 				.replace("{current}", current)
 				.replace("{download}", resourceUrl)
