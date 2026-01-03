@@ -36,7 +36,7 @@ public class DeathNotifyTweak extends Tweak {
 		}
 
 		Location location = player.getLocation();
-		settings.TWEAK_DEATH_NOTIFY_MESSAGE
+		msg.TWEAK_DEATH_MESSAGE
 				.replace("{x}", String.valueOf(location.getBlockX()))
 				.replace("{y}", String.valueOf(location.getBlockY()))
 				.replace("{z}", String.valueOf(location.getBlockZ()))

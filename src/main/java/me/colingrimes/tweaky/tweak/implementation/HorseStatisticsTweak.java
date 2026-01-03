@@ -45,7 +45,7 @@ public class HorseStatisticsTweak extends Tweak {
 			double speed = maxSpeed.getBaseValue();
 			double jump = horse.getJumpStrength();
 			player.sendMessage("");
-			settings.TWEAK_HORSE_STATISTICS_MESSAGE
+			msg.TWEAK_HORSE_STATISTICS
 					.replace("{health}", String.format("%.2f", health) + " HP")
 					.replace("{speed}", String.format("%.2f", convertSpeed(speed)) + " blocks/sec")
 					.replace("{jump}", String.format("%.2f", convertJump(jump)) + " blocks")

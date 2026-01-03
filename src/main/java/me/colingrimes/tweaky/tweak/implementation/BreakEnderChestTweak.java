@@ -4,7 +4,6 @@ import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.Util;
-import me.colingrimes.tweaky.util.text.Text;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
@@ -63,7 +62,7 @@ public class BreakEnderChestTweak extends Tweak {
 				block.setType(Material.AIR);
 				block.getWorld().dropItem(block.getLocation(), new ItemStack(Material.ENDER_CHEST));
 			}
-			case Protection -> event.getPlayer().sendMessage(Text.color(settings.TWEAK_BREAK_ENDER_CHEST_PROTECTION.get()));
+			case Protection -> msg.TWEAK_ENDER_CHEST_PROTECTED.send(event.getPlayer());
 		}
 
 		event.setCancelled(true);

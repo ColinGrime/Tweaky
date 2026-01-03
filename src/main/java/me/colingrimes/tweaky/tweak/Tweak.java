@@ -2,6 +2,7 @@ package me.colingrimes.tweaky.tweak;
 
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.config.implementation.Menus;
+import me.colingrimes.tweaky.config.implementation.Messages;
 import me.colingrimes.tweaky.config.implementation.Settings;
 import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import org.bukkit.Bukkit;
@@ -17,12 +18,14 @@ public abstract class Tweak implements Listener {
 	protected final Tweaky plugin;
 	protected final Settings settings;
 	protected final Menus menus;
+	protected final Messages msg;
 	protected final String id;
 
 	public Tweak(@Nonnull Tweaky plugin, @Nonnull String id) {
 		this.plugin = plugin;
 		this.settings = plugin.getSettings();
 		this.menus = plugin.getMenus();
+		this.msg = plugin.getMessages();
 		this.id = id;
 		if (isEnabled()) {
 			Bukkit.getPluginManager().registerEvents(this, plugin);
