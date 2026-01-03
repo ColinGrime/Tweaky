@@ -160,7 +160,7 @@ public class DropFilterTweak extends ToggleTweak {
 				ItemStack preview = Items.of(type).name(name).lore(lore).build();
 				getSlot(i).setItem(preview).bind(this::remove, ClickType.LEFT, ClickType.RIGHT);
 
-				msg.TWEAK_FILTER_ADD.replace("{item}", name).send(player);
+				msg.TWEAK_FILTER_ADD.replace("{item}", Text.format(type.name())).send(player);
 				filter.get(player.getUniqueId()).add(type);
 				filterSet.get(player.getUniqueId()).add(type);
 				saveFilter(player);
