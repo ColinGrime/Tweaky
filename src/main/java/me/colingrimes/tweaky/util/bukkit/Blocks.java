@@ -4,6 +4,7 @@ import org.bukkit.block.Block;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -51,6 +52,17 @@ public class Blocks {
 	}
 
 	/**
+	 * Breaks the block naturally and plays the block's break sound.
+	 *
+	 * @param block the block to break
+	 * @param item the item that broke the block
+	 */
+	public static void destroy(@Nonnull Block block, @Nonnull ItemStack item) {
+		breakSound(block);
+		block.breakNaturally(item);
+	}
+
+	/**
 	 * Plays the block's place sound.
 	 *
 	 * @param block the block
@@ -66,6 +78,25 @@ public class Blocks {
 	 */
 	public static void breakSound(@Nonnull Block block) {
 		Sounds.play(block, block.getBlockData().getSoundGroup().getBreakSound());
+	}
+
+	/**
+	 * Checks if the specified block is interactable.
+	 *
+	 * @param block the block to check
+	 * @return true if the block is interactable
+	 */
+	public static boolean isInteractable(@Nullable Block block) {
+		if (block == null) {
+			return false;
+		}
+
+		Material type = block.getType();
+		if (!type.isInteractable()) {
+			return false;
+		}
+
+		return !Tag.STAIRS.isTagged(type) && !Tag.FENCES.isTagged(type);
 	}
 
 	/**
