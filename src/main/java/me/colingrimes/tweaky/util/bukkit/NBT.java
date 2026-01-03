@@ -106,7 +106,7 @@ public final class NBT {
 	 * @param holder the holder to remove the tag from
 	 * @param key the key of the tag
 	 */
-	public static <T> void removeTag(@Nonnull PersistentDataHolder holder, @Nonnull String key) {
+	public static void removeTag(@Nonnull PersistentDataHolder holder, @Nonnull String key) {
 		Objects.requireNonNull(holder, "Holder is null.");
 		Objects.requireNonNull(key, "Key is null.");
 
