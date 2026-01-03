@@ -27,21 +27,25 @@
 * `death-notify` - Notifies the dying player where they died.
 * `doors-double` - Allows the opening of double doors with 1 click.
 * `doors-iron` - Allows you to open iron doors with your hand.
+* `drops-filter` - Allows you to filter out useless item drops.
 * `drops-magnet` - Breaking blocks nearby will cause their item drops to go towards the player a little.
 * `enchanting-lapis` - Lapis stays in the lapis slot in enchanting tables when you close it.
 * `entity-dye` - Allows the dying of named mobs with dyes.
 * `entity-equip` - If a player throws an item close to an entity, they will auto equip it.
 * `entity-ignite` - Right-clicking an entity with a flint & steel or fire charge sets it on fire.
 * `entity-silence` - Name an entity "silent" to make it silent or "unsilent" to undo it.
+* `fortune-silk-swap` - Allows you to swap between fortune and silk touch on the same tool.
 * `happy-ghast-placement` - Blocks can now be placed on the top of happy ghast's heads.
 * `happy-ghast-speed` - Allows happy ghasts to move at a configurable speed while they are being ridden.
 * `hay-bale-bread` - Right-clicking a hay bale with a hoe automatically crafts and drops bread.
 * `horse-statistics` - Allows you to view the statistics (health-speed-jump) of horses by sneak-right-click.
 * `inventory-crafting` - Right-clicking a crafting table in your inventory opens it.
+* `inventory-ender-chest` - Right-clicking a silk touch ender chest in your inventory opens it.
 * `item-frame-click-through` - Right-click item frame on chest to open it. Shift for normal behavior.
 * `item-frame-invisible` - Shift-right-click an item frame with shears to toggle its visibility on/off.
 * `ladder-placement` - Place ladders up/down depending on your direction by right-clicking existing ladders.
 * `ladder-teleportation` - Allows you to instantly climb up/down ladders (different modes are available).
+* `night-vision` - Toggle night vision with the /nv command.
 * `pet-protection` - Prevents you from attacking your own pet.
 * `portal-protection` - Nether portals can no longer be destroyed by explosions.
 * `recipe-unlock-all` - Players who join the server will have all the recipes unlocked.
