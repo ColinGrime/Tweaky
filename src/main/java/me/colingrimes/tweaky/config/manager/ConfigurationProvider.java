@@ -47,7 +47,7 @@ public class ConfigurationProvider {
 
 		// Migrates over the values of the old one.
 		for (String key : newConfig.getKeys(true)) {
-			if (!newConfig.isConfigurationSection(key) && oldConfig.contains(key)) {
+			if (!newConfig.isConfigurationSection(key) && oldConfig.contains(key) && !oldConfig.isConfigurationSection(key)) {
 				newConfig.set(key, oldConfig.get(key));
 			}
 		}
