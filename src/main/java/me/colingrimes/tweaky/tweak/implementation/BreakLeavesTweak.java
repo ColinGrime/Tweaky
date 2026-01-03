@@ -61,14 +61,14 @@ public class BreakLeavesTweak extends Tweak {
 		if (item.getType() == Material.NETHERITE_HOE) {
 			for (Location loc : Util.around(block.getLocation(), 1)) {
 				if (Tag.LEAVES.isTagged(loc.getBlock().getType())) {
-					Blocks.destroy(loc.getBlock());
+					Blocks.destroy(loc.getBlock(), item);
 				}
 			}
 		} else {
 			for (Vector vector : directions) {
 				Location loc = block.getLocation().clone().add(vector);
 				if (Tag.LEAVES.isTagged(loc.getBlock().getType())) {
-					Blocks.destroy(loc.getBlock());
+					Blocks.destroy(loc.getBlock(), item);
 				}
 			}
 		}

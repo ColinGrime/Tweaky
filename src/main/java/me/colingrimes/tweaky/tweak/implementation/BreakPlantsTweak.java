@@ -49,7 +49,7 @@ public class BreakPlantsTweak extends Tweak {
 		int radius = item.getType() == Material.NETHERITE_HOE ? 2 : 1;
 		for (Location loc : Util.around(block.getLocation(), radius)) {
 			if (Blocks.isPlant(loc.getBlock().getType())) {
-				Blocks.destroy(loc.getBlock());
+				Blocks.destroy(loc.getBlock(), item);
 			}
 		}
 
