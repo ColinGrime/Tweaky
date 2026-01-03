@@ -8,6 +8,7 @@ import me.colingrimes.tweaky.config.implementation.Settings;
 import me.colingrimes.tweaky.config.manager.ConfigurationManager;
 import me.colingrimes.tweaky.listener.MenuListeners;
 import me.colingrimes.tweaky.listener.PlayerListeners;
+import me.colingrimes.tweaky.listener.TweakListeners;
 import me.colingrimes.tweaky.menu.Gui;
 import me.colingrimes.tweaky.tweak.TweakManager;
 import me.colingrimes.tweaky.update.UpdateCheckerSpigot;
@@ -39,6 +40,7 @@ public class Tweaky extends JavaPlugin {
 		Bukkit.getPluginCommand("tweaks").setExecutor(new TweaksCommand(this));
 		Bukkit.getPluginManager().registerEvents(new MenuListeners(), this);
 		Bukkit.getPluginManager().registerEvents(new PlayerListeners(), this);
+		Bukkit.getPluginManager().registerEvents(new TweakListeners(this), this);
 		Logger.log(this, "Registered all commands and events.");
 
 		// Register all the tweaks.
