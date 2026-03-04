@@ -1,23 +1,21 @@
-package me.colingrimes.tweaky.tweak.implementation;
+package me.colingrimes.tweaky.tweak.implementation.mob;
 
 import me.colingrimes.tweaky.Tweaky;
-import me.colingrimes.tweaky.menu.tweak.TweakItem;
-import me.colingrimes.tweaky.tweak.Tweak;
+import me.colingrimes.tweaky.scheduler.Scheduler;
+import me.colingrimes.tweaky.tweak.event.TweakHandler;
+import me.colingrimes.tweaky.tweak.type.DefaultTweak;
 import me.colingrimes.tweaky.util.bukkit.Events;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.EntityEquipment;
 
 import javax.annotation.Nonnull;
 import java.util.Set;
 
-public class EntityEquipTweak extends Tweak {
+public class EntityEquipTweak extends DefaultTweak {
 
 	private final Set<EntityType> EQUIPPABLE_ENTITIES = Set.of(
 			EntityType.ZOMBIE,
@@ -37,24 +35,9 @@ public class EntityEquipTweak extends Tweak {
 		super(plugin, "entity_equip");
 	}
 
-	@Override
-	public boolean isEnabled() {
-		return settings.TWEAK_ENTITY_EQUIP.get();
-	}
-
-	@Nonnull
-	@Override
-	public TweakItem getGuiItem() {
-		return menus.TWEAK_ENTITY_EQUIP.get().material(Material.STONE_SWORD);
-	}
-
-	@EventHandler
+	@TweakHandler
 	public void onPlayerDropItem(@Nonnull PlayerDropItemEvent event) {
-		if (!hasPermission(event.getPlayer())) {
-			return;
-		}
-
-		Bukkit.getScheduler().runTaskLater(plugin, () -> {
+		Scheduler.sync().runLater(() -> {
 			if (event.getItemDrop().isDead()) {
 				return;
 			}

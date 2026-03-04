@@ -1,9 +1,9 @@
-package me.colingrimes.tweaky.tweak.implementation;
+package me.colingrimes.tweaky.tweak.implementation.convenience;
 
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.menu.tweak.TweakItem;
+import me.colingrimes.tweaky.scheduler.Scheduler;
 import me.colingrimes.tweaky.tweak.type.ToggleTweak;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -22,11 +22,6 @@ public class NightVisionTweak extends ToggleTweak {
 
 	public NightVisionTweak(@Nonnull Tweaky plugin) {
 		super(plugin, "night_vision", "nightvision", false);
-	}
-
-	@Override
-	public boolean isEnabled() {
-		return settings.TWEAK_NIGHT_VISION.get();
 	}
 
 	@Nonnull
@@ -56,7 +51,7 @@ public class NightVisionTweak extends ToggleTweak {
 
 	@EventHandler
 	public void onPlayerRespawn(@Nonnull PlayerRespawnEvent event) {
-		Bukkit.getScheduler().runTask(plugin, () -> activate(event.getPlayer()));
+		Scheduler.sync().run(() -> activate(event.getPlayer()));
 	}
 
 	@EventHandler

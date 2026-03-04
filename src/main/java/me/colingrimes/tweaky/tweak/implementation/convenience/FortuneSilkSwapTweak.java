@@ -1,14 +1,14 @@
-package me.colingrimes.tweaky.tweak.implementation;
+package me.colingrimes.tweaky.tweak.implementation.convenience;
 
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.config.implementation.Messages;
-import me.colingrimes.tweaky.menu.tweak.TweakItem;
-import me.colingrimes.tweaky.tweak.Tweak;
+import me.colingrimes.tweaky.scheduler.Scheduler;
+import me.colingrimes.tweaky.tweak.event.TweakHandler;
+import me.colingrimes.tweaky.tweak.type.DefaultTweak;
 import me.colingrimes.tweaky.util.bukkit.Blocks;
 import me.colingrimes.tweaky.util.bukkit.Items;
 import me.colingrimes.tweaky.util.bukkit.NBT;
 import me.colingrimes.tweaky.util.text.Text;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Tag;
@@ -30,7 +30,7 @@ import javax.annotation.Nonnull;
 import java.util.Map;
 import java.util.function.Function;
 
-public class FortuneSilkSwapTweak extends Tweak {
+public class FortuneSilkSwapTweak extends DefaultTweak {
 
 	enum Type {
 		Fortune(msg -> Text.color(" " + msg.TWEAK_FORTUNE_SUFFIX.toText())),
@@ -53,18 +53,7 @@ public class FortuneSilkSwapTweak extends Tweak {
 		super(plugin, "fortune_silk_swap");
 	}
 
-	@Override
-	public boolean isEnabled() {
-		return settings.TWEAK_FORTUNE_SILK_SWAP.get();
-	}
-
-	@Nonnull
-	@Override
-	public TweakItem getGuiItem() {
-		return menus.TWEAK_FORTUNE_SILK_SWAP.get().material(Material.NETHERITE_PICKAXE);
-	}
-
-	@EventHandler(priority = EventPriority.HIGH)
+	@TweakHandler(priority = EventPriority.HIGH)
 	public void onPrepareAnvil(@Nonnull PrepareAnvilEvent event) {
 		// Resets any custom names from the tweak.
 		ItemStack first = event.getInventory().getItem(0);
@@ -82,7 +71,7 @@ public class FortuneSilkSwapTweak extends Tweak {
 		AnvilView view = event.getView();
 		ItemStack target = result != null ? result : first;
 		ItemStack second = event.getInventory().getItem(1);
-		if (!hasPermission(view.getPlayer()) || target == null || second == null) {
+		if (target == null || second == null) {
 			return;
 		}
 
@@ -130,7 +119,7 @@ public class FortuneSilkSwapTweak extends Tweak {
 		}
 
 		event.setResult(copy);
-		Bukkit.getScheduler().runTask(plugin, () -> view.setRepairCost(settings.TWEAK_FORTUNE_SILK_SWAP_COST.get()));
+		Scheduler.sync().run(() -> view.setRepairCost(settings.TWEAK_FORTUNE_SILK_SWAP_COST.get()));
 	}
 
 	@EventHandler
@@ -141,12 +130,12 @@ public class FortuneSilkSwapTweak extends Tweak {
 		}
 	}
 
-	@EventHandler(ignoreCancelled = true)
+	@TweakHandler(ignoreCancelled = true)
 	public void onBlockBreak(@Nonnull BlockBreakEvent event) {
 		Player player = event.getPlayer();
 		ItemStack item = player.getInventory().getItemInMainHand();
 		Boolean fortune = NBT.getTag(item.getItemMeta(), id, Boolean.class).orElse(null);
-		if (!hasPermission(player) || fortune == null) {
+		if (fortune == null) {
 			return;
 		}
 
@@ -162,10 +151,9 @@ public class FortuneSilkSwapTweak extends Tweak {
 		event.setCancelled(true);
 	}
 
-	@EventHandler
+	@TweakHandler
 	public void onPlayerInteract(@Nonnull PlayerInteractEvent event) {
-		Player player = event.getPlayer();
-		if (!hasPermission(player) || event.getHand() != EquipmentSlot.HAND || !event.getAction().name().startsWith("RIGHT_CLICK")) {
+		if (event.getHand() != EquipmentSlot.HAND || !event.getAction().name().startsWith("RIGHT_CLICK")) {
 			return;
 		}
 
@@ -174,7 +162,7 @@ public class FortuneSilkSwapTweak extends Tweak {
 		}
 
 		// Sets the next type if it is a Fortune Silk item.
-		ItemStack item = player.getInventory().getItemInMainHand();
+		ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
 		NBT.getTag(item.getItemMeta(), id, Boolean.class).ifPresent(fortune -> setType(item, fortune ? Type.SilkTouch : Type.Fortune));
 	}
 

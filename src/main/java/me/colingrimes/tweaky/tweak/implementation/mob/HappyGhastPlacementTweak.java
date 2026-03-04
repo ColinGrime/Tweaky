@@ -1,29 +1,27 @@
-package me.colingrimes.tweaky.tweak.implementation;
+package me.colingrimes.tweaky.tweak.implementation.mob;
 
 import me.colingrimes.tweaky.Tweaky;
-import me.colingrimes.tweaky.menu.tweak.TweakItem;
-import me.colingrimes.tweaky.tweak.Tweak;
+import me.colingrimes.tweaky.scheduler.Scheduler;
+import me.colingrimes.tweaky.scheduler.task.Task;
+import me.colingrimes.tweaky.tweak.event.TweakHandler;
+import me.colingrimes.tweaky.tweak.type.DefaultTweak;
 import me.colingrimes.tweaky.util.bukkit.Blocks;
-import me.colingrimes.tweaky.util.bukkit.Players;
 import me.colingrimes.tweaky.util.bukkit.Events;
+import me.colingrimes.tweaky.util.bukkit.Players;
 import me.colingrimes.tweaky.util.display.Displays;
 import me.colingrimes.tweaky.util.bukkit.Items;
-import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.BlockDisplay;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.HappyGhast;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.RayTraceResult;
 
 import javax.annotation.Nonnull;
@@ -31,49 +29,36 @@ import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class HappyGhastPlacementTweak extends Tweak {
+public class HappyGhastPlacementTweak extends DefaultTweak {
 
 	private final Map<Player, Target> targets = new HashMap<>();
-	private BukkitTask task;
+	private Task task;
 
 	public HappyGhastPlacementTweak(@Nonnull Tweaky plugin) {
 		super(plugin, "happy_ghast_placement");
 	}
 
 	@Override
-	public boolean isEnabled() {
-		return settings.TWEAK_HAPPY_GHAST_PLACEMENT.get();
-	}
-
-	@Nonnull
-	@Override
-	public TweakItem getGuiItem() {
-		return menus.TWEAK_HAPPY_GHAST_PLACEMENT.get().material(Material.HAPPY_GHAST_SPAWN_EGG);
-	}
-
-	@Override
 	public void init() {
-		task = Bukkit.getScheduler().runTaskTimer(plugin, () -> Players.forEach(this::getTarget), 10L, 2L);
+		task = Scheduler.sync().runRepeating(() -> Players.forEach(this::getTarget), 10L, 2L);
 	}
 
 	@Override
 	public void shutdown() {
-		task.cancel();
+		task.stop();
 		targets.values().forEach(t -> t.blockDisplay.remove());
 	}
 
-	@EventHandler
+	@TweakHandler
 	public void onPlayerInteract(@Nonnull PlayerInteractEvent event) {
-		Player player = event.getPlayer();
-		if (hasPermission(player) && event.getHand() == EquipmentSlot.HAND && placeOnGhast(player)) {
+		if (event.getHand() == EquipmentSlot.HAND && placeOnGhast(event.getPlayer())) {
 			event.setCancelled(true);
 		}
 	}
 
-	@EventHandler(ignoreCancelled = true)
+	@TweakHandler(ignoreCancelled = true)
 	public void onPlayerInteractEntity(@Nonnull PlayerInteractEntityEvent event) {
-		Player player = event.getPlayer();
-		if (hasPermission(player) && event.getRightClicked().getType() == EntityType.HAPPY_GHAST && placeOnGhast(player)) {
+		if (event.getRightClicked().getType() == EntityType.HAPPY_GHAST && placeOnGhast(event.getPlayer())) {
 			event.setCancelled(true);
 		}
 	}

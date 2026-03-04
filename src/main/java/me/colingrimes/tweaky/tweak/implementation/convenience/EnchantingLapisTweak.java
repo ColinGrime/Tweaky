@@ -1,15 +1,14 @@
-package me.colingrimes.tweaky.tweak.implementation;
+package me.colingrimes.tweaky.tweak.implementation.convenience;
 
 import me.colingrimes.tweaky.Tweaky;
-import me.colingrimes.tweaky.menu.tweak.TweakItem;
-import me.colingrimes.tweaky.tweak.Tweak;
+import me.colingrimes.tweaky.scheduler.Scheduler;
+import me.colingrimes.tweaky.tweak.type.DefaultTweak;
+import me.colingrimes.tweaky.tweak.properties.TweakProperties;
 import me.colingrimes.tweaky.util.bukkit.NBT;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.EnchantingTable;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -24,27 +23,15 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.*;
 
-public class EnchantingLapisTweak extends Tweak {
+public class EnchantingLapisTweak extends DefaultTweak {
 
 	private static final String ENCHANTING_LAPIS_KEY = "enchanting_lapis";
 	private final Map<Location, SharedEnchantingTable> shared = new HashMap<>();
 
 	public EnchantingLapisTweak(@Nonnull Tweaky plugin) {
 		super(plugin, "enchanting_lapis");
-	}
-
-	@Override
-	public boolean isEnabled() {
-		return settings.TWEAK_ENCHANTING_LAPIS.get();
-	}
-
-	@Nonnull
-	@Override
-	public TweakItem getGuiItem() {
-		return menus.TWEAK_ENCHANTING_LAPIS.get().material(Material.LAPIS_LAZULI);
 	}
 
 	@Override
@@ -57,8 +44,8 @@ public class EnchantingLapisTweak extends Tweak {
 	}
 
 	@Override
-	public boolean hasPermission(@Nullable Entity entity) {
-		return true;
+	protected void configureProperties(@Nonnull TweakProperties properties) {
+		properties.setPermissionRequired(false);
 	}
 
 	@EventHandler
@@ -194,7 +181,7 @@ public class EnchantingLapisTweak extends Tweak {
 		 */
 		public void save(@Nonnull Player player, @Nonnull EnchantingInventory inventory, boolean delay) {
 			if (delay) {
-				Bukkit.getScheduler().runTask(plugin, () -> save(player, inventory));
+				Scheduler.sync().run(() -> save(player, inventory));
 			} else {
 				save(player, inventory);
 			}

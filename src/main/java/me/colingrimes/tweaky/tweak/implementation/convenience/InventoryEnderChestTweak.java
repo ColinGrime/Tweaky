@@ -1,10 +1,10 @@
-package me.colingrimes.tweaky.tweak.implementation;
+package me.colingrimes.tweaky.tweak.implementation.convenience;
 
 import me.colingrimes.tweaky.Tweaky;
-import me.colingrimes.tweaky.menu.tweak.TweakItem;
-import me.colingrimes.tweaky.tweak.Tweak;
+import me.colingrimes.tweaky.scheduler.Scheduler;
+import me.colingrimes.tweaky.tweak.event.TweakHandler;
+import me.colingrimes.tweaky.tweak.type.DefaultTweak;
 import me.colingrimes.tweaky.util.bukkit.Items;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -15,33 +15,20 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.inventory.PrepareAnvilEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
-import org.bukkit.inventory.view.AnvilView;
 
 import javax.annotation.Nonnull;
 
-public class InventoryEnderChestTweak extends Tweak {
+public class InventoryEnderChestTweak extends DefaultTweak {
 
 	public InventoryEnderChestTweak(@Nonnull Tweaky plugin) {
 		super(plugin, "inventory_ender_chest");
 	}
 
-	@Override
-	public boolean isEnabled() {
-		return settings.TWEAK_INVENTORY_ENDER_CHEST.get();
-	}
-
-	@Nonnull
-	@Override
-	public TweakItem getGuiItem() {
-		return menus.TWEAK_INVENTORY_ENDER_CHEST.get().material(Material.ENDER_CHEST);
-	}
-
-	@EventHandler
+	@TweakHandler
 	public void onPrepareAnvil(@Nonnull PrepareAnvilEvent event) {
-		AnvilView view = event.getView();
 		ItemStack first = event.getInventory().getItem(0);
 		ItemStack second = event.getInventory().getItem(1);
-		if (!hasPermission(view.getPlayer()) || first == null || second == null) {
+		if (first == null || second == null) {
 			return;
 		}
 
@@ -62,20 +49,20 @@ public class InventoryEnderChestTweak extends Tweak {
 		}
 
 		event.setResult(result);
-		Bukkit.getScheduler().runTask(plugin, () -> view.setRepairCost(settings.TWEAK_INVENTORY_ENDER_CHEST_COST.get()));
+		Scheduler.sync().run(() -> event.getView().setRepairCost(settings.TWEAK_INVENTORY_ENDER_CHEST_COST.get()));
 	}
 
-	@EventHandler
+	@TweakHandler
 	public void onInventoryClick(@Nonnull InventoryClickEvent event) {
-		Player player = (Player) event.getWhoClicked();
-		if (!hasPermission(player) || event.getView().getTopInventory().getType() != InventoryType.CRAFTING || !event.getClick().isRightClick()) {
+		if (event.getView().getTopInventory().getType() != InventoryType.CRAFTING || !event.getClick().isRightClick()) {
 			return;
 		}
 
 		ItemStack item = event.getCurrentItem();
+		Player player = (Player) event.getWhoClicked();
 		if (item != null && item.getType() == Material.ENDER_CHEST && item.containsEnchantment(Enchantment.SILK_TOUCH)) {
 			event.setCancelled(true);
-			Bukkit.getScheduler().runTask(plugin, () -> player.openInventory(player.getEnderChest()));
+			Scheduler.sync().run(() -> player.openInventory(player.getEnderChest()));
 		}
 	}
 

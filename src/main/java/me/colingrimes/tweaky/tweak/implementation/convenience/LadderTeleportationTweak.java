@@ -1,11 +1,11 @@
-package me.colingrimes.tweaky.tweak.implementation;
+package me.colingrimes.tweaky.tweak.implementation.convenience;
 
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.menu.tweak.TweakItem;
-import me.colingrimes.tweaky.tweak.Tweak;
+import me.colingrimes.tweaky.scheduler.Scheduler;
+import me.colingrimes.tweaky.tweak.type.DefaultTweak;
 import me.colingrimes.tweaky.util.Util;
 import me.colingrimes.tweaky.util.bukkit.Sounds;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public class LadderTeleportationTweak extends Tweak {
+public class LadderTeleportationTweak extends DefaultTweak {
 
 	// Used to make sure player is positioned on the ladder correctly when teleporting.
 	private static final Map<BlockFace, Consumer<Location>> UP_OFFSETS = new HashMap<>();
@@ -46,11 +46,6 @@ public class LadderTeleportationTweak extends Tweak {
 
 	public LadderTeleportationTweak(@Nonnull Tweaky plugin) {
 		super(plugin, "ladder_teleportation");
-	}
-
-	@Override
-	public boolean isEnabled() {
-		return settings.TWEAK_LADDER_TELEPORTATION.get();
 	}
 
 	@Nonnull
@@ -102,11 +97,11 @@ public class LadderTeleportationTweak extends Tweak {
 		if (up && !block.getType().isSolid() && !block.getLocation().add(0, 1, 0).getBlock().getType().isSolid()) {
 			UP_OFFSETS.get(ladder.getFacing()).accept(to);
 			to.setY(block.getY());
-			Bukkit.getScheduler().runTask(plugin, () -> Sounds.play(to, Sound.ENTITY_PLAYER_TELEPORT));
+			Scheduler.sync().run(() -> Sounds.play(to, Sound.ENTITY_PLAYER_TELEPORT));
 		} else if (!up && block.getType().isSolid() && !block.getLocation().add(0, 2, 0).getBlock().getType().isSolid()) {
 			DOWN_OFFSETS.get(ladder.getFacing()).accept(to);
 			to.setY(block.getY() + 1);
-			Bukkit.getScheduler().runTask(plugin, () -> Sounds.play(to, Sound.ENTITY_PLAYER_TELEPORT));
+			Scheduler.sync().run(() -> Sounds.play(to, Sound.ENTITY_PLAYER_TELEPORT));
 		}
 	}
 }

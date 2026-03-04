@@ -1,17 +1,15 @@
-package me.colingrimes.tweaky.tweak.implementation;
+package me.colingrimes.tweaky.tweak.implementation.convenience;
 
 import me.colingrimes.tweaky.Tweaky;
-import me.colingrimes.tweaky.menu.tweak.TweakItem;
-import me.colingrimes.tweaky.tweak.Tweak;
+import me.colingrimes.tweaky.scheduler.Scheduler;
+import me.colingrimes.tweaky.scheduler.task.Task;
+import me.colingrimes.tweaky.tweak.event.TweakHandler;
+import me.colingrimes.tweaky.tweak.type.DefaultTweak;
 import me.colingrimes.tweaky.util.Util;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Item;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.event.entity.ItemMergeEvent;
-import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
 import javax.annotation.Nonnull;
@@ -20,29 +18,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DropMagnetTweak extends Tweak {
+public class DropMagnetTweak extends DefaultTweak {
 
 	private final Map<Item, Instant> drops = new HashMap<>();
-	private BukkitTask task;
+	private Task task;
 
 	public DropMagnetTweak(@Nonnull Tweaky plugin) {
 		super(plugin, "drops_magnet");
 	}
 
 	@Override
-	public boolean isEnabled() {
-		return settings.TWEAK_DROPS_MAGNET.get();
-	}
-
-	@Nonnull
-	@Override
-	public TweakItem getGuiItem() {
-		return menus.TWEAK_DROPS_MAGNET.get().material(Material.FLINT);
-	}
-
-	@Override
 	public void init() {
-		task = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
+		task = Scheduler.sync().runRepeating(() -> {
 			Instant now = Instant.now();
 			drops.values().removeIf(instant -> instant.plusSeconds(2).isBefore(now));
 		}, 20L, 20L);
@@ -50,20 +37,19 @@ public class DropMagnetTweak extends Tweak {
 
 	@Override
 	public void shutdown() {
-		task.cancel();
+		task.stop();
 		drops.clear();
 	}
 
-	@EventHandler
+	@TweakHandler
 	public void onBlockDropItem(@Nonnull BlockDropItemEvent event) {
-		Player player = event.getPlayer();
 		List<Item> items = event.getItems();
-		if (!hasPermission(player) || items.isEmpty()) {
+		if (items.isEmpty()) {
 			return;
 		}
 
 		for (Item item : items) {
-			Vector velocity = Util.direction(item.getLocation(), player.getEyeLocation());
+			Vector velocity = Util.direction(item.getLocation(), event.getPlayer().getEyeLocation());
 			item.setVelocity(velocity.multiply(new Vector(0.3, 0.4, 0.3)));
 			drops.put(item, Instant.now());
 		}

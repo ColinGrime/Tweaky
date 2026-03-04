@@ -1,17 +1,16 @@
-package me.colingrimes.tweaky.tweak.implementation;
+package me.colingrimes.tweaky.tweak.implementation.text;
 
 import me.colingrimes.tweaky.Tweaky;
-import me.colingrimes.tweaky.menu.tweak.TweakItem;
-import me.colingrimes.tweaky.tweak.Tweak;
+import me.colingrimes.tweaky.scheduler.Scheduler;
+import me.colingrimes.tweaky.scheduler.task.Task;
+import me.colingrimes.tweaky.tweak.type.DefaultTweak;
 import me.colingrimes.tweaky.util.Util;
 import me.colingrimes.tweaky.util.text.Text;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityBreedEvent;
-import org.bukkit.scheduler.BukkitTask;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -21,29 +20,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class BreedingIndicatorTweak extends Tweak {
+public class BreedingIndicatorTweak extends DefaultTweak {
 
 	private final Map<UUID, Instant> breedingEntities = new HashMap<>();
-	private BukkitTask task;
+	private Task task;
 
 	public BreedingIndicatorTweak(@Nonnull Tweaky plugin) {
 		super(plugin, "breeding_indicator");
 	}
 
 	@Override
-	public boolean isEnabled() {
-		return settings.TWEAK_BREEDING_INDICATOR.get();
-	}
-
-	@Nonnull
-	@Override
-	public TweakItem getGuiItem() {
-		return menus.TWEAK_BREEDING_INDICATOR.get().material(Material.COW_SPAWN_EGG);
-	}
-
-	@Override
 	public void init() {
-		task = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
+		task = Scheduler.sync().runRepeating(() -> {
 			Instant now = Instant.now();
 			var iterator = breedingEntities.entrySet().iterator();
 			while (iterator.hasNext()) {
@@ -59,7 +47,7 @@ public class BreedingIndicatorTweak extends Tweak {
 
 	@Override
 	public void shutdown() {
-		task.cancel();
+		task.stop();
 		breedingEntities.keySet().forEach(uuid -> {
 			Entity mob = Bukkit.getEntity(uuid);
 			if (mob != null && !mob.isDead()) {
@@ -72,14 +60,12 @@ public class BreedingIndicatorTweak extends Tweak {
 
 	@EventHandler
 	public void onEntityBreed(@Nonnull EntityBreedEvent event) {
-		if (hasPermission(event.getBreeder())) {
-			breedingEntities.put(event.getMother().getUniqueId(), Instant.now().plusSeconds(300));
-			breedingEntities.put(event.getFather().getUniqueId(), Instant.now().plusSeconds(300));
-			event.getMother().setCustomName(Text.color("&a5:00"));
-			event.getFather().setCustomName(Text.color("&a5:00"));
-			event.getMother().setCustomNameVisible(true);
-			event.getFather().setCustomNameVisible(true);
-		}
+		breedingEntities.put(event.getMother().getUniqueId(), Instant.now().plusSeconds(300));
+		breedingEntities.put(event.getFather().getUniqueId(), Instant.now().plusSeconds(300));
+		event.getMother().setCustomName(Text.color("&a5:00"));
+		event.getFather().setCustomName(Text.color("&a5:00"));
+		event.getMother().setCustomNameVisible(true);
+		event.getFather().setCustomNameVisible(true);
 	}
 
 	/**

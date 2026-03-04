@@ -1,8 +1,10 @@
-package me.colingrimes.tweaky.tweak.implementation;
+package me.colingrimes.tweaky.tweak.implementation.misc;
 
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.menu.tweak.TweakItem;
-import me.colingrimes.tweaky.tweak.Tweak;
+import me.colingrimes.tweaky.scheduler.Scheduler;
+import me.colingrimes.tweaky.tweak.event.TweakHandler;
+import me.colingrimes.tweaky.tweak.type.DefaultTweak;
 import me.colingrimes.tweaky.util.Util;
 import me.colingrimes.tweaky.util.bukkit.Blocks;
 import me.colingrimes.tweaky.util.bukkit.Events;
@@ -15,14 +17,13 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
 
-public class SnowballTweak extends Tweak {
+public class SnowballTweak extends DefaultTweak {
 
 	public SnowballTweak(@Nonnull Tweaky plugin) {
 		super(plugin, "snowballs");
@@ -57,12 +58,8 @@ public class SnowballTweak extends Tweak {
 				.placeholder("{damage}", settings.TWEAK_SNOWBALLS_DAMAGE_AMOUNT.get());
 	}
 
-	@EventHandler
+	@TweakHandler
 	public void onProjectileHit(@Nonnull ProjectileHitEvent event) {
-		if (event.getEntity().getShooter() instanceof Player player && !hasPermission(player)) {
-			return;
-		}
-
 		if (event.getEntity().getType() == EntityType.SNOWBALL) {
 			hitTweaks(event);
 			blockTweaks(event);
@@ -148,20 +145,16 @@ public class SnowballTweak extends Tweak {
 
 	// NOTE: Due to the ProjectileHitEvent not running on non-solid blocks,
 	//       we have to run a timer on snowball throw to detect midair collisions.
-	@EventHandler
+	@TweakHandler
 	public void onProjectileLaunch(@Nonnull ProjectileLaunchEvent event) {
-		if (event.getEntity().getShooter() instanceof Player player && !hasPermission(player)) {
-			return;
-		}
-
 		Entity snowball = event.getEntity();
 		if (event.getEntity().getType() != EntityType.SNOWBALL) {
 			return;
 		}
 
-		Bukkit.getScheduler().runTaskTimer(plugin, (task) -> {
+		Scheduler.sync().runRepeating((task) -> {
 			if (snowball.isDead()) {
-				task.cancel();
+				task.stop();
 				return;
 			}
 

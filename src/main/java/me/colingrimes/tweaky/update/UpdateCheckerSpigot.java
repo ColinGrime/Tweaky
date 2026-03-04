@@ -1,6 +1,7 @@
 package me.colingrimes.tweaky.update;
 
 import me.colingrimes.tweaky.Tweaky;
+import me.colingrimes.tweaky.scheduler.Scheduler;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -29,7 +30,7 @@ public class UpdateCheckerSpigot implements UpdateChecker, Listener {
 		this.resourceUrl = "https://www.spigotmc.org/resources/" + resourceId;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 		if (plugin.getSettings().UPDATE_CHECKER_LOG.get()) {
-			Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, () -> {
+			Scheduler.async().runLater(() -> {
 				if (check()) {
 					log(Bukkit.getConsoleSender());
 				}
@@ -66,7 +67,7 @@ public class UpdateCheckerSpigot implements UpdateChecker, Listener {
 			return;
 		}
 
-		Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, () -> {
+		Scheduler.async().runLater(() -> {
 			if (!check()) {
 				return;
 			}

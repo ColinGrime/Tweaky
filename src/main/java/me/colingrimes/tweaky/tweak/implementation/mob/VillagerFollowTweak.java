@@ -1,52 +1,40 @@
-package me.colingrimes.tweaky.tweak.implementation;
+package me.colingrimes.tweaky.tweak.implementation.mob;
 
 import me.colingrimes.tweaky.Tweaky;
-import me.colingrimes.tweaky.menu.tweak.TweakItem;
-import me.colingrimes.tweaky.tweak.Tweak;
+import me.colingrimes.tweaky.scheduler.Scheduler;
+import me.colingrimes.tweaky.scheduler.task.Task;
+import me.colingrimes.tweaky.tweak.type.DefaultTweak;
 import me.colingrimes.tweaky.util.Util;
 import me.colingrimes.tweaky.util.bukkit.Players;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.scheduler.BukkitTask;
 
 import javax.annotation.Nonnull;
 import java.util.HashSet;
 import java.util.Set;
 
-public class VillagerFollowTweak extends Tweak {
+public class VillagerFollowTweak extends DefaultTweak {
 
 	private final Set<Villager> villagers = new HashSet<>();
-	private BukkitTask playerTask, villagerTask;
+	private Task playerTask, villagerTask;
 
 	public VillagerFollowTweak(@Nonnull Tweaky plugin) {
 		super(plugin, "villager_follow");
 	}
 
 	@Override
-	public boolean isEnabled() {
-		return settings.TWEAK_VILLAGER_FOLLOW.get();
-	}
-
-	@Nonnull
-	@Override
-	public TweakItem getGuiItem() {
-		return menus.TWEAK_VILLAGER_FOLLOW.get().material(Material.VILLAGER_SPAWN_EGG);
-	}
-
-	@Override
 	public void init() {
-		playerTask = Bukkit.getScheduler().runTaskTimer(plugin, () -> Players.forEach(this::checkPlayer), 10L, 10L);
-		villagerTask = Bukkit.getScheduler().runTaskTimer(plugin, () -> new HashSet<>(villagers).forEach(this::checkVillager), 10L, 10L);
+		playerTask = Scheduler.sync().runRepeating(() -> Players.forEach(this::checkPlayer), 10L, 10L);
+		villagerTask = Scheduler.sync().runRepeating(() -> new HashSet<>(villagers).forEach(this::checkVillager), 10L, 10L);
 	}
 
 	@Override
 	public void shutdown() {
 		villagers.clear();
-		playerTask.cancel();
-		villagerTask.cancel();
+		playerTask.stop();
+		villagerTask.stop();
 	}
 
 	/**
