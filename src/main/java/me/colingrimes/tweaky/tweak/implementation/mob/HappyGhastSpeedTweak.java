@@ -1,8 +1,9 @@
-package me.colingrimes.tweaky.tweak.implementation;
+package me.colingrimes.tweaky.tweak.implementation.mob;
 
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.menu.tweak.TweakItem;
-import me.colingrimes.tweaky.tweak.Tweak;
+import me.colingrimes.tweaky.tweak.event.TweakHandler;
+import me.colingrimes.tweaky.tweak.type.DefaultTweak;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
@@ -16,18 +17,13 @@ import org.bukkit.inventory.EquipmentSlotGroup;
 
 import javax.annotation.Nonnull;
 
-public class HappyGhastSpeedTweak extends Tweak {
+public class HappyGhastSpeedTweak extends DefaultTweak {
 
 	private final NamespacedKey FLY_SPEED_KEY;
 
 	public HappyGhastSpeedTweak(@Nonnull Tweaky plugin) {
 		super(plugin, "happy_ghast_speed");
 		this.FLY_SPEED_KEY = new NamespacedKey(plugin, "happy_ghast_speed");
-	}
-
-	@Override
-	public boolean isEnabled() {
-		return settings.TWEAK_HAPPY_GHAST_SPEED.get();
 	}
 
 	@Nonnull
@@ -38,9 +34,9 @@ public class HappyGhastSpeedTweak extends Tweak {
 				.placeholder("{speed}", settings.TWEAK_HAPPY_GHAST_SPEED_VALUE.get());
 	}
 
-	@EventHandler
+	@TweakHandler
 	public void onEntityMount(@Nonnull EntityMountEvent event) {
-		if (!hasPermission(event.getEntity()) || !(event.getMount() instanceof HappyGhast ghast)) {
+		if (!(event.getMount() instanceof HappyGhast ghast)) {
 			return;
 		}
 

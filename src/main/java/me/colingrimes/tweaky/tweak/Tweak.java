@@ -1,11 +1,7 @@
 package me.colingrimes.tweaky.tweak;
 
-import me.colingrimes.tweaky.Tweaky;
-import me.colingrimes.tweaky.config.implementation.Menus;
-import me.colingrimes.tweaky.config.implementation.Messages;
-import me.colingrimes.tweaky.config.implementation.Settings;
 import me.colingrimes.tweaky.menu.tweak.TweakItem;
-import org.bukkit.Bukkit;
+import me.colingrimes.tweaky.tweak.properties.TweakProperties;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -13,24 +9,17 @@ import org.bukkit.event.Listener;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public abstract class Tweak implements Listener {
+public interface Tweak extends Listener {
 
-	protected final Tweaky plugin;
-	protected final Settings settings;
-	protected final Menus menus;
-	protected final Messages msg;
-	protected final String id;
+	/**
+	 * Runs when the tweak is initialized.
+	 */
+	default void init() {}
 
-	public Tweak(@Nonnull Tweaky plugin, @Nonnull String id) {
-		this.plugin = plugin;
-		this.settings = plugin.getSettings();
-		this.menus = plugin.getMenus();
-		this.msg = plugin.getMessages();
-		this.id = id;
-		if (isEnabled()) {
-			Bukkit.getPluginManager().registerEvents(this, plugin);
-		}
-	}
+	/**
+	 * Runs when the tweak is shutdown.
+	 */
+	default void shutdown() {}
 
 	/**
 	 * Gets the ID of the tweak.
@@ -38,23 +27,21 @@ public abstract class Tweak implements Listener {
 	 * @return the tweak ID
 	 */
 	@Nonnull
-	public String getId() {
-		return id;
-	}
+	String getId();
 
 	/**
 	 * Gets whether the tweak is enabled.
 	 *
 	 * @return true if the tweak is enabled
 	 */
-	public abstract boolean isEnabled();
+	boolean isEnabled();
 
 	/**
 	 * Gets the number of tweaks that are enabled by the tweak class.
 	 *
 	 * @return the number of enabled tweaks
 	 */
-	public int getCount() {
+	default int getCount() {
 		return isEnabled() ? 1 : 0;
 	}
 
@@ -64,19 +51,15 @@ public abstract class Tweak implements Listener {
 	 * @return the gui item
 	 */
 	@Nonnull
-	public TweakItem getGuiItem() {
-		return TweakItem.create("No implementation: " + id);
-	}
+	TweakItem getGuiItem();
 
 	/**
-	 * Runs when the tweak is initialized.
+	 * Gets the various properties of the tweak.
+	 *
+	 * @return the tweak properties
 	 */
-	public void init() {}
-
-	/**
-	 * Runs when the tweak is shutdown.
-	 */
-	public void shutdown() {}
+	@Nonnull
+	TweakProperties getProperties();
 
 	/**
 	 * Checks if the player has permission to use the tweak.
@@ -91,12 +74,12 @@ public abstract class Tweak implements Listener {
 	 * @param entity the entity
 	 * @return true if they have permission to use the tweak
 	 */
-	public boolean hasPermission(@Nullable Entity entity) {
-		if (!(entity instanceof Player player)) {
+	default boolean hasPermission(@Nullable Entity entity) {
+		if (!getProperties().isPermissionRequired() || !(entity instanceof Player player)) {
 			return true;
 		}
 
-		String permission = "tweaky.tweaks." + id.replace("_", "-");
+		String permission = "tweaky.tweaks." + getId().replace("_", "-");
 		String negation = "-" + permission;
 		if (player.hasPermission(negation)) {
 			return player.hasPermission(permission);

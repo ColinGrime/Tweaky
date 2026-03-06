@@ -1,7 +1,7 @@
-package me.colingrimes.tweaky.tweak.implementation;
+package me.colingrimes.tweaky.tweak.implementation.test;
 
 import me.colingrimes.tweaky.Tweaky;
-import me.colingrimes.tweaky.tweak.Tweak;
+import me.colingrimes.tweaky.tweak.type.DefaultTweak;
 import me.colingrimes.tweaky.util.bukkit.Blocks;
 import me.colingrimes.tweaky.util.bukkit.Players;
 import org.bukkit.Bukkit;
@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
-public class BedrockBreakTweak extends Tweak {
+public class BedrockBreakTweak extends DefaultTweak {
 
 	private final Map<Block, DamagedBlock> damagedBlocks = new HashMap<>();
 	private BukkitTask task;

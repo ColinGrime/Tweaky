@@ -1,8 +1,9 @@
-package me.colingrimes.tweaky.tweak.implementation;
+package me.colingrimes.tweaky.tweak.implementation.convenience;
 
 import me.colingrimes.tweaky.Tweaky;
-import me.colingrimes.tweaky.menu.tweak.TweakItem;
-import me.colingrimes.tweaky.tweak.Tweak;
+import me.colingrimes.tweaky.tweak.event.TweakHandler;
+import me.colingrimes.tweaky.tweak.properties.TweakProperties;
+import me.colingrimes.tweaky.tweak.type.DefaultTweak;
 import me.colingrimes.tweaky.util.bukkit.Sounds;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -10,38 +11,31 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Vehicle;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.vehicle.VehicleDamageEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class VehiclePickupTweak extends Tweak {
+public class VehiclePickupTweak extends DefaultTweak {
 
 	public VehiclePickupTweak(@Nonnull Tweaky plugin) {
 		super(plugin, "vehicle_pickup");
 	}
 
 	@Override
-	public boolean isEnabled() {
-		return settings.TWEAK_VEHICLE_PICKUP.get();
+	protected void configureProperties(@Nonnull TweakProperties properties) {
+		properties.getGuard()
+				.sneaking()
+				.mainHand()
+				.entity(e -> e instanceof Vehicle);
 	}
 
-	@Nonnull
-	@Override
-	public TweakItem getGuiItem() {
-		return menus.TWEAK_VEHICLE_PICKUP.get().material(Material.MINECART);
-	}
-
-	@EventHandler
+	@TweakHandler
 	public void onPlayerInteract(@Nonnull PlayerInteractEntityEvent event) {
 		Player player = event.getPlayer();
-		if (!hasPermission(player) || event.getHand() != EquipmentSlot.HAND || !player.isSneaking() || !(event.getRightClicked() instanceof Vehicle vehicle)) {
-			return;
-		}
+		Vehicle vehicle = (Vehicle) event.getRightClicked();
 
 		VehicleDamageEvent vehicleDamage = new VehicleDamageEvent(vehicle, player, 0);
 		Bukkit.getPluginManager().callEvent(vehicleDamage);
@@ -71,7 +65,7 @@ public class VehiclePickupTweak extends Tweak {
 	 * @return the vehicle item
 	 */
 	@Nullable
-	public ItemStack getVehicleItem(@Nonnull Entity entity) {
+	private ItemStack getVehicleItem(@Nonnull Entity entity) {
 		return switch (entity.getType()) {
 			// Boats
 			case OAK_BOAT               -> new ItemStack(Material.OAK_BOAT);

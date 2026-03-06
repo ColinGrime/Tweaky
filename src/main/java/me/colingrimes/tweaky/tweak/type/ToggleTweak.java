@@ -21,7 +21,7 @@ import java.util.UUID;
 /**
  * Represents a {@link Tweak} that can be toggleable via a command.
  */
-public abstract class ToggleTweak extends Tweak implements CommandExecutor {
+public abstract class ToggleTweak extends DefaultTweak implements CommandExecutor {
 
 	private final Set<UUID> toggleOn = new HashSet<>();
 	private final String TOGGLE_KEY;

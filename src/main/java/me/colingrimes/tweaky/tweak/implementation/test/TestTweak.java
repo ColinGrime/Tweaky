@@ -1,8 +1,8 @@
-package me.colingrimes.tweaky.tweak.implementation;
+package me.colingrimes.tweaky.tweak.implementation.test;
 
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.event.PlayerInteractBlockEvent;
-import me.colingrimes.tweaky.tweak.Tweak;
+import me.colingrimes.tweaky.tweak.type.DefaultTweak;
 import me.colingrimes.tweaky.util.Util;
 import me.colingrimes.tweaky.util.bukkit.Sounds;
 import org.bukkit.*;
@@ -25,7 +25,7 @@ import org.bukkit.util.RayTraceResult;
 import javax.annotation.Nonnull;
 
 // Used for testing. Should be disabled on prod.
-public class TestTweak extends Tweak {
+public class TestTweak extends DefaultTweak {
 
 	public TestTweak(@Nonnull Tweaky plugin) {
 		super(plugin, "test_tweak");

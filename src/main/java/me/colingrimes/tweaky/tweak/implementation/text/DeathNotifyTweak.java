@@ -1,40 +1,23 @@
-package me.colingrimes.tweaky.tweak.implementation;
+package me.colingrimes.tweaky.tweak.implementation.text;
 
 import me.colingrimes.tweaky.Tweaky;
-import me.colingrimes.tweaky.menu.tweak.TweakItem;
-import me.colingrimes.tweaky.tweak.Tweak;
+import me.colingrimes.tweaky.tweak.event.TweakHandler;
+import me.colingrimes.tweaky.tweak.type.DefaultTweak;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
 import javax.annotation.Nonnull;
 
-public class DeathNotifyTweak extends Tweak {
+public class DeathNotifyTweak extends DefaultTweak {
 
 	public DeathNotifyTweak(@Nonnull Tweaky plugin) {
 		super(plugin, "death_notify");
 	}
 
-	@Override
-	public boolean isEnabled() {
-		return settings.TWEAK_DEATH_NOTIFY.get();
-	}
-
-	@Nonnull
-	@Override
-	public TweakItem getGuiItem() {
-		return menus.TWEAK_DEATH_NOTIFY.get().material(Material.SKELETON_SKULL);
-	}
-
-	@EventHandler
+	@TweakHandler
 	public void onPlayerDeath(@Nonnull PlayerDeathEvent event) {
 		Player player = event.getEntity();
-		if (!hasPermission(player)) {
-			return;
-		}
-
 		Location location = player.getLocation();
 		msg.TWEAK_DEATH_MESSAGE
 				.replace("{x}", String.valueOf(location.getBlockX()))

@@ -1,9 +1,7 @@
-package me.colingrimes.tweaky.tweak.implementation;
+package me.colingrimes.tweaky.tweak.implementation.mob;
 
 import me.colingrimes.tweaky.Tweaky;
-import me.colingrimes.tweaky.menu.tweak.TweakItem;
-import me.colingrimes.tweaky.tweak.Tweak;
-import org.bukkit.Material;
+import me.colingrimes.tweaky.tweak.type.DefaultTweak;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.TNTPrimed;
@@ -13,21 +11,10 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import javax.annotation.Nonnull;
 
-public class PetProtectionTweak extends Tweak {
+public class PetProtectionTweak extends DefaultTweak {
 
 	public PetProtectionTweak(@Nonnull Tweaky plugin) {
 		super(plugin, "pet_protection");
-	}
-
-	@Override
-	public boolean isEnabled() {
-		return settings.TWEAK_PET_PROTECTION.get();
-	}
-
-	@Nonnull
-	@Override
-	public TweakItem getGuiItem() {
-		return menus.TWEAK_PET_PROTECTION.get().material(Material.WOLF_SPAWN_EGG);
 	}
 
 	@EventHandler
