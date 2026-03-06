@@ -1,7 +1,7 @@
 package me.colingrimes.tweaky.config.manager;
 
 import me.colingrimes.tweaky.Tweaky;
-import me.colingrimes.tweaky.util.Logger;
+import me.colingrimes.tweaky.util.io.Logger;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -56,10 +56,10 @@ public class ConfigurationProvider {
 		try {
 			newConfig.save(configFile);
 		} catch (IOException e) {
-			Logger.severe(plugin, "Error saving Configuration File '" + name + "': " + e.getMessage());
+			Logger.severe("Error saving Configuration File '" + name + "': " + e.getMessage());
 		}
 
-		Logger.log(plugin, "Loaded the " + name + " file.");
+		Logger.log("Loaded the " + name + " file.");
 	}
 
 	/**
@@ -144,5 +144,15 @@ public class ConfigurationProvider {
 	@Nonnull
 	public Optional<Boolean> getBoolean(@Nonnull String path) {
 		return Optional.ofNullable(config.getObject(path, Boolean.class));
+	}
+
+	/**
+	 * Checks if the configuration contains the given path.
+	 *
+	 * @param path the path to check
+	 * @return true if the path exists
+	 */
+	public boolean contains(@Nonnull String path) {
+		return config.contains(path);
 	}
 }

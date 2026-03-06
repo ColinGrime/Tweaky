@@ -8,18 +8,22 @@ import me.colingrimes.tweaky.config.option.SimpleOption;
 import org.bukkit.configuration.ConfigurationSection;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 public abstract class Configuration {
 
+	protected final Tweaky plugin;
 	private final ConfigurationProvider provider;
-	private final List<Option<?>> options;
+	private final Map<String, Option<?>> options;
 
 	public Configuration(@Nonnull Tweaky plugin, @Nonnull String name) {
+		this.plugin = plugin;
 		this.provider = new ConfigurationProvider(plugin, name);
-		this.options = new ArrayList<>();
+		this.options = new HashMap<>();
 	}
 
 	/**
@@ -27,18 +31,20 @@ public abstract class Configuration {
 	 */
 	public void reload() {
 		provider.reload();
-		options.forEach(option -> option.reload(provider));
+		options.values().forEach(option -> option.reload(provider));
 	}
 
 	/**
 	 * Registers the given option.
 	 *
+	 * @param path the path to the option
 	 * @param option the option
 	 * @return the option that was registered
 	 */
 	@Nonnull
-	protected <T> Option<T> register(@Nonnull Option<T> option) {
-		options.add(option);
+	protected <T> Option<T> register(@Nonnull String path, @Nonnull Option<T> option) {
+		options.put(path, option);
+		option.reload(provider);
 		return option;
 	}
 
@@ -50,7 +56,7 @@ public abstract class Configuration {
 	 */
 	@Nonnull
 	protected Option<Boolean> option(@Nonnull String path) {
-		return register(new SimpleOption<>(provider -> provider.getBoolean(path).orElse(false)));
+		return register(path, new SimpleOption<>(provider -> provider.getBoolean(path).orElse(false)));
 	}
 
 	/**
@@ -62,7 +68,7 @@ public abstract class Configuration {
 	 */
 	@Nonnull
 	protected Option<String> option(@Nonnull String path, @Nonnull String def) {
-		return register(new SimpleOption<>(provider -> provider.getString(path).orElse(def)));
+		return register(path, new SimpleOption<>(provider -> provider.getString(path).orElse(def)));
 	}
 
 	/**
@@ -74,7 +80,7 @@ public abstract class Configuration {
 	 */
 	@Nonnull
 	protected Option<List<String>> option(@Nonnull String path, @Nonnull List<String> def) {
-		return register(new SimpleOption<>(provider -> provider.getStringList(path).orElse(def)));
+		return register(path, new SimpleOption<>(provider -> provider.getStringList(path).orElse(def)));
 	}
 
 	/**
@@ -86,7 +92,7 @@ public abstract class Configuration {
 	 */
 	@Nonnull
 	protected Option<Integer> option(@Nonnull String path, int def) {
-		return register(new SimpleOption<>(provider -> provider.getInteger(path).orElse(def)));
+		return register(path, new SimpleOption<>(provider -> provider.getInteger(path).orElse(def)));
 	}
 
 	/**
@@ -98,7 +104,7 @@ public abstract class Configuration {
 	 */
 	@Nonnull
 	protected Option<Double> option(@Nonnull String path, double def) {
-		return register(new SimpleOption<>(provider -> provider.getDouble(path).orElse(def)));
+		return register(path, new SimpleOption<>(provider -> provider.getDouble(path).orElse(def)));
 	}
 
 	/**
@@ -110,7 +116,7 @@ public abstract class Configuration {
 	 */
 	@Nonnull
 	protected Option<Boolean> option(@Nonnull String path, boolean def) {
-		return register(new SimpleOption<>(provider -> provider.getBoolean(path).orElse(def)));
+		return register(path, new SimpleOption<>(provider -> provider.getBoolean(path).orElse(def)));
 	}
 
 	/**
@@ -123,7 +129,21 @@ public abstract class Configuration {
 	 */
 	@Nonnull
 	protected <T> Option<T> option(@Nonnull String path, @Nonnull Function<ConfigurationSection, T> extractor) {
-		return register(new SimpleOption<>(provider -> extractor.apply(provider.getSection(path).orElse(null))));
+		return option(path, path, extractor);
+	}
+
+	/**
+	 * Creates a custom option using the provided extractor function.
+	 *
+	 * @param path the configuration path
+	 * @param sectionPath the path of the section
+	 * @param extractor a function that extracts the custom option
+	 * @param <T> the type of the option
+	 * @return the custom option
+	 */
+	@Nonnull
+	protected <T> Option<T> option(@Nonnull String path, @Nonnull String sectionPath, @Nonnull Function<ConfigurationSection, T> extractor) {
+		return register(path, new SimpleOption<>(provider -> extractor.apply(provider.getSection(sectionPath).orElse(null))));
 	}
 
 	/**
@@ -136,7 +156,7 @@ public abstract class Configuration {
 	@Nonnull
 	protected MessageOption<String> message(@Nonnull String path, @Nonnull String def) {
 		MessageOption<String> message = new MessageOption<>(provider -> provider.getString(path).orElse(def));
-		register(message);
+		register(path, message);
 		return message;
 	}
 
@@ -150,7 +170,7 @@ public abstract class Configuration {
 	@Nonnull
 	protected MessageOption<List<String>> message(@Nonnull String path, @Nonnull List<String> def) {
 		MessageOption<List<String>> message = new MessageOption<>(provider -> provider.getStringList(path).orElse(def));
-		register(message);
+		register(path, message);
 		return message;
 	}
 
@@ -164,7 +184,29 @@ public abstract class Configuration {
 	@Nonnull
 	protected MessageOption<List<String>> message(@Nonnull String path, @Nonnull String...def) {
 		MessageOption<List<String>> message = new MessageOption<>(provider -> provider.getStringList(path).orElse(List.of(def)));
-		register(message);
+		register(path, message);
 		return message;
+	}
+
+	/**
+	 * Gets the option of the specified class.
+	 *
+	 * @param path the path to the option
+	 * @return the option
+	 */
+	@SuppressWarnings("unchecked")
+	@Nonnull
+	protected <T> Optional<Option<T>> getOption(@Nonnull String path) {
+		return Optional.ofNullable((Option<T>) options.get(path));
+	}
+
+	/**
+	 * Checks if the configuration contains the given path.
+	 *
+	 * @param path the path to check
+	 * @return true if the path exists
+	 */
+	protected boolean hasPath(@Nonnull String path) {
+		return provider.contains(path);
 	}
 }

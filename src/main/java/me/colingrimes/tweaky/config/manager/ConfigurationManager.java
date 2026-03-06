@@ -17,27 +17,25 @@ public class ConfigurationManager {
 
 	private final List<Configuration> configs = new ArrayList<>();
 	private final Tweaky plugin;
-	private final Settings settings;
-	private final Menus menus;
-	private final Messages messages;
+	private Settings settings;
+	private Menus menus;
+	private Messages messages;
 
 	public ConfigurationManager(@Nonnull Tweaky plugin) {
 		this.plugin = plugin;
-		this.settings = new Settings(plugin);
-		this.menus = new Menus(plugin);
-		this.messages = new Messages(plugin);
-		addConfiguration(settings);
-		addConfiguration(menus);
-		addConfiguration(messages);
 	}
 
 	/**
-	 * Adds a configuration to the manager.
-	 *
-	 * @param config the configuration
+	 * Initializes all configuration files for the plugin.
 	 */
-	private void addConfiguration(@Nonnull Configuration config) {
-		configs.add(config);
+	public void init() {
+		settings = new Settings(plugin);
+		menus = new Menus(plugin);
+		messages = new Messages(plugin);
+		configs.add(settings);
+		configs.add(menus);
+		configs.add(messages);
+		reload();
 	}
 
 	/**
