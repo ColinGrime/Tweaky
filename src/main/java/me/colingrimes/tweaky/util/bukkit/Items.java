@@ -2,7 +2,7 @@ package me.colingrimes.tweaky.util.bukkit;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.HashMultimap;
-import me.colingrimes.tweaky.util.Random;
+import me.colingrimes.tweaky.util.misc.Random;
 import me.colingrimes.tweaky.util.text.Text;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -127,6 +127,23 @@ public final class Items {
 			remove(item);
 			Sounds.play(player, Sound.ENTITY_ITEM_BREAK);
 		}
+	}
+
+	/**
+	 * Uses the item. This damages (or removes) the item and plays the given use sound.
+	 *
+	 * @param item the item to use
+	 * @param player the player using the item
+	 * @param useSound the sound to play when using the item
+	 * @param location the location to play the sound
+	 */
+	public static void use(@Nonnull ItemStack item, @Nonnull Player player, @Nonnull Sound useSound, @Nonnull Location location) {
+		if (item.getType().getMaxDurability() > 0) {
+			damage(item, player);
+		} else {
+			remove(item);
+		}
+		Sounds.play(location, useSound);
 	}
 
 	/**

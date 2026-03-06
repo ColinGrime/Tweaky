@@ -2,7 +2,7 @@ package me.colingrimes.tweaky.config.option;
 
 import me.colingrimes.tweaky.config.manager.ConfigurationProvider;
 import me.colingrimes.tweaky.message.Message;
-import me.colingrimes.tweaky.util.Types;
+import me.colingrimes.tweaky.util.misc.Types;
 import me.colingrimes.tweaky.util.text.Text;
 import org.bukkit.command.CommandSender;
 

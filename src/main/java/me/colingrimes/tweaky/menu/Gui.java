@@ -1,8 +1,8 @@
 package me.colingrimes.tweaky.menu;
 
 import com.google.common.base.Preconditions;
-import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.menu.slot.SimpleSlot;
+import me.colingrimes.tweaky.scheduler.Scheduler;
 import me.colingrimes.tweaky.util.text.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -107,7 +107,7 @@ public abstract class Gui {
 		}
 
 		// Delay the opening by 1 tick to ensure inventory is ready.
-		Bukkit.getScheduler().runTask(Tweaky.getInstance(), () -> {
+		Scheduler.sync().run(() -> {
 			players.put(getPlayer(), this);
 			getPlayer().openInventory(getHandle());
 		});

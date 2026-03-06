@@ -2,7 +2,7 @@ package me.colingrimes.tweaky.message;
 
 import me.colingrimes.tweaky.message.implementation.ListMessage;
 import me.colingrimes.tweaky.message.implementation.TextMessage;
-import me.colingrimes.tweaky.util.Types;
+import me.colingrimes.tweaky.util.misc.Types;
 import me.colingrimes.tweaky.util.text.Text;
 
 import javax.annotation.Nonnull;

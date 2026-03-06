@@ -12,7 +12,7 @@ import javax.annotation.Nonnull;
  * Convenience methods for global sounds.
  * Use {@link Players#sound(Player, Sound)} for a player-specific sound.
  */
-public class Sounds {
+public final class Sounds {
 
 	/**
 	 * Plays the sound at the given location.

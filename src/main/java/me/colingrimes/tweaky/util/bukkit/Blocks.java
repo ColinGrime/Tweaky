@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class Blocks {
+public final class Blocks {
 
 	private static final List<Material> PLANTS = List.of(
 			Material.SHORT_GRASS,

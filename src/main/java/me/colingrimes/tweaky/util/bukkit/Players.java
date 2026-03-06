@@ -95,7 +95,7 @@ public final class Players {
 	}
 
 	/**
-	 * Returns true if the handle should be handled by the event.
+	 * Returns true if the hand should be handled by the event.
 	 *
 	 * @param player the player
 	 * @param hand the hand
@@ -115,6 +115,24 @@ public final class Players {
 
 		// Prioritize Main Hand.
 		return hand == EquipmentSlot.HAND || !predicate.test(main);
+	}
+
+	/**
+	 * Uses the item in the player's hand. This performs a number of actions:
+	 * <ul>
+	 *     <li>Swings the player's hand.</li>
+	 *     <li>Damages (or removes) the item in their hand.</li>
+	 *     <li>Plays the given use sound.</li>
+	 * </ul>
+	 *
+	 * @param player the player using the item
+	 * @param hand the hand to check
+	 * @param useSound the sound to play when using the item
+	 * @param location the location to play the sound
+	 */
+	public static void use(@Nonnull Player player, @Nonnull EquipmentSlot hand, @Nonnull Sound useSound, @Nonnull Location location) {
+		player.swingHand(hand);
+		Items.use(player.getInventory().getItem(hand), player, useSound, location);
 	}
 
 	private Players() {

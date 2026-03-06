@@ -1,4 +1,4 @@
-package me.colingrimes.tweaky.util;
+package me.colingrimes.tweaky.util.misc;
 
 import javax.annotation.Nonnull;
 import java.util.List;

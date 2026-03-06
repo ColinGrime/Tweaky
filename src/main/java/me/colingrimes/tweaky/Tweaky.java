@@ -12,7 +12,7 @@ import me.colingrimes.tweaky.listener.TweakListeners;
 import me.colingrimes.tweaky.menu.Gui;
 import me.colingrimes.tweaky.tweak.TweakManager;
 import me.colingrimes.tweaky.update.UpdateCheckerSpigot;
-import me.colingrimes.tweaky.util.Logger;
+import me.colingrimes.tweaky.util.io.Logger;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -33,7 +33,7 @@ public class Tweaky extends JavaPlugin {
 
 		// Initialize settings.
 		configManager = new ConfigurationManager(this);
-		configManager.reload();
+		configManager.init();
 
 		// Setup commands + listeners.
 		Bukkit.getPluginCommand("tweaky").setExecutor(new TweakyCommand(this));
@@ -41,7 +41,7 @@ public class Tweaky extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(new MenuListeners(), this);
 		Bukkit.getPluginManager().registerEvents(new PlayerListeners(), this);
 		Bukkit.getPluginManager().registerEvents(new TweakListeners(this), this);
-		Logger.log(this, "Registered all commands and events.");
+		Logger.log("Registered all commands and events.");
 
 		// Register all the tweaks.
 		tweakManager = new TweakManager(this);
@@ -56,7 +56,7 @@ public class Tweaky extends JavaPlugin {
 		new UpdateCheckerSpigot(this, 123654);
 
 		// Finished starting plugin.
-		Logger.log(this, "Tweaky v" + getDescription().getVersion() + " has been fully enabled.");
+		Logger.log("Tweaky v" + getDescription().getVersion() + " has been fully enabled.");
 	}
 
 	@Override
