@@ -2,8 +2,38 @@
 # The ordering in this file does not matter (it gets reordered automatically).
 tweak-menu:
   name: "&8Tweaks (&2{count}&8)"
+  categories:
+    mobs:
+      type: ZOMBIE_HEAD
+      name: "&aMob Tweaks"
+      lore: "&7All tweaks related to Mobs."
+    blocks:
+      type: GRASS_BLOCK
+      name: "&aBlock Tweaks"
+      lore: "&7All tweaks related to Blocks."
+    crops:
+      type: WHEAT
+      name: "&aCrop Tweaks"
+      lore: "&7All tweaks related to Crops."
+    text:
+      type: BOOK
+      name: "&aText Tweaks"
+      lore: "&7All tweaks related to displaying Text."
+    convenience:
+      type: CLOCK
+      name: "&aConvenience Tweaks"
+      lore: "&7All tweaks that save you time & effort."
+    recipes:
+      type: CRAFTING_TABLE
+      name: "&aRecipe Tweaks"
+      lore: "&7All tweaks that add Recipes to the game."
+    miscellaneous:
+      type: BEDROCK
+      name: "&aMiscellaneous Tweaks"
+      lore: "&7Tweaks that do not belong to any other category."
   tweaks:
     anvil-color:
+      type: ANVIL
       name: "&aColored Names"
       lore:
         - "&7Items can be colored in the anvil."
@@ -15,6 +45,7 @@ tweak-menu:
         - "&fo &7→ &oItalic&r   &fr &7→ Reset"
       usage: "&eUsage: &aPlace an item in an Anvil with the listed color codes."
     anvil-repair:
+      type: DAMAGED_ANVIL
       name: "&aAnvil Repair &8(Right Click)"
       lore:
         - "&7Repair an Anvil by 1 level."
@@ -23,10 +54,12 @@ tweak-menu:
         - " &7Iron Block &8(Default)"
       usage: "&eUsage: &aRight Click an Anvil with an Iron Block to repair it."
     armor-swap:
+      type: CHAINMAIL_CHESTPLATE
       name: "&aArmor Swap &8(Sneak)"
       lore: "&7Armor Stands can quick swap Armor."
       usage: "&eUsage: &aSneak over an Armor Stand to quick swap Armor."
     bee-capture:
+      type: BEE_SPAWN_EGG
       name: "&aBee Capture &8(Right Click)"
       lore:
         - "&7Click on Bees to capture them."
@@ -36,6 +69,7 @@ tweak-menu:
         - " &7Beehive"
       usage: "&eUsage: &aRight Click a Bee with a Bee Nest to capture it."
     break-deepslate:
+      type: DEEPSLATE
       name: "&aDeepslate Break"
       lore:
         - "&7Instantly break Deepslate."
@@ -46,14 +80,17 @@ tweak-menu:
     # Only shows the one you have active in the config.yml file.
     break-ender-chest:
       drop:
+        type: ENDER_CHEST
         name: "&aEnder Chest Break"
         lore: "&7Always drops, even without Silk Touch."
         usage: "&eUsage: &aEnder Chests always drop when broken."
       protection:
+        type: ENDER_CHEST
         name: "&aEnder Chest Break"
         lore: "&7Cannot be broken without Silk Touch."
         usage: "&eUsage: &aEnder Chests cannot be broken without Silk Touch."
     break-glass:
+      type: TINTED_GLASS
       name: "&aGlass Break"
       lore:
         - "&7Instantly break Glass."
@@ -62,6 +99,7 @@ tweak-menu:
         - " &7Netherite Pickaxe"
       usage: "&eUsage: &aBreak Glass instantly with the listed tools."
     break-leaves:
+      type: MANGROVE_LEAVES
       name: "&aLeaves Break"
       lore:
         - "&7Breaks an extra block on each side."
@@ -71,6 +109,7 @@ tweak-menu:
         - " &7Netherite Hoe &8(3x3x3)"
       usage: "&eUsage: &aBreaking Leaves with a Hoe will break an extra block on each side. Netherite Hoes → 3x3x3."
     break-plants:
+      type: TALL_GRASS
       name: "&aPlants Break"
       lore:
         - "&7Breaks a radius of plants."
@@ -82,26 +121,32 @@ tweak-menu:
         - "&eUsage: &aBreak Plants with a Hoe to 3x3 break them."
         - "         &aUsing a Netherite Hoe → 5x5 break."
     breeding-indicator:
+      type: COW_SPAWN_EGG
       name: "&aBreeding Indicator"
       lore: "&7Shows when Mobs can breed again."
       usage: "&eUsage: &aAdds an indicator above Mobs to show when they can breed again."
     cauldron-concrete:
+      type: WHITE_CONCRETE
       name: "&aCauldron Concrete &8(Throw)"
       lore: "&7Turn Concrete Powder into Concrete."
       usage: "&eUsage: &aThrow Concrete Powder into a Cauldron for Concrete."
     cauldron-mud:
+      type: MUD
       name: "&aCauldron Mud &8(Throw)"
       lore: "&7Turn Dirt into Mud."
       usage: "&eUsage: &aThrow Dirt into a Cauldron for Mud."
     coordinates:
+      type: PLAYER_HEAD
       name: "&aCoordinates &8(Command)"
       lore: "&7Toggle your coordinates."
       usage: "&eUsage: &aType &e/coords &ato toggle your coordinates."
     crops-bone-meal:
+      type: NETHER_WART
       name: "&aBone Meal Anything"
       lore: "&7Can be used on any Crop."
       usage: "&eUsage: &aUse Bone Meal on any Crop to make it grow."
     crops-harvest:
+      type: NETHERITE_HOE
       name: "&aHarvest Crops &8(Right Click)"
       lore:
         - "&7Instantly harvest Crops."
@@ -110,44 +155,54 @@ tweak-menu:
         - " &7Hoe &8(Any)"
       usage: "&eUsage: &aRight Click a Crop with a Hoe to instantly harvest & replant."
     crops-protection:
+      type: WHEAT
       name: "&aCrop Protection"
       lore: "&7Prevents the trampling of Crops."
       usage: "&eUsage: &aPrevents the trampling of Crops when jumped on."
     death-notify:
+      type: SKELETON_SKULL
       name: "&aDeath Notify &8(Die)"
       lore: "&7Notifies where you died."
       usage: "&eUsage: &aNotifies you of your death location."
     doors-double:
+      type: SPRUCE_DOOR
       name: "&aDouble Doors"
       lore: "&7Open connected Doors with 1 click."
       usage: "&eUsage: &aAllows the opening of connected Doors with 1 click."
     doors-iron:
+      type: IRON_DOOR
       name: "&aIron Doors &8(Right Click)"
       lore: "&7Open Iron Doors with your hands."
       usage: "&eUsage: &aAllows the opening of Iron Doors."
     drops-filter:
+      type: CAULDRON
       name: "&aDrop Filter &8(Right Click)"
       lore: "&7Open your Drop Filter."
       usage:
         - "&eUsage: &aRight Click a Cauldron to open up your Drop Filter."
         - "         &aType &e/filter &aor &e/drops &ato easily toggle it on or off."
     drops-magnet:
+      type: FLINT
       name: "&aDrops Magnet &8(Break)"
       lore: "&7Broken blocks get boosted towards you."
       usage: "&eUsage: &aBreaking blocks will cause their item drops to get boosted towards you."
     enchanting-lapis:
+      type: LAPIS_LAZULI
       name: "&aLapis Store"
       lore: "&7Permanently store Lapis in Enchanting Tables."
       usage: "&eUsage: &aLapis stays in the Lapis slot in Enchanting Tables when you close it."
     entity-dye:
+      type: RED_DYE
       name: "&aDye Mobs &8(Right Click)"
       lore: "&7Change the color of named Mobs."
       usage: "&eUsage: &aRight Click on a Mob with a Dye to change its name color."
     entity-equip:
+      type: STONE_SWORD
       name: "&aEquip Mobs &8(Throw)"
       lore: "&7Mobs will auto equip thrown items."
       usage: "&eUsage: &aThrowing items close to a Mob will cause them to auto equip it."
     entity-ignite:
+      type: FLINT_AND_STEEL
       name: "&aIgnite Mobs &8(Right Click)"
       lore:
         - "&7Set any Mob on fire."
@@ -157,12 +212,14 @@ tweak-menu:
         - " &7Fire Charge"
       usage: "&eUsage: &aRight Click a Mob with a Flint & Steel or Fire Charge to set it on fire."
     entity-silence:
+      type: NAME_TAG
       name: "&aSilence Mobs"
       lore:
         - "&7Name a Mob \"&esilence&7\" to make it silent."
         - "&7Name a Mob \"&eunsilence&7\" to make it audible."
       usage: "&eUsage: &aName a Mob \"silence\" or \"unsilence\" to toggle its sound."
     fortune-silk-swap:
+      type: NETHERITE_PICKAXE
       name: "&aFortune Silk Swap &8(Right Click)"
       lore:
         - "&7Add Fortune and Silk Touch to the same tool."
@@ -177,14 +234,17 @@ tweak-menu:
         - "&eUsage: &aAdd Fortune and Silk Touch to the same tool."
         - "         &aOnce added, right-click to toggle between enchants."
     happy-ghast-placement:
+      type: HAPPY_GHAST_SPAWN_EGG
       name: "&aPlace Blocks on Happy Ghasts"
       lore: "&7Blocks can be placed on top of their heads."
       usage: "&eUsage: &aBlocks can be placed on top of Happy Ghast's heads."
     happy-ghast-speed:
+      type: HAPPY_GHAST_SPAWN_EGG
       name: "&aIncreased Speed of Happy Ghasts"
       lore: "&7Speed Multipler: &e{speed}x"
       usage: "&eUsage: &aIncreases the speed of Happy Ghasts by &e{speed}x&a."
     hay-bale-bread:
+      type: BREAD
       name: "&aHarvest Hay Bale &8(Right Click)"
       lore:
         - "&7Automatically crafts & drops bread."
@@ -193,26 +253,31 @@ tweak-menu:
         - " &7Hoe &8(Any)"
       usage: "&eUsage: &aRight Click a Hay Bale with a Hoe to automatically craft and drop Bread."
     horse-statistics:
+      type: HORSE_SPAWN_EGG
       name: "&aHorse Statistics &8(Sneak Right Click)"
       lore: "&7View the statistics of Horses."
       usage: "&eUsage: &aView the statistics (health-speed-jump) of Horses by sneak-right-click."
     inventory-crafting:
+      type: CRAFTING_TABLE
       name: "&aInventory Crafting &8(Right Click)"
       lore: "&7Open up a Crafting Table in your inventory."
       usage: "&eUsage: &aRight Click a Crafting Table in your inventory to open it."
     inventory-ender-chest:
+      type: ENDER_CHEST
       name: "&aInventory Ender Chest &8(Right Click)"
       lore: "&7Add Silk Touch to your Ender Chest to open it."
       usage:
         - "&eUsage: &aAllows you to add Silk Touch to your Ender Chest."
         - "         &aOnce added, right-click it in your inventory to open it."
     item-frame-click-through:
+      type: ITEM_FRAME
       name: "&aClick Through Item Frames &8(Right Click)"
       lore: "&7Open Chests with Item Frames on them."
       usage:
         - "&eUsage: &aRight Click an Item Frame on a Chest to open it."
         - "         &aShift for normal behavior."
     item-frame-invisible:
+      type: ITEM_FRAME
       name: "&aToggle Item Frames &8(Sneak Right Click)"
       lore:
         - "&7Toggle the visibility of Item Frames."
@@ -221,6 +286,7 @@ tweak-menu:
         - " &7Shears &8(Default)"
       usage: "&eUsage: &aSneak Right Click an Item Frame with Shears to toggle its visibility."
     ladder-placement:
+      type: LADDER
       name: "&aLadder Placement &8(Right Click)"
       lore:
         - "&7Click on an existing Ladder to expand it."
@@ -231,30 +297,37 @@ tweak-menu:
     # Only shows the one you have active in the config.yml file.
     ladder-teleportation:
       automatic:
+        type: LADDER
         name: "&aLadder Teleportation"
         lore: "&7Walk into a Ladder to teleport."
         usage: "&eUsage: &aTeleport up or down by walking into a Ladder."
       manual:
+        type: LADDER
         name: "&aLadder Teleportation &8(Look Up or Down)"
         lore: "&7Look straight up or down to teleport."
         usage: "&eUsage: &aTeleport by looking straight up or down while walking into a Ladder."
     night-vision:
+      type: NIGHT_VISION
       name: "&aNight Vision &8(Command)"
       lore: "&7Toggle Night Vision."
       usage: "&eUsage: &aType &e/nightvision &ato toggle Night Vision."
     pet-protection:
+      type: WOLF_SPAWN_EGG
       name: "&aPet Protection"
       lore: "&7Protects your Pets from yourself."
       usage: "&eUsage: &aPrevents you from attacking your own Pet."
     portal-protection:
+      type: OBSIDIAN
       name: "&aPortal Protection"
       lore: "&7Protects Nether Portals from explosions."
       usage: "&eUsage: &aNether Portals can no longer be destroyed by explosions."
     recipe-unlock-all:
+      type: CRAFTING_TABLE
       name: "&aUnlock All Recipes"
       lore: "&7All recipes are unlocked."
       usage: "&eUsage: &aAutomatically unlock all recipes."
     revert-farmland:
+      type: FARMLAND
       name: "&aRevert Farmland &8(Sneak Right Click)"
       lore:
         - "&7Goes back to Dirt."
@@ -263,6 +336,7 @@ tweak-menu:
         - " &7Hoe &8(Any)"
       usage: "&eUsage: &aSneak Right Click on Farmland with a Hoe to revert it back to Dirt."
     revert-path:
+      type: DIRT_PATH
       name: "&aRevert Path &8(Sneak Right Click)"
       lore:
         - "&7Goes back to Dirt."
@@ -271,6 +345,7 @@ tweak-menu:
         - " &7Shovel &8(Any)"
       usage: "&eUsage: &aSneak Right Click on Dirt Paths with a Shovel to revert it back to Dirt."
     revert-stripped:
+      type: STRIPPED_OAK_LOG
       name: "&aRevert Stripped &8(Sneak Right Click)"
       lore:
         - "&7Goes back to previous Log or Stem variant."
@@ -279,10 +354,12 @@ tweak-menu:
         - " &7Axe &8(Any)"
       usage: "&eUsage: &aSneak Right Click on a Stripped Log or Stem with an Axe to revert it back to its previous variant."
     rotten-flesh-to-leather:
+      type: ROTTEN_FLESH
       name: "&aRotten Flesh to Leather &8(Smelt)"
       lore: "&7Smelt Rotten Flesh into Leather."
       usage: "&eUsage: &aAllows you to smelt Rotten Flesh into Leather."
     snowballs:
+      type: SNOWBALL
       name: "&aSnowball Tweaks &8({count})"
       # Only shows the ones you have active in the config.yml file.
       lore:
@@ -296,6 +373,7 @@ tweak-menu:
         extinguish-fire: "&a► &7Extinguish Fire on hit."
       usage: "&eUsage: &aThrow Snowballs to activate the listed tweaks."
     sponge-ignite:
+      type: WET_SPONGE
       name: "&aIgnite Sponge &8(Right Click)"
       lore:
         - "&7Instantly dry out Wet Sponges."
@@ -305,14 +383,17 @@ tweak-menu:
         - " &7Fire Charge"
       usage: "&eUsage: &aRight Click a Wet Sponge with a Flint & Steel or Fire Charge to dry it out."
     torch-throw:
+      type: TORCH
       name: "&aTorch Placement &8(Throw)"
       lore: "&7Places a Torch on the ground."
       usage: "&eUsage: &aThrow Torches on the ground to place them."
     vehicle-pickup:
+      type: MINECART
       name: "&aVehicle Pickup &8(Sneak Right Click)"
       lore: "&7Boats and Minecarts can be picked up."
       usage: "&eUsage: &aBoats and Minecarts can be picked up by sneak-right-click."
     villager-follow:
+      type: VILLAGER_SPAWN_EGG
       name: "&aVillager Follow"
       lore:
         - "&7Follows you if you have an Emerald out."
@@ -321,6 +402,7 @@ tweak-menu:
         - " &7Emerald &8(Default)"
       usage: "&eUsage: &aVillagers will follow you if you are holding an Emerald."
     water-bottle-convert-lava:
+      type: SPLASH_POTION
       name: "&aWater Bottles Convert Lava &8(Throw)"
       lore:
         - "&7Converts Lava into Obsidian."
@@ -329,6 +411,7 @@ tweak-menu:
         - " &7Splash Water Bottle &8(Default)"
       usage: "&eUsage: &aSplashing a Water Bottle into Lava converts it into Obsidian."
     water-bottle-craft:
+      type: SPLASH_POTION
       name: "&aWater Bottle Craft &8(Craft)"
       lore:
         - "&7Craft Splash Water Bottles."
@@ -337,6 +420,7 @@ tweak-menu:
         - " &7Water Bucket &8(Default)"
       usage: "&eUsage: &aConvert a Water Bucket into Splash Water Bottles."
     weapon-swing-through:
+      type: DIAMOND_SWORD
       name: "&aWeapon Swing Through"
       lore:
         - "&7Attacks pass through passable blocks."
@@ -346,6 +430,7 @@ tweak-menu:
         - " &7Axe &8(Any)"
       usage: "&eUsage: &aWeapon attacks can swing through passable blocks to hit Mobs."
     xp-fill:
+      type: EXPERIENCE_BOTTLE
       name: "&aXP Fill &8(Right Click)"
       lore:
         - "&7Click on an Enchanting Table to fill XP bottles."

@@ -1,8 +1,9 @@
 package me.colingrimes.tweaky.tweak;
 
 import me.colingrimes.tweaky.Tweaky;
-import me.colingrimes.tweaky.util.Introspector;
-import me.colingrimes.tweaky.util.Logger;
+import me.colingrimes.tweaky.tweak.properties.TweakCategory;
+import me.colingrimes.tweaky.util.io.Introspector;
+import me.colingrimes.tweaky.util.io.Logger;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
@@ -43,11 +44,12 @@ public class TweakManager {
 		List<Class<?>> safeClasses = classes.stream().filter(this::paperCheck).toList();
 		List<Tweak> tweakClasses = Introspector.instantiateClasses(safeClasses, Tweak.class, plugin);
 		tweaks.addAll(tweakClasses.stream().filter(Tweak::isEnabled).toList());
+		tweaks.forEach(this::initializeCategory);
 		tweaks.forEach(Tweak::init);
 
 		// Tweak count.
 		tweakCount = tweaks.stream().mapToInt(Tweak::getCount).sum();
-		Logger.log(plugin, "Registered " + tweakCount + " tweaks.");
+		Logger.log("Registered " + tweakCount + " tweaks.");
 		return tweakCount;
 	}
 
@@ -126,5 +128,30 @@ public class TweakManager {
 		String[] words = clazz.getName().split("\\.");
 		String tweak = words[words.length - 1];
 		return !PAPER_ONLY_TWEAKS.contains(tweak);
+	}
+
+	/**
+	 * Initializes the category of the tweak by looking at its package name.
+	 *
+	 * @param tweak the tweak
+	 */
+	private void initializeCategory(@Nonnull Tweak tweak) {
+		String[] packages = tweak.getClass().getPackageName().split("\\.");
+		String packageName = packages[packages.length-1];
+		TweakCategory category = switch (packageName) {
+			case "mob" -> TweakCategory.MOBS;
+			case "block" -> TweakCategory.BLOCKS;
+			case "crop" -> TweakCategory.CROPS;
+			case "text" -> TweakCategory.TEXT;
+			case "convenience" -> TweakCategory.CONVENIENCE;
+			case "recipe" -> TweakCategory.RECIPES;
+			case "misc" -> TweakCategory.MISCELLANEOUS;
+			default -> TweakCategory.UNKNOWN;
+		};
+
+		// Set the category if it wasn't already set by the tweak.
+		if (tweak.getProperties().getCategory() == TweakCategory.UNKNOWN) {
+			tweak.getProperties().setCategory(category);
+		}
 	}
 }
