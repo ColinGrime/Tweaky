@@ -1,6 +1,5 @@
 package me.colingrimes.tweaky.event;
 
-import me.colingrimes.tweaky.util.bukkit.Events;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Tag;
@@ -12,6 +11,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
@@ -20,13 +20,13 @@ import java.util.Arrays;
 
 /**
  * A custom event that simplifies the handling of {@link PlayerInteractEvent} when dealing with block interactions.
- * Only fires for {@link org.bukkit.inventory.EquipmentSlot#HAND}.
  */
 public class PlayerInteractBlockEvent extends Event implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
     private final PlayerInteractEvent event;
     private final Player player;
+    private final EquipmentSlot hand;
     private final ItemStack item;
     private final Block block;
     private final BlockFace blockFace;
@@ -40,6 +40,7 @@ public class PlayerInteractBlockEvent extends Event implements Cancellable {
     public PlayerInteractBlockEvent(@Nonnull PlayerInteractEvent event) {
         this.event = event;
         this.player = event.getPlayer();
+        this.hand = event.getHand();
         this.item = event.getItem() != null ? event.getItem() : player.getInventory().getItemInMainHand();
         this.block = event.getClickedBlock();
         this.blockFace = event.getBlockFace();
@@ -54,6 +55,16 @@ public class PlayerInteractBlockEvent extends Event implements Cancellable {
     @Nonnull
     public Player getPlayer() {
         return player;
+    }
+
+    /**
+     * Gets the hand of the player that was used.
+     *
+     * @return the hand
+     */
+    @Nonnull
+    public EquipmentSlot getHand() {
+        return hand;
     }
 
     /**
@@ -203,24 +214,6 @@ public class PlayerInteractBlockEvent extends Event implements Cancellable {
     @SafeVarargs
     public final boolean isBlock(@Nonnull Tag<Material>... tags) {
         return Arrays.stream(tags).anyMatch(t -> t.isTagged(block.getType()));
-    }
-
-    /**
-     * Checks if the player can modify the block.
-     *
-     * @return true if the player can modify the block
-     */
-    public boolean canModify() {
-        return Events.canModify(player, block);
-    }
-
-    /**
-     * Checks if the player can break the block.
-     *
-     * @return true if the player can break the block
-     */
-    public boolean canBreak() {
-        return Events.canBreak(player, block);
     }
 
     @Override
