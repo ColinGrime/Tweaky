@@ -7,18 +7,24 @@ import me.colingrimes.tweaky.scheduler.task.Task;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.tweak.event.TweakHandler;
 import me.colingrimes.tweaky.util.bukkit.Blocks;
-import me.colingrimes.tweaky.util.bukkit.Events;
 import me.colingrimes.tweaky.util.bukkit.Sounds;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Levelled;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
-import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import java.util.function.Function;
 
 /**
@@ -26,8 +32,10 @@ import java.util.function.Function;
  */
 public abstract class CauldronTweak extends DefaultTweak {
 
+	private final Map<UUID, Instant> items = new HashMap<>();
 	private final Function<Material, Material> typeConverter;
 	private final Option<Boolean> useWater;
+	private Task task;
 
 	public CauldronTweak(@Nonnull Tweaky plugin, @Nonnull String id, @Nonnull Function<Material, Material> typeConverter, @Nonnull Option<Boolean> useWater) {
 		super(plugin, id);
@@ -35,44 +43,61 @@ public abstract class CauldronTweak extends DefaultTweak {
 		this.useWater = useWater;
 	}
 
+	@Override
+	public void init() {
+		task = Scheduler.sync().runRepeating(() -> {
+			Instant now = Instant.now();
+			var iterator = items.entrySet().iterator();
+			while (iterator.hasNext()) {
+				var entry = iterator.next();
+				if (Duration.between(now, entry.getValue()).isNegative()) {
+					iterator.remove();
+					continue;
+				}
+
+				Entity entity = Bukkit.getEntity(entry.getKey());
+				if (handleConversion(entity)) {
+					iterator.remove();
+				}
+			}
+		}, 1L, 1L);
+	}
+
+	@Override
+	public void shutdown() {
+		items.clear();
+		task.stop();
+	}
+
 	@TweakHandler
 	public void onPlayerDropItem(@Nonnull PlayerDropItemEvent event) {
 		Item item = event.getItemDrop();
 		Material type = typeConverter.apply(item.getItemStack().getType());
 		if (type != null) {
-			Scheduler.sync().runRepeating(task -> handleConversion(task, event.getPlayer(), item, type), 1L, 1L);
+			items.put(item.getUniqueId(), Instant.now().plusSeconds(3));
 		}
 	}
 
 	/**
 	 * Handles converting the item inside the cauldron to the new type.
 	 *
-	 * @param task the repeating task
-	 * @param player the player
-	 * @param item the item to convert
-	 * @param newType the new type of the item
+	 * @param entity the entity to convert
+	 * @return true if the item is done being processed
 	 */
-	private void handleConversion(@Nonnull Task task, @Nonnull Player player, @Nonnull Item item, @Nonnull Material newType) {
-		if (!item.isValid()) {
-			task.stop();
-			return;
+	private boolean handleConversion(@Nullable Entity entity) {
+		if (!(entity instanceof Item item) || !entity.isValid()) {
+			return true;
 		}
 
 		Block block = item.getLocation().getBlock();
 		if (block.getType() != Material.WATER_CAULDRON || !(block.getBlockData() instanceof Levelled cauldron)) {
-			return;
+			return false;
 		}
 
-		task.stop();
-
-		// Check for permission.
-		if (!Events.canInteract(player, block)) {
-			return;
-		}
-
-		Sounds.play(block, Sound.BLOCK_POINTED_DRIPSTONE_DRIP_WATER_INTO_CAULDRON);
+		Material newType = typeConverter.apply(item.getItemStack().getType());
 		item.getWorld().dropItem(item.getLocation(), new ItemStack(newType, item.getItemStack().getAmount()));
 		item.remove();
+		Sounds.play(block, Sound.BLOCK_POINTED_DRIPSTONE_DRIP_WATER_INTO_CAULDRON);
 
 		if (useWater.get()) {
 			if (cauldron.getLevel() > 1) {
@@ -81,5 +106,7 @@ public abstract class CauldronTweak extends DefaultTweak {
 				block.setType(Material.CAULDRON);
 			}
 		}
+
+		return true;
 	}
 }
