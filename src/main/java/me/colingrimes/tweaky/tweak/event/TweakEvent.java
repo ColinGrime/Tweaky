@@ -12,6 +12,9 @@ import org.bukkit.plugin.EventExecutor;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public final class TweakEvent {
 
@@ -26,7 +29,11 @@ public final class TweakEvent {
 			return;
 		}
 
-		for (Method method : tweak.getClass().getDeclaredMethods()) {
+		Set<Method> methods = new HashSet<>();
+		methods.addAll(Arrays.asList(tweak.getClass().getMethods()));
+		methods.addAll(Arrays.asList(tweak.getClass().getDeclaredMethods()));
+
+		for (Method method : methods) {
 			EventHandler handler = method.getAnnotation(EventHandler.class);
 			TweakHandler tweakHandler = method.getAnnotation(TweakHandler.class);
 			if (handler == null && tweakHandler == null) {
