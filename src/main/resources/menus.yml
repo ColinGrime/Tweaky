@@ -5,31 +5,31 @@ tweak-menu:
   categories:
     mobs:
       type: ZOMBIE_HEAD
-      name: "&aMob Tweaks"
+      name: "&cMob Tweaks &8(&2{count}&8)"
       lore: "&7All tweaks related to Mobs."
     blocks:
       type: GRASS_BLOCK
-      name: "&aBlock Tweaks"
+      name: "&bBlock Tweaks &8(&2{count}&8)"
       lore: "&7All tweaks related to Blocks."
     crops:
       type: WHEAT
-      name: "&aCrop Tweaks"
+      name: "&aCrop Tweaks &8(&2{count}&8)"
       lore: "&7All tweaks related to Crops."
     text:
       type: BOOK
-      name: "&aText Tweaks"
+      name: "&9Text Tweaks &8(&2{count}&8)"
       lore: "&7All tweaks related to displaying Text."
     convenience:
       type: CLOCK
-      name: "&aConvenience Tweaks"
+      name: "&eConvenience Tweaks &8(&2{count}&8)"
       lore: "&7All tweaks that save you time & effort."
     recipes:
       type: CRAFTING_TABLE
-      name: "&aRecipe Tweaks"
+      name: "&5Recipe Tweaks &8(&2{count}&8)"
       lore: "&7All tweaks that add Recipes to the game."
     miscellaneous:
       type: BEDROCK
-      name: "&aMiscellaneous Tweaks"
+      name: "&3Miscellaneous Tweaks &8(&2{count}&8)"
       lore: "&7Tweaks that do not belong to any other category."
   tweaks:
     anvil-color:

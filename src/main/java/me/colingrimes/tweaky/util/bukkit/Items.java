@@ -7,6 +7,7 @@ import me.colingrimes.tweaky.util.text.Text;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -362,6 +363,33 @@ public final class Items {
 		}
 
 		/**
+		 * Parses a {@link ConfigurationSection} and checks for the following:
+		 * - A "type" or "material" key for materials.
+		 * - A "name" key for the name of the item.
+		 * - A "lore" key for the lore of the item.
+		 * - A "glowing" key for whether the item should be glowing or not.
+		 *
+		 * @param sec the section of the configuration file
+		 * @return the item builder object
+		 */
+		@Nonnull
+		public Builder config(@Nullable ConfigurationSection sec) {
+			if (sec == null) {
+				return this;
+			}
+
+			parse(sec, "type").ifPresent(this::material);
+			parse(sec, "material").ifPresent(this::material);
+			parse(sec, "name").ifPresent(this::name);
+			parse(sec, "lore").ifPresent(this::lore);
+			parse(sec, "lore", List.class).ifPresent(this::lore);
+			parse(sec, "hide", Boolean.class).ifPresent(this::hide);
+			parse(sec, "glow", Boolean.class).ifPresent(this::glow);
+			parse(sec, "unbreakable", Boolean.class).ifPresent(this::glow);
+			return this;
+		}
+
+		/**
 		 * Adds a placeholder to the list of placeholders.
 		 *
 		 * @param placeholder the placeholder you want to add
@@ -407,6 +435,30 @@ public final class Items {
 
 			item.setItemMeta(meta);
 			return item;
+		}
+
+		/**
+		 * Gets the string that corresponds to the inputted key.
+		 *
+		 * @param sec the section of the configuration file
+		 * @param key the key of the string
+		 * @return the value corresponding to the key
+		 */
+		@Nonnull
+		private Optional<String> parse(@Nonnull ConfigurationSection sec, @Nonnull String key) {
+			return Optional.ofNullable(sec.getString(key));
+		}
+
+		/**
+		 * Gets the object that corresponds to the inputted key.
+		 *
+		 * @param sec the section of the configuration file
+		 * @param key the key of the string
+		 * @return the value corresponding to the key
+		 */
+		@Nonnull
+		private <T> Optional<T> parse(@Nonnull ConfigurationSection sec, @Nonnull String key, @Nonnull Class<T> clazz) {
+			return Optional.ofNullable(sec.getObject(key, clazz));
 		}
 	}
 }

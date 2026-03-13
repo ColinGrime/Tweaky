@@ -6,16 +6,32 @@ import me.colingrimes.tweaky.config.option.Option;
 import me.colingrimes.tweaky.config.option.SimpleOption;
 import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.message.Message;
+import me.colingrimes.tweaky.tweak.properties.TweakCategory;
+import me.colingrimes.tweaky.util.bukkit.Items;
 
 import javax.annotation.Nonnull;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 public class Menus extends Configuration {
 
-	public final Message<?> TWEAK_MENU_NAME       = message("tweak-menu.tweaks.name", "&8Tweaks (&2{count}&8)");
+	public final Message<?> TWEAK_MENU_NAME       = message("tweak-menu.name", "&8Tweaks (&2{count}&8)");
 	public final Message<?> FILTER_MENU_TITLE     = message("filter-menu.title", "&8Drop Filter");
 	public final Message<?> FILTER_MENU_ITEM_NAME = message("filter-menu.item-name", "&a{item}");
 	public final Message<?> FILTER_MENU_ITEM_LORE = message("filter-menu.item-lore", "&7Click to Remove");
+
+	// Tweak category items.
+	public final Option<Map<TweakCategory, Items.Builder>> TWEAK_MENU_CATEGORIES = option("tweak-menu.categories", sec -> {
+		Map<TweakCategory, Items.Builder> categories = new HashMap<>();
+		for (TweakCategory category : TweakCategory.values()) {
+			String name = category.name().toLowerCase();
+			if (sec.contains(name)) {
+				categories.put(category, Items.create().config(sec.getConfigurationSection(name)));
+			}
+		}
+		return categories;
+	});
 
 	// Additional tweak items.
 	public final Option<TweakItem> TWEAK_BREAK_ENDER_CHEST_DROP         = getTweak("break-ender-chest.drop");

@@ -84,6 +84,10 @@ public abstract class Gui {
 	 * This will prevent the menu from being interacted with further.
 	 */
 	public void invalidate() {
+		if (!valid) {
+			return;
+		}
+
 		valid = false;
 		Gui.players.remove(player);
 
@@ -103,12 +107,12 @@ public abstract class Gui {
 
 		// Close any other menus the player has open.
 		if (Gui.players.containsKey(getPlayer())) {
-			Gui.players.get(getPlayer()).close();
+			Gui.players.get(getPlayer()).invalidate();
 		}
 
 		// Delay the opening by 1 tick to ensure inventory is ready.
 		Scheduler.sync().run(() -> {
-			players.put(getPlayer(), this);
+			Gui.players.put(getPlayer(), this);
 			getPlayer().openInventory(getHandle());
 		});
 	}
