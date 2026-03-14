@@ -38,6 +38,7 @@ public class Menus extends Configuration {
 	public final Option<TweakItem> TWEAK_BREAK_ENDER_CHEST_PROTECTION   = getTweak("break-ender-chest.protection");
 	public final Option<TweakItem> TWEAK_LADDER_TELEPORTATION_AUTOMATIC = getTweak("ladder-teleportation.automatic");
 	public final Option<TweakItem> TWEAK_LADDER_TELEPORTATION_MANUAL    = getTweak("ladder-teleportation.manual");
+	public final Option<TweakItem> TWEAK_LADDER_TELEPORTATION_CLICK     = getTweak("ladder-teleportation.click");
 	public final Option<TweakItem> TWEAK_NIGHT_VISION                   = getTweak("night-vision");
 	public final Option<TweakItem> TWEAK_HAPPY_GHAST_SPEED              = getTweak("happy-ghast-speed");
 

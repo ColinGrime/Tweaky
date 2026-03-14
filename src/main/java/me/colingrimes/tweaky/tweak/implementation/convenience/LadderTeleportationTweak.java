@@ -1,8 +1,11 @@
 package me.colingrimes.tweaky.tweak.implementation.convenience;
 
 import me.colingrimes.tweaky.Tweaky;
+import me.colingrimes.tweaky.event.PlayerInteractBlockEvent;
 import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.scheduler.Scheduler;
+import me.colingrimes.tweaky.tweak.event.TweakHandler;
+import me.colingrimes.tweaky.tweak.properties.TweakProperties;
 import me.colingrimes.tweaky.tweak.type.DefaultTweak;
 import me.colingrimes.tweaky.util.Util;
 import me.colingrimes.tweaky.util.bukkit.Sounds;
@@ -41,7 +44,8 @@ public class LadderTeleportationTweak extends DefaultTweak {
 
 	enum Control {
 		Automatic,
-		Manual
+		Manual,
+		Click
 	}
 
 	public LadderTeleportationTweak(@Nonnull Tweaky plugin) {
@@ -53,10 +57,19 @@ public class LadderTeleportationTweak extends DefaultTweak {
 	public TweakItem getGuiItem() {
 		Control control = Util.parse(Control.class, settings.TWEAK_LADDER_TELEPORTATION_CONTROL.get());
 		return switch (control) {
-			case Automatic -> menus.TWEAK_LADDER_TELEPORTATION_AUTOMATIC.get().material(Material.LADDER);
-			case Manual -> menus.TWEAK_LADDER_TELEPORTATION_MANUAL.get().material(Material.LADDER);
+			case Automatic -> menus.TWEAK_LADDER_TELEPORTATION_AUTOMATIC.get();
+			case Manual -> menus.TWEAK_LADDER_TELEPORTATION_MANUAL.get();
+			case Click -> menus.TWEAK_LADDER_TELEPORTATION_CLICK.get();
 			case null -> super.getGuiItem();
 		};
+	}
+
+	@Override
+	protected void configureProperties(@Nonnull TweakProperties properties) {
+		properties.getGuard()
+				.standing()
+				.rightClick()
+				.block(Material.LADDER);
 	}
 
 	@EventHandler
@@ -72,7 +85,7 @@ public class LadderTeleportationTweak extends DefaultTweak {
 		}
 
 		Control control = Util.parse(Control.class, settings.TWEAK_LADDER_TELEPORTATION_CONTROL.get());
-		if (control == null) {
+		if (control == null || control == Control.Click) {
 			return;
 		}
 
@@ -102,6 +115,41 @@ public class LadderTeleportationTweak extends DefaultTweak {
 			DOWN_OFFSETS.get(ladder.getFacing()).accept(to);
 			to.setY(block.getY() + 1);
 			Scheduler.sync().run(() -> Sounds.play(to, Sound.ENTITY_PLAYER_TELEPORT));
+		}
+	}
+
+	@TweakHandler
+	public void onPlayerInteract(@Nonnull PlayerInteractBlockEvent event) {
+		Block block = event.getBlock();
+		if (!(block.getBlockData() instanceof Ladder ladder)) {
+			return;
+		}
+
+		Control control = Util.parse(Control.class, settings.TWEAK_LADDER_TELEPORTATION_CONTROL.get());
+		if (control != Control.Click) {
+			return;
+		}
+
+		Player player = event.getPlayer();
+		boolean up = player.getPitch() <= 0;
+
+		Vector direction = up ? new Vector(0, 1, 0) : new Vector(0, -1, 0);
+		while (block.getBlockData() instanceof Ladder l && l.getFacing() == ladder.getFacing()) {
+			block = block.getLocation().add(direction).getBlock();
+		}
+
+		Location location = block.getLocation().add(0.5, 0, 0.5);
+		location.setYaw(player.getYaw());
+		location.setPitch(player.getPitch());
+
+		if (up && !block.getType().isSolid() && !block.getLocation().add(0, 1, 0).getBlock().getType().isSolid()) {
+			UP_OFFSETS.get(ladder.getFacing()).accept(location);
+			player.teleport(location);
+			Scheduler.sync().run(() -> Sounds.play(location, Sound.ENTITY_PLAYER_TELEPORT));
+		} else if (!up && block.getType().isSolid() && !block.getLocation().add(0, 2, 0).getBlock().getType().isSolid()) {
+			DOWN_OFFSETS.get(ladder.getFacing()).accept(location);
+			player.teleport(location.add(0, 1, 0));
+			Scheduler.sync().run(() -> Sounds.play(location, Sound.ENTITY_PLAYER_TELEPORT));
 		}
 	}
 }
