@@ -53,6 +53,11 @@ tweak-menu:
         - "&8Requires:"
         - " &7Iron Block &8(Default)"
       usage: "&eUsage: &aRight Click an Anvil with an Iron Block to repair it."
+    armor-stand-arms:
+      type: ARMOR_STAND
+      name: "&aArmor Stand Arms &8(Spawn)"
+      lore: "&7Armor Stands spawn with arms."
+      usage: "&eUsage: &aSpawn an Armor Stand to give it arms."
     armor-swap:
       type: CHAINMAIL_CHESTPLATE
       name: "&aArmor Swap &8(Sneak)"
@@ -306,6 +311,11 @@ tweak-menu:
         name: "&aLadder Teleportation &8(Look Up or Down)"
         lore: "&7Look straight up or down to teleport."
         usage: "&eUsage: &aTeleport by looking straight up or down while walking into a Ladder."
+      click:
+        type: LADDER
+        name: "&aLadder Teleportation &8(Right Click)"
+        lore: "&7Click on a Ladder to teleport."
+        usage: "&eUsage: &aTeleport by right-clicking on a Ladder while looking slightly up or down."
     night-vision:
       type: NIGHT_VISION
       name: "&aNight Vision &8(Command)"

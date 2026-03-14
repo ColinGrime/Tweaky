@@ -3,6 +3,8 @@ tweaks:
   anvil-color: false
   # Right-clicking an anvil with an iron block will repair it slightly.
   anvil-repair: false
+  # Armor Stands have arms by default when spawned.
+  armor-stand-arms: false
   # Shift over an armor stand to quick swap armor.
   armor-swap: false
   # Right-click a bee with a beehive to capture it. Only works if the beehive is not full.
@@ -109,6 +111,7 @@ tweaks:
     # Options:
     # - Automatic (simply walk into the ladder)
     # - Manual (look straight up/down to activate teleportation)
+    # - Click (click on the ladder while looking at the direction you want to teleport)
     control: Automatic
   # Gives players unlimited night vision if they activate it with '/nv' or '/gamma'.
   night-vision: false
