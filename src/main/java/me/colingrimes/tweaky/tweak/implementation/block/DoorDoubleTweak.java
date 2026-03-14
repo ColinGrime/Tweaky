@@ -55,7 +55,7 @@ public class DoorDoubleTweak extends DefaultTweak {
 		}
 
 		// Verify the adjacent door lines up perfectly with the other door.
-		if (door.getHinge() == adjacentDoor.getHinge() || door.getHalf() != adjacentDoor.getHalf()) {
+		if (door.getHinge() == adjacentDoor.getHinge() || door.getHalf() != adjacentDoor.getHalf() || door.isOpen() != adjacentDoor.isOpen()) {
 			return null;
 		}
 
