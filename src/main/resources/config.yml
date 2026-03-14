@@ -62,6 +62,19 @@ tweaks:
   # Breaking blocks nearby will cause their item drops to go towards the player a little.
   # This means if you are building high up, you won't lose all your drops.
   drops-magnet: false
+  # Adds an indicator when your important items are about to break.
+  durability-indicator:
+    toggle: false
+    # Amount of durability left for the indicator to appear.
+    durability: 10
+    materials:
+      - ELYTRA
+      - NETHERITE_HELMET
+      - HETHERITE_CHESTPLATE
+      - NETHERITE_LEGGINGS
+      - NETHERITE_BOOTS
+      - NETHERITE_PICKAXE
+      - DIAMOND_PICKAXE
   # Lapis stays in the lapis slot in enchanting tables when you close it.
   enchanting-lapis: false
   # Allows the dying of named mobs with dyes.

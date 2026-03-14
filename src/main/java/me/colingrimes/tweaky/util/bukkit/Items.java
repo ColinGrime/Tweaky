@@ -113,20 +113,33 @@ public final class Items {
 			return;
 		}
 
-		int maxDamage;
-		if (damageable.hasMaxDamage()) {
-			maxDamage = damageable.getMaxDamage();
-		} else {
-			maxDamage = item.getType().getMaxDurability();
-		}
-
 		int damage = damageable.getDamage() + 1;
+		int maxDamage = getMaxDurability(item);
+
 		if (damage < maxDamage) {
 			damageable.setDamage(damage);
 			item.setItemMeta(damageable);
 		} else {
 			remove(item);
 			Sounds.play(player, Sound.ENTITY_ITEM_BREAK);
+		}
+	}
+
+	/**
+	 * Gets the maximum durability of the specified item.
+	 *
+	 * @param item the item
+	 * @return the max durability of the item
+	 */
+	public static int getMaxDurability(@Nonnull ItemStack item) {
+		if (!(item.getItemMeta() instanceof Damageable damageable)) {
+			return 0;
+		}
+
+		if (damageable.hasMaxDamage()) {
+			return damageable.getMaxDamage();
+		} else {
+			return item.getType().getMaxDurability();
 		}
 	}
 

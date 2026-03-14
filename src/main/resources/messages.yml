@@ -8,6 +8,8 @@ tweaks:
   coordinates-night: "&7(&c{x}&7, &c{y}&7, &c{z}&7)"
   # (death-notify) Message to send to players when they die.
   death-message: "&7You died at (&a{x}&7, &a{y}&7, &a{z}&7) in the {world} &7with &a{levels} &7levels."
+  # (durability-indicator) Message to display on the title screen when a player's items are about to break.
+  durability-message: "&7Your &a{item} &7is about to break!"
   # (drops-filter) Message to send to players when they add an item to their filter.
   filter-add: "&2[Filter] &aAdded &e{item} &ato your drop filter."
   # (drops-filter) Message to send to players when they remove an item from their filter.

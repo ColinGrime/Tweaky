@@ -191,6 +191,12 @@ tweak-menu:
       name: "&aDrops Magnet &8(Break)"
       lore: "&7Broken blocks get boosted towards you."
       usage: "&eUsage: &aBreaking blocks will cause their item drops to get boosted towards you."
+    durability-indicator:
+      type: ELYTRA
+      name: "&aDurability Indicator &8(Damage)"
+      lore:
+        - "&7Warns you when your items are about to break."
+      usage: "&eUsage: &aWhen your important items are about to break, a warning will be sent to you."
     enchanting-lapis:
       type: LAPIS_LAZULI
       name: "&aLapis Store"

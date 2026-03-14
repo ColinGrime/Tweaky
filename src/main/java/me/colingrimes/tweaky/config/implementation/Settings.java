@@ -29,6 +29,8 @@ public class Settings extends Configuration {
 	public final Option<Set<Material>> TWEAK_BREAK_GLASS_MATERIALS         = option("tweaks.break-glass.materials", "tweaks.break-glass", sec -> sec.getStringList("materials").stream().map(m -> Material.getMaterial(m.toUpperCase())).filter(Objects::nonNull).collect(Collectors.toSet()));
 	public final Option<Boolean>       TWEAK_CAULDRON_CONCRETE_USE_WATER   = option("tweaks.cauldron-concrete.use-water");
 	public final Option<Boolean>       TWEAK_CAULDRON_MUD_USE_WATER        = option("tweaks.cauldron-mud.use-water");
+	public final Option<Integer>       TWEAK_DURABILITY_INDICATOR_AMOUNT   = option("tweaks.durability-indicator.durability", 10);
+	public final Option<Set<Material>> TWEAK_DURABILITY_INDICATOR_MATS     = option("tweaks.durability-indicator.materials", "tweaks.durability-indicator", sec -> sec.getStringList("materials").stream().map(m -> Material.getMaterial(m.toUpperCase())).filter(Objects::nonNull).collect(Collectors.toSet()));
 	public final Option<Integer>       TWEAK_FORTUNE_SILK_SWAP_COST        = option("tweaks.fortune-silk-swap.cost", 30);
 	public final Option<Double>        TWEAK_HAPPY_GHAST_SPEED_VALUE       = option("tweaks.happy-ghast-speed.value", 1.5);
 	public final Option<Integer>       TWEAK_INVENTORY_ENDER_CHEST_COST    = option("tweaks.inventory-ender-chest.cost", 30);
