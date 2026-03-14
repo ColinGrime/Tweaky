@@ -161,6 +161,8 @@ tweaks:
   vehicle-pickup: false
   # (PAPER ONLY) Villagers will follow you if you are holding an emerald.
   villager-follow: false
+  # Prevents you from hitting villagers by accident.
+  villager-protection: false
   # Splashing a water bottle into lava converts it into obsidian.
   water-bottle-convert-lava: false
   # Allows you to convert a water bucket into splash water bottles.

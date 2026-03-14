@@ -411,6 +411,11 @@ tweak-menu:
         - "&8Requires:"
         - " &7Emerald &8(Default)"
       usage: "&eUsage: &aVillagers will follow you if you are holding an Emerald."
+    villager-protection:
+      type: VILLAGER_SPAWN_EGG
+      name: "&aVillager Protection"
+      lore: "&7Prevents you from hitting Villagers."
+      usage: "&eUsage: &aPrevents you from accidentally attacking Villagers."
     water-bottle-convert-lava:
       type: SPLASH_POTION
       name: "&aWater Bottles Convert Lava &8(Throw)"
