@@ -263,6 +263,15 @@ tweak-menu:
         - "&8Requires:"
         - " &7Hoe &8(Any)"
       usage: "&eUsage: &aRight Click a Hay Bale with a Hoe to automatically craft and drop Bread."
+    horse-randomizer:
+      type: HORSE_SPAWN_EGG
+      name: "&aHorse Randomizer &8(Right Click)"
+      lore:
+        - "&7Randomize the color and style of a Horse."
+        - ""
+        - "&8Requires:"
+        - " &7Brush"
+      usage: "&eUsage: &aRandomize an untamed Horse's color and style by right-clicking it with a Brush."
     horse-statistics:
       type: HORSE_SPAWN_EGG
       name: "&aHorse Statistics &8(Sneak Right Click)"

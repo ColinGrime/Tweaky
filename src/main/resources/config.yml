@@ -101,6 +101,8 @@ tweaks:
     value: 1.5
   # Right-clicking a hay bale with a hoe automatically crafts and drops bread.
   hay-bale-bread: false
+  # Right-click a horse with a brush to randomize its color and style.
+  horse-randomizer: false
   # Allows you to view the statistics (health-speed-jump) of horses by sneak-right-click.
   # This lets you find the best horses without having to tame them all first! :)
   horse-statistics: false
