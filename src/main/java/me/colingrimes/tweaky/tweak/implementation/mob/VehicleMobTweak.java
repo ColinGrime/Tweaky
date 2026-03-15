@@ -79,13 +79,6 @@ public class VehicleMobTweak extends DefaultTweak {
 	 * @return true if the entity can go inside a vehicle
 	 */
 	private boolean canRideVehicle(@Nonnull Entity entity) {
-		if (!(entity instanceof LivingEntity)) {
-			return false;
-		}
-
-		return switch (entity.getType()) {
-			case ENDER_DRAGON, WITHER, WARDEN, ELDER_GUARDIAN, RAVAGER -> false;
-			default -> true;
-		};
+		return entity instanceof Animals || entity instanceof Villager;
 	}
 }
