@@ -66,7 +66,7 @@ public interface Slot {
 	 */
 	@Nonnull
 	default Slot setItem(@Nonnull Material material) {
-		return setItem(Items.of(material).name("").build());
+		return setItem(Items.of(material).name(" ").build());
 	}
 
 	/**

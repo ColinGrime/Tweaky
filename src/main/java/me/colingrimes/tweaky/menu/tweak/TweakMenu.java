@@ -23,61 +23,72 @@ public class TweakMenu extends Gui {
 
 	// The specific order to show the tweaks.
 	private static final List<String> TWEAK_ORDER = List.of(
-			"anvil_color",
-			"anvil_repair",
-			"bedrock_break",
-			"break_deepslate",
-			"break_glass",
-			"break_ender_chest",
-			"break_leaves",
-			"break_plants",
-			"cauldron_concrete",
-			"cauldron_mud",
-			"coordinates",
-			"death_notify",
-			"crops_harvest",
-			"crops_bone_meal",
-			"crops_protection",
-			"hay_bale_bread",
-			"weapon_swing_through",
-			"doors_double",
-			"doors_iron",
-			"enchanting_lapis",
-			"xp_fill",
-			"fortune_silk_swap",
-			"armor_swap",
-			"entity_ignite",
-			"entity_silence",
-			"entity_dye",
-			"entity_equip",
+			// Mobs
+			"villager_follow",
+			"villager_protection",
+			"pet_protection",
 			"happy_ghast_placement",
 			"happy_ghast_speed",
-			"portal_protection",
-			"inventory_ender_chest",
-			"inventory_crafting",
-			"recipe_unlock_all",
-			"item_frame_click_through",
-			"item_frame_invisible",
-			"ladder_placement",
-			"ladder_teleportation",
-			"horse_statistics",
+			"horse_randomizer",
 			"bee_capture",
-			"sponge_ignite",
-			"vehicle_pickup",
-			"drops_filter",
-			"drops_magnet",
-			"rotten_flesh_to_leather",
-			"snowballs",
-			"torch_throw",
-			"villager_follow",
-			"breeding_indicator",
-			"pet_protection",
+			"entity_equip",
+			"entity_ignite",
+			"vehicle_mobs",
+			"entity_silence",
+			"entity_dye",
+			// Blocks
+			"break_ender_chest",
+			"anvil_repair",
+			"break_deepslate",
+			"break_glass",
+			"break_leaves",
+			"break_plants",
+			"ladder_placement",
+			"cauldron_concrete",
+			"cauldron_mud",
 			"revert_farmland",
 			"revert_path",
 			"revert_stripped",
-			"water_bottle_convert_lava",
+			"doors_double",
+			"doors_iron",
+			"sponge_ignite",
+			// Crops
+			"crops_harvest",
+			"crops_protection",
+			"crops_bone_meal",
+			"hay_bale_bread",
+			// Text
+			"anvil_color",
+			"coordinates",
+			"death_notify",
+			"horse_statistics",
+			"breeding_indicator",
+			"durability_indicator",
+			// Convenience
+			"fortune_silk_swap",
+			"drops_filter",
+			"enchanting_lapis",
+			"xp_fill",
+			"night_vision",
+			"inventory_ender_chest",
+			"inventory_crafting",
+			"vehicle_pickup",
+			"drops_magnet",
+			"ladder_teleportation",
+			"item_frame_click_through",
+			"weapon_swing_through",
+			// Recipes
+			"recipe_unlock_all",
+			"rotten_flesh_to_leather",
 			"water_bottle_craft",
-			"night_vision"
+			// Misc
+			"armor_swap",
+			"snowballs",
+			"water_bottle_convert_lava",
+			"portal_protection",
+			"item_frame_invisible",
+			"armor_stand_arms",
+			"torch_throw"
 	);
 
 	private static final List<TweakCategory> CATEGORY_ORDER = List.of(
@@ -158,7 +169,8 @@ public class TweakMenu extends Gui {
 			int size = inventory.getSize();
 			for (int i=0; i<size; i++) {
 				if (i < 9 || i >= size - 9 || i % 9 == 0 || (i + 1) % 9 == 0) {
-					getSlot(i).setItem(Material.BLACK_STAINED_GLASS_PANE);
+					String name = "&7Click on any Tweak to learn how to use it.";
+					getSlot(i).setItem(Items.of(Material.BLACK_STAINED_GLASS_PANE).name(name).build());
 				}
 			}
 		}

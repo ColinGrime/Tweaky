@@ -1,4 +1,4 @@
-package me.colingrimes.tweaky.tweak.implementation.misc;
+package me.colingrimes.tweaky.tweak.implementation.text;
 
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.scheduler.Scheduler;
