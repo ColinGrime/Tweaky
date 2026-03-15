@@ -403,6 +403,11 @@ tweak-menu:
       name: "&aTorch Placement &8(Throw)"
       lore: "&7Places a Torch on the ground."
       usage: "&eUsage: &aThrow Torches on the ground to place them."
+    vehicle-mobs:
+      type: OAK_BOAT
+      name: "&aVehicle Mobs &8(Right Click)"
+      lore: "&7Place a Vehicle down with the Mob in it."
+      usage: "&eUsage: &aUsing a Boat or Minecart, right-click a Mob to place the Vehicle down with them in it."
     vehicle-pickup:
       type: MINECART
       name: "&aVehicle Pickup &8(Sneak Right Click)"

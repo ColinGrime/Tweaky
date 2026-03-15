@@ -170,6 +170,8 @@ tweaks:
   # Allows you to throw torches on the ground to place them.
   # So if you throw them down a cave, it will light the block it lands on!
   torch-throw: false
+  # Right-click a mob with a vehicle to place the vehicle down with them in it.
+  vehicle-mobs: false
   # Allows vehicles to be picked up by sneak-right-click.
   vehicle-pickup: false
   # (PAPER ONLY) Villagers will follow you if you are holding an emerald.
