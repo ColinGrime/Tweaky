@@ -75,6 +75,8 @@ public class VehiclePickupTweak extends DefaultTweak {
 			case ACACIA_BOAT            -> new ItemStack(Material.ACACIA_BOAT);
 			case DARK_OAK_BOAT          -> new ItemStack(Material.DARK_OAK_BOAT);
 			case MANGROVE_BOAT          -> new ItemStack(Material.MANGROVE_BOAT);
+			case CHERRY_BOAT            -> new ItemStack(Material.CHERRY_BOAT);
+			case PALE_OAK_BOAT          -> new ItemStack(Material.PALE_OAK_BOAT);
 			case BAMBOO_RAFT            -> new ItemStack(Material.BAMBOO_RAFT);
 			// Mine Carts
 			case MINECART               -> new ItemStack(Material.MINECART);
