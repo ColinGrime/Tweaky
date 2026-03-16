@@ -21,14 +21,15 @@ public class RevertFarmlandTweak extends DefaultTweak {
 	@Override
 	protected void configureProperties(@Nonnull TweakProperties properties) {
 		properties.getGuard()
+				.buildable()
 				.sneaking()
 				.rightClick()
 				.item(Tag.ITEMS_HOES)
 				.block(Material.FARMLAND);
 	}
 
-	@TweakHandler(ignoreCancelled = true)
-	public void onPlayerIntearact(@Nonnull PlayerInteractBlockEvent event) {
+	@TweakHandler
+	public void onPlayerInteract(@Nonnull PlayerInteractBlockEvent event) {
 		Players.use(event.getPlayer(), event.getHand(), Sound.ITEM_HOE_TILL, event.getBlock().getLocation());
 		event.getBlock().setType(Material.DIRT);
 		event.setCancelled(true);

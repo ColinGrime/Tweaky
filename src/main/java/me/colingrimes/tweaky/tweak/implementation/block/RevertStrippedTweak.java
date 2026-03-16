@@ -23,14 +23,15 @@ public class RevertStrippedTweak extends DefaultTweak {
 	@Override
 	protected void configureProperties(@Nonnull TweakProperties properties) {
 		properties.getGuard()
+				.buildable()
 				.sneaking()
 				.rightClick()
 				.item(Tag.ITEMS_AXES)
 				.block(b -> getUnstripped(b.getType()) != null);
 	}
 
-	@TweakHandler(ignoreCancelled = true)
-	public void onPlayerIntearact(@Nonnull PlayerInteractBlockEvent event) {
+	@TweakHandler
+	public void onPlayerInteract(@Nonnull PlayerInteractBlockEvent event) {
 		Players.use(event.getPlayer(), event.getHand(), Sound.ITEM_AXE_STRIP, event.getBlock().getLocation());
 		event.getBlock().setType(Objects.requireNonNull(getUnstripped(event.getBlockType())));
 		event.setCancelled(true);
