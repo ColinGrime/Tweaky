@@ -26,7 +26,7 @@ public class VehicleMobTweak extends DefaultTweak {
 				.entity(this::canRideVehicle);
 	}
 
-	@TweakHandler
+	@TweakHandler(ignoreCancelled = true)
 	public void onPlayerInteract(@Nonnull PlayerInteractEntityEvent event) {
 		Player player = event.getPlayer();
 		Entity entity = event.getRightClicked();
@@ -62,11 +62,6 @@ public class VehicleMobTweak extends DefaultTweak {
 			case BAMBOO_RAFT            -> EntityType.BAMBOO_RAFT;
 			// Mine Carts
 			case MINECART               -> EntityType.MINECART;
-			case CHEST_MINECART         -> EntityType.CHEST_MINECART;
-			case FURNACE_MINECART       -> EntityType.FURNACE_MINECART;
-			case TNT_MINECART           -> EntityType.TNT_MINECART;
-			case HOPPER_MINECART        -> EntityType.HOPPER_MINECART;
-			case COMMAND_BLOCK_MINECART -> EntityType.COMMAND_BLOCK_MINECART;
 			// Default
 			default -> null;
 		};
