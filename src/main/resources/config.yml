@@ -69,11 +69,16 @@ tweaks:
     durability: 10
     materials:
       - ELYTRA
+      - MACE
       - NETHERITE_HELMET
       - HETHERITE_CHESTPLATE
       - NETHERITE_LEGGINGS
       - NETHERITE_BOOTS
+      - NETHERITE_SWORD
       - NETHERITE_PICKAXE
+      - NETHERITE_AXE
+      - NETHERITE_SHOVEL
+      - NETHERITE_HOE
       - DIAMOND_PICKAXE
   # Lapis stays in the lapis slot in enchanting tables when you close it.
   enchanting-lapis: false
