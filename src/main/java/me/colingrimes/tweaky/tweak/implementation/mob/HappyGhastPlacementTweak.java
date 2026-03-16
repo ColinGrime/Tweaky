@@ -5,6 +5,7 @@ import me.colingrimes.tweaky.scheduler.Scheduler;
 import me.colingrimes.tweaky.scheduler.task.Task;
 import me.colingrimes.tweaky.tweak.event.TweakHandler;
 import me.colingrimes.tweaky.tweak.type.DefaultTweak;
+import me.colingrimes.tweaky.util.Util;
 import me.colingrimes.tweaky.util.bukkit.Blocks;
 import me.colingrimes.tweaky.util.bukkit.Events;
 import me.colingrimes.tweaky.util.bukkit.Players;
@@ -14,10 +15,7 @@ import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.BlockDisplay;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.HappyGhast;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
@@ -25,14 +23,16 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.RayTraceResult;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class HappyGhastPlacementTweak extends DefaultTweak {
 
+	private final Set<Player> inRange = new HashSet<>();
 	private final Map<Player, Target> targets = new HashMap<>();
-	private Task task;
+	private Task rangeCheck, targetCheck;
 
 	public HappyGhastPlacementTweak(@Nonnull Tweaky plugin) {
 		super(plugin, "happy_ghast_placement");
@@ -40,13 +40,18 @@ public class HappyGhastPlacementTweak extends DefaultTweak {
 
 	@Override
 	public void init() {
-		task = Scheduler.sync().runRepeating(() -> Players.forEach(this::getTarget), 10L, 2L);
+		rangeCheck = Scheduler.sync().runRepeating(() -> Players.forEach(this::checkRange), 0L, 20L);
+		targetCheck = Scheduler.sync().runRepeating(() -> new HashSet<>(inRange).forEach(this::checkTarget), 0L, 2L);
 	}
 
 	@Override
 	public void shutdown() {
-		task.stop();
+		rangeCheck.stop();
+		targetCheck.stop();
+
+		inRange.clear();
 		targets.values().forEach(t -> t.blockDisplay.remove());
+		targets.clear();
 	}
 
 	@TweakHandler
@@ -96,44 +101,61 @@ public class HappyGhastPlacementTweak extends DefaultTweak {
 	}
 
 	/**
-	 * Gets the new target location by raytracing where the player is looking at the ghast.
+	 * Checks if the player is in range of a Happy Ghast to start target checking.
 	 *
 	 * @param player the player
 	 */
-	private void getTarget(@Nonnull Player player) {
-		Target existing = targets.get(player);
+	private void checkRange(@Nonnull Player player) {
 		if (!hasPermission(player)) {
-			removeTarget(player, existing);
+			inRange.remove(player);
+			removeTarget(player);
 			return;
 		}
 
+		for (Entity entity : Util.nearby(player.getLocation(), 5)) {
+			if (entity instanceof HappyGhast ghast && ghast.isAdult()) {
+				inRange.add(player);
+				return;
+			}
+		}
+
+		inRange.remove(player);
+	}
+
+	/**
+	 * Checks the new target location by raytracing where the player is looking at the ghast.
+	 *
+	 * @param player the player
+	 */
+	private void checkTarget(@Nonnull Player player) {
 		ItemStack item = player.getInventory().getItemInMainHand();
 		if (player.isInsideVehicle() || item.getType().isAir() || !item.getType().isBlock()) {
-			removeTarget(player, existing);
+			removeTarget(player);
 			return;
 		}
 
 		RayTraceResult result = Players.rayTrace(player, 5);
 		if (result == null || !(result.getHitEntity() instanceof HappyGhast ghast) || !ghast.isAdult()) {
-			removeTarget(player, existing);
+			removeTarget(player);
 			return;
 		}
 
 		// Block cannot be on player, needs to be on air, and be on top of the ghast.
 		Block block = result.getHitPosition().toLocation(player.getWorld()).getBlock();
 		if (player.getLocation().getBlock().equals(block) || !block.getType().isAir() || block.getLocation().getBlockY() - ghast.getLocation().getBlockY() != 4) {
-			removeTarget(player, existing);
+			removeTarget(player);
 			return;
 		}
 
 		// Same target, ignore.
+		Target existing = targets.get(player);
 		if (existing != null && existing.block.equals(block)) {
 			return;
 		}
 
 		// Remove old target.
 		if (existing != null) {
-			removeTarget(player, existing);
+			removeTarget(player);
 		}
 
 		BlockDisplay blockDisplay = Displays.createBlock(block.getLocation(), item.getType().createBlockData());
@@ -151,9 +173,9 @@ public class HappyGhastPlacementTweak extends DefaultTweak {
 	 * Removes the target from the player.
 	 *
 	 * @param player the player
-	 * @param target the target
 	 */
-	private void removeTarget(@Nonnull Player player, @Nullable Target target) {
+	private void removeTarget(@Nonnull Player player) {
+		Target target = targets.get(player);
 		if (target != null) {
 			target.blockDisplay.remove();
 			targets.remove(player);
