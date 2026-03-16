@@ -38,7 +38,7 @@ public class DurabilityIndicatorTweak extends DefaultTweak {
 		}
 
 		String name = Text.format(item.getType().name());
-		player.sendTitle("", plugin.getMessages().TWEAK_DURABILITY_INDICATOR.toText().replace("{item}", name), 10, 40, 10);
+		player.sendTitle("", plugin.getMessages().TWEAK_DURABILITY_MESSAGE.toText().replace("{item}", name), 10, 40, 10);
 		Scheduler.sync().runRepeating(() -> Players.sound(player, Sound.BLOCK_NOTE_BLOCK_DIDGERIDOO), 0L, 3L, 9L);
 	}
 }

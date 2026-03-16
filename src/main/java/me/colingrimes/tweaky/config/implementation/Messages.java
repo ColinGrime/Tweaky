@@ -13,7 +13,7 @@ public class Messages extends Configuration {
 	public final Message<?> TWEAK_COORDINATES_DAY       = message("tweaks.coordinates-day", "&a{x} &7| &a{y} &7| &a{z}");
 	public final Message<?> TWEAK_COORDINATES_NIGHT     = message("tweaks.coordinates-night", "&c{x} &7| &c{y} &7| &c{z}");
 	public final Message<?> TWEAK_DEATH_MESSAGE         = message("tweaks.death-message", "&7You died at (&a{x}&7, &a{y}&7, &a{z}&7) in the {world} &7with &a{levels} &7levels.");
-	public final Message<?> TWEAK_DURABILITY_INDICATOR  = message("tweaks.durability-indicator", "&7Your &a{item} &7is about to break!");
+	public final Message<?> TWEAK_DURABILITY_MESSAGE    = message("tweaks.durability-message", "&7Your &a{item} &7is about to break!");
 	public final Message<?> TWEAK_FILTER_ADD            = message("tweaks.filter-add", "&2[Filter] &aAdded &e{item} &ato your drop filter.");
 	public final Message<?> TWEAK_FILTER_REMOVE         = message("tweaks.filter-remove", "&4[Filter] &cRemoved &e{item} &cfrom your drop filter.");
 	public final Message<?> TWEAK_FILTER_EXISTS         = message("tweaks.filter-exists", "&4[Filter] &cThat item is already in your drop filter.");
