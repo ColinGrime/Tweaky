@@ -1,6 +1,7 @@
 package me.colingrimes.tweaky.tweak.implementation.misc;
 
 import me.colingrimes.tweaky.Tweaky;
+import me.colingrimes.tweaky.tweak.properties.TweakProperties;
 import me.colingrimes.tweaky.tweak.type.DefaultTweak;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.event.EventHandler;
@@ -12,6 +13,11 @@ public class ArmorStandArmsTweak extends DefaultTweak {
 
 	public ArmorStandArmsTweak(@Nonnull Tweaky plugin) {
 		super(plugin, "armor_stand_arms");
+	}
+
+	@Override
+	protected void configureProperties(@Nonnull TweakProperties properties) {
+		properties.setPermissionRequired(false);
 	}
 
 	@EventHandler
