@@ -36,12 +36,12 @@ public class LadderPlacementTweak extends DefaultTweak {
 	@TweakHandler
 	public void onPlayerInteract(@Nonnull PlayerInteractBlockEvent event) {
 		Block block = event.getBlock();
+		Ladder ladder = (Ladder) block.getBlockData();
 		Vector direction = event.getPlayer().getLocation().getPitch() <= 0 ? new Vector(0, 1, 0) : new Vector(0, -1, 0);
 		while (block.getType() == Material.LADDER) {
 			block = block.getLocation().add(direction).getBlock();
 		}
 
-		Ladder ladder = (Ladder) block.getBlockData();
 		if (Events.canPlace(event.getPlayer(), block, block.getRelative(ladder.getFacing().getOppositeFace()))) {
 			place(event.getItem(), block, ladder.getFacing());
 			event.setCancelled(true);

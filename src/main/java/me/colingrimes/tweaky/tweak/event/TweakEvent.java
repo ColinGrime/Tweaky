@@ -61,7 +61,7 @@ public final class TweakEvent {
 				try {
 					method.invoke(tweak, event);
 				} catch (Exception e) {
-					Logger.warn("TweakEvents has failed to invoke method: " + e);
+					Logger.severe("TweakEvents has failed to invoke method:", e);
 				}
 			};
 
