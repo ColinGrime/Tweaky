@@ -13,10 +13,7 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.type.Snow;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 
@@ -105,8 +102,8 @@ public class SnowballTweak extends DefaultTweak {
 		Block below = target.getRelative(BlockFace.DOWN);
 		Material targetType = target.getType();
 
-		// Check for permission.
-		if (event.getEntity().getShooter() instanceof Player player && !Events.canPlace(player, target, below)) {
+		// Check for region protection.
+		if (!checkRegionProtection(event.getEntity(), target)) {
 			return;
 		}
 
@@ -147,7 +144,7 @@ public class SnowballTweak extends DefaultTweak {
 	//       we have to run a timer on snowball throw to detect midair collisions.
 	@TweakHandler
 	public void onProjectileLaunch(@Nonnull ProjectileLaunchEvent event) {
-		Entity snowball = event.getEntity();
+		Projectile snowball = event.getEntity();
 		if (event.getEntity().getType() != EntityType.SNOWBALL) {
 			return;
 		}
@@ -163,22 +160,32 @@ public class SnowballTweak extends DefaultTweak {
 			// TWEAK -- form ice (mid-water)
 			if (settings.TWEAK_SNOWBALLS_FORM_ICE.get()) {
 				for (Location loc : Util.around(location, 0.25)) {
-					if (loc.getBlock().getType() == Material.WATER) {
-						loc.getBlock().setType(Material.ICE);
-						snowball.remove();
-						return;
+					Block block = loc.getBlock();
+					if (block.getType() != Material.WATER) {
+						continue;
 					}
+
+					snowball.remove();
+					if (checkRegionProtection(snowball, block)) {
+						block.setType(Material.ICE);
+					}
+					return;
 				}
 			}
 
 			// TWEAK -- break plants (mid-air)
 			if (settings.TWEAK_SNOWBALLS_BREAK_PLANTS.get()) {
 				for (Location loc : Util.around(location, 0.5)) {
-					if (Blocks.isPlant(loc.getBlock().getType())) {
-						Blocks.destroy(loc.getBlock());
+					Block block = loc.getBlock();
+					if (Blocks.isPlant(block.getType()) && checkRegionProtection(snowball, block)) {
+						Blocks.destroy(block);
 					}
 				}
 			}
 		}, 1L, 1L);
+	}
+
+	private boolean checkRegionProtection(@Nonnull Projectile projectile, @Nonnull Block block) {
+		return !(projectile.getShooter() instanceof Player player) || Events.canBuild(player, block);
 	}
 }
