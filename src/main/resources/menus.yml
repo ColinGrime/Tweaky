@@ -305,6 +305,17 @@ tweak-menu:
         - "&8Requires:"
         - " &7Shears &8(Default)"
       usage: "&eUsage: &aSneak Right Click an Item Frame with Shears to toggle its visibility."
+    keep-inventory:
+      type: BUNDLE
+      name: "&aKeep Inventory &8(Death)"
+      # Only shows the ones you have active in the config.yml file.
+      lore:
+        xp: "&a► &7Keep your &eXP &7on death."
+        armor: "&a► &7Keep your &eArmor &7on death."
+        tools: "&a► &7Keep your &eTools &7on death."
+        stackables: "&a► &7Keep &e{percent}% &7of stackables on death."
+        unstackables: "&a► &7&e{chance}% &7to keep unstackables on death."
+      usage: "&eUsage: &aPartially keep your inventory on death."
     ladder-placement:
       type: LADDER
       name: "&aLadder Placement &8(Right Click)"

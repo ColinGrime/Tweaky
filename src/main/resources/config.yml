@@ -123,6 +123,21 @@ tweaks:
   item-frame-click-through: false
   # Shift-right-click an item frame with shears to make it invisible. Do it again to make it visible.
   item-frame-invisible: false
+  # Customizable keep inventory tweak.
+  keep-inventory:
+    toggle: false
+    # Keep your XP on death.
+    xp: false
+    # Keep your armor on death.
+    armor: true
+    # Keep your tools on death.
+    tools: true
+    # Chance to keep unstackable items.
+    # 50% = 50% chance to keep a particular unstackable item.
+    unstackables: 0%
+    # Percentage of stackable items to keep.
+    # 50% = If you have 64 cobblestone, you will keep 32 of it.
+    stackables: 0%
   # Allows you to place ladders up/down depending on your direction by right-clicking existing ladders.
   ladder-placement: false
   # Allows you to instantly climb up/down ladders.

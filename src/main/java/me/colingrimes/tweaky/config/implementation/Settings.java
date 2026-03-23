@@ -34,6 +34,11 @@ public class Settings extends Configuration {
 	public final Option<Integer>       TWEAK_FORTUNE_SILK_SWAP_COST        = option("tweaks.fortune-silk-swap.cost", 30);
 	public final Option<Double>        TWEAK_HAPPY_GHAST_SPEED_VALUE       = option("tweaks.happy-ghast-speed.value", 1.5);
 	public final Option<Integer>       TWEAK_INVENTORY_ENDER_CHEST_COST    = option("tweaks.inventory-ender-chest.cost", 30);
+	public final Option<Boolean>       TWEAK_KEEP_INVENTORY_XP             = option("tweaks.keep-inventory.xp");
+	public final Option<Boolean>       TWEAK_KEEP_INVENTORY_ARMOR          = option("tweaks.keep-inventory.armor", true);
+	public final Option<Boolean>       TWEAK_KEEP_INVENTORY_TOOLS          = option("tweaks.keep-inventory.tools", true);
+	public final Option<Double>        TWEAK_KEEP_INVENTORY_UNSTACKABLES   = option("tweaks.keep-inventory.unstackables", "tweaks.keep-inventory", sec -> Double.parseDouble(sec.getString("unstackables", "0%").replace("%", "")));
+	public final Option<Double>        TWEAK_KEEP_INVENTORY_STACKABLES     = option("tweaks.keep-inventory.stackables", "tweaks.keep-inventory", sec -> Double.parseDouble(sec.getString("stackables", "0%").replace("%", "")));
 	public final Option<String>        TWEAK_LADDER_TELEPORTATION_CONTROL  = option("tweaks.ladder-teleportation.control", "Automatic");
 	public final Option<Double>        TWEAK_SNOWBALLS_DAMAGE_AMOUNT       = option("tweaks.snowballs-damage.amount", 1.0);
 	public final Option<Double>        TWEAK_SNOWBALLS_KNOCKBACK_AMOUNT    = option("tweaks.snowballs-knockback.amount", 0.5);

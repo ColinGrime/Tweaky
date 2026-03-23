@@ -43,12 +43,45 @@ public class Menus extends Configuration {
 	public final Option<TweakItem> TWEAK_HAPPY_GHAST_SPEED              = getTweak("happy-ghast-speed");
 
 	// Special case -- Showing only the active tweaks in the lore.
+	public final Option<TweakItem> TWEAK_KEEP_INVENTORY = option("tweak-menu.tweaks.keep-inventory", sec -> {
+		if (sec == null) {
+			return TweakItem.create("No config: tweak-menu.tweaks.keep-inventory");
+		}
+
+		TweakItem item = TweakItem.create();
+		Optional.ofNullable(sec.getString("type")).ifPresent(item::material);
+		Optional.ofNullable(sec.getString("name")).ifPresent(item::name);
+		Optional.ofNullable(sec.getString("usage")).ifPresent(item::usage);
+
+		if (plugin.getSettings().TWEAK_KEEP_INVENTORY_XP.get()) {
+			Optional.ofNullable(sec.getString("lore.xp")).ifPresent(item::lore);
+		}
+		if (plugin.getSettings().TWEAK_KEEP_INVENTORY_ARMOR.get()) {
+			Optional.ofNullable(sec.getString("lore.armor")).ifPresent(item::lore);
+		}
+		if (plugin.getSettings().TWEAK_KEEP_INVENTORY_TOOLS.get()) {
+			Optional.ofNullable(sec.getString("lore.tools")).ifPresent(item::lore);
+		}
+		if (plugin.getSettings().TWEAK_KEEP_INVENTORY_STACKABLES.get() > 0) {
+			Optional.ofNullable(sec.getString("lore.stackables")).ifPresent(item::lore);
+			item.placeholder("{percent}", plugin.getSettings().TWEAK_KEEP_INVENTORY_STACKABLES.get().intValue());
+		}
+		if (plugin.getSettings().TWEAK_KEEP_INVENTORY_UNSTACKABLES.get() > 0) {
+			Optional.ofNullable(sec.getString("lore.unstackables")).ifPresent(item::lore);
+			item.placeholder("{chance}", plugin.getSettings().TWEAK_KEEP_INVENTORY_UNSTACKABLES.get().intValue());
+		}
+
+		return item;
+	});
+
+	// Special case -- Showing only the active tweaks in the lore.
 	public final Option<TweakItem> TWEAK_SNOWBALLS = option("tweak-menu.tweaks.snowballs", sec -> {
 		if (sec == null) {
 			return TweakItem.create("No config: tweak-menu.tweaks.snowballs");
 		}
 
 		TweakItem item = TweakItem.create();
+		Optional.ofNullable(sec.getString("type")).ifPresent(item::material);
 		Optional.ofNullable(sec.getString("name")).ifPresent(item::name);
 		Optional.ofNullable(sec.getString("usage")).ifPresent(item::usage);
 
