@@ -2,7 +2,7 @@ package me.colingrimes.tweaky.menu.tweak;
 
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.menu.Gui;
-import me.colingrimes.tweaky.menu.pattern.MultiPattern;
+import me.colingrimes.tweaky.menu.pattern.Pattern;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.tweak.TweakManager;
 import me.colingrimes.tweaky.tweak.properties.TweakCategory;
@@ -77,6 +77,7 @@ public class TweakMenu extends Gui {
 			"ladder_teleportation",
 			"item_frame_click_through",
 			"weapon_swing_through",
+			"keep_inventory",
 			// Recipes
 			"recipe_unlock_all",
 			"rotten_flesh_to_leather",
@@ -101,7 +102,7 @@ public class TweakMenu extends Gui {
 			TweakCategory.MISCELLANEOUS
 	);
 
-	private final MultiPattern MAIN_MENU = MultiPattern.create()
+	private final Pattern MAIN_MENU = Pattern.create()
 			.mask("XXXXXXXXX")
 			.mask("XX1X2X3XX")
 			.mask("XXXXXXXXX")

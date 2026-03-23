@@ -50,7 +50,6 @@ public class SnowballTweak extends DefaultTweak {
 	@Override
 	public TweakItem getGuiItem() {
 		return menus.TWEAK_SNOWBALLS.get()
-				.material(Material.SNOWBALL)
 				.placeholder("{count}", getCount())
 				.placeholder("{damage}", settings.TWEAK_SNOWBALLS_DAMAGE_AMOUNT.get());
 	}

@@ -14,130 +14,106 @@ import java.util.*;
 import java.util.function.Consumer;
 
 /**
- * Represents a pattern of slots in a {@link Gui} that can be filled with an item.
+ * Represents a pattern of slots in a {@link Gui} that can be filled with different items.
  */
 public class Pattern {
 
-    public static final Pattern BORDER = Pattern.create()
-            .mask("111111111")
-            .mask("100000001")
-            .mask("100000001")
-            .mask("100000001")
-            .mask("100000001")
-            .mask("111111111");
-
     private final List<String> patterns;
-    private final Map<ClickType, Set<Consumer<InventoryClickEvent>>> handlers;
-    private ItemStack item;
+    private final Map<Character, ItemStack> items;
+    private final Map<Character, Map<ClickType, Set<Consumer<InventoryClickEvent>>>> handlers;
 
     /**
-     * Creates a new Pattern instance.
+     * Creates a new MultiPattern instance.
      *
-     * @return the new Pattern instance
+     * @return the new MultiPattern instance
      */
     @Nonnull
     public static Pattern create() {
         return new Pattern();
     }
 
-    /**
-     * Creates a new Pattern instance with the given item.
-     *
-     * @param item the item to place in the slots represented by '1' in the pattern
-     * @return the new Pattern instance
-     */
-    @Nonnull
-    public static Pattern of(@Nonnull ItemStack item) {
-        return create().item(item);
-    }
-
-    /**
-     * Creates a new Pattern instance with the given material.
-     *
-     * @param material the material to place in the slots represented by '1' in the pattern
-     * @return the new Pattern instance
-     */
-    @Nonnull
-    public static Pattern of(@Nonnull Material material) {
-        return create().item(Items.of(material).name("").build());
-    }
-
     private Pattern() {
         this.patterns = new ArrayList<>();
+        this.items = new HashMap<>();
         this.handlers = new HashMap<>();
     }
 
     /**
      * Adds a new mask to the pattern.
      *
-     * @param mask the pattern mask, using '0' for empty slots and '1' for slots to be filled
-     * @return this Pattern instance for chaining
-     * @throws IllegalArgumentException if the mask is too large, or it contains characters other than '0' and '1'
+     * @param mask the pattern mask, using '0' for empty slots and any other character for slots to be filled
+     * @return this MultiPattern instance for chaining
+     * @throws IllegalArgumentException if the mask is too large
      * @throws IllegalStateException if more than 6 lines have been added to the pattern
      */
     @Nonnull
     public Pattern mask(@Nonnull String mask) {
         Preconditions.checkArgument(mask.length() <= 9, "Mask is too large to fit in the Gui.");
-        Preconditions.checkArgument(mask.chars().allMatch(c -> c == '0' || c == '1'), "Mask can only contain '0' and '1' characters.");
-        Preconditions.checkState(patterns.size() < 6, "Pattern cannot have more than 6 lines.");
+        Preconditions.checkState(patterns.size() < 6, "MultiPattern cannot have more than 6 lines.");
         patterns.add(mask);
         return this;
     }
 
     /**
-     * Sets the item to be placed in the slots represented by '1' in the pattern.
+     * Maps a character in the pattern to the given item.
      *
-     * @param item the item to place in the slots
-     * @return this Pattern instance for chaining
+     * @param c the character to map to the item
+     * @param item the item to place in the slots represented by the character in the pattern
+     * @return this MultiPattern instance for chaining
+     * @throws IllegalArgumentException if the character is a reserved character ('0')
      */
     @Nonnull
-    public Pattern item(@Nonnull ItemStack item) {
-        this.item = item;
+    public Pattern item(char c, @Nonnull ItemStack item) {
+        Preconditions.checkArgument(c != '0', "Character '0' is reserved for empty slots and cannot be mapped to an item.");
+        items.put(c, item);
         return this;
     }
 
     /**
-     * Sets the material to be placed in the slots represented by '1' in the pattern.
+     * Maps a character in the pattern to the given material.
      *
-     * @param material the material to place in the slots
-     * @return this Pattern instance for chaining
+     * @param c the character to map to the material
+     * @param material the material to place in the slots represented by the character in the pattern
+     * @return this MultiPattern instance for chaining
      */
     @Nonnull
-    public Pattern item(@Nonnull Material material) {
-        return item(Items.of(material).name("").build());
+    public Pattern item(char c, @Nonnull Material material) {
+        return item(c, Items.of(material).name("").build());
     }
 
     /**
      * Binds a click type to a handler that will perform an action on click.
-     * The handler will be applied to all filled slots.
+     * The handler will be applied to the specified character.
      *
+     * @param c the character to map to the handler
      * @param type the click type
      * @param handler the action to perform on the click
-     * @return this Pattern instance for chaining
+     * @return this MultiPattern instance for chaining
      */
     @Nonnull
-    public Pattern bind(@Nonnull ClickType type, @Nonnull Consumer<InventoryClickEvent> handler) {
+    public Pattern bind(char c, @Nonnull ClickType type, @Nonnull Consumer<InventoryClickEvent> handler) {
+        Map<ClickType, Set<Consumer<InventoryClickEvent>>> handlers = this.handlers.computeIfAbsent(c, __ -> new HashMap<>());
         handlers.computeIfAbsent(type, __ -> new HashSet<>()).add(handler);
         return this;
     }
 
     /**
-     * Fills the slots in the {@link Gui} based on the current pattern and item.
+     * Fills the slots in the {@link Gui} based on the current pattern and mapped items.
      *
      * @param gui the {@link Gui} in which to fill the slots
      */
     public void fill(@Nonnull Gui gui) {
-        if (item == null) {
-            item = Items.of(Material.STONE).name("&cNo item mapped.").build();
-        }
-
         for (int i=0; i<patterns.size(); i++) {
             String row = patterns.get(i);
             for (int j=0; j<row.length(); j++) {
-                if (row.charAt(j) == '1') {
+                char c = row.charAt(j);
+                if (c != '0') {
                     Slot slot = gui.getSlot(i * 9 + j);
-                    slot.setItem(item);
-                    handlers.forEach((type, handlers) -> handlers.forEach(h -> slot.bind(type, h)));
+                    slot.setItem(items.computeIfAbsent(c, __ -> Items.of(Material.STONE).name("&cNo item mapped.").build()));
+
+                    if (handlers.get(c) != null) {
+                        handlers.get(c).forEach((type, handlers) -> handlers.forEach(h -> slot.bind(type, h)));
+                    }
                 }
             }
         }
