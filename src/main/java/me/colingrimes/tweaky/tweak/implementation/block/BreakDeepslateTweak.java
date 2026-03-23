@@ -12,7 +12,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import javax.annotation.Nonnull;
-import java.util.Objects;
 
 public class BreakDeepslateTweak extends DefaultTweak {
 
@@ -31,7 +30,7 @@ public class BreakDeepslateTweak extends DefaultTweak {
 	@TweakHandler
 	public void onBlockDamage(@Nonnull BlockDamageEvent event) {
 		PotionEffect potion = event.getPlayer().getPotionEffect(PotionEffectType.HASTE);
-		if (potion != null && potion.getAmplifier() > 1) {
+		if (potion != null && potion.getAmplifier() >= 1) {
 			Blocks.breakSound(event.getBlock());
 			event.setInstaBreak(true);
 		}
