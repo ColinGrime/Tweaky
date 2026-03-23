@@ -73,6 +73,15 @@ tweak-menu:
         - " &7Bee Nest"
         - " &7Beehive"
       usage: "&eUsage: &aRight Click a Bee with a Bee Nest to capture it."
+    break-bedrock:
+      type: BEDROCK
+      name: "&aBedrock Break"
+      lore:
+        - "&7Bedrock can now be broken. No drops."
+        - ""
+        - "&8Requires:"
+        - " &7Netherite Pick, Eff 5, Haste II."
+      usage: "&eUsage: &aBreak Bedrock with a Netherite Pickaxe, Efficiency V, and Haste II."
     break-deepslate:
       type: DEEPSLATE
       name: "&aDeepslate Break"

@@ -9,6 +9,12 @@ tweaks:
   armor-swap: false
   # Right-click a bee with a beehive to capture it. Only works if the beehive is not full.
   bee-capture: false
+  # Bedrock can be broken when mined with a netherite pickaxe, efficiency 5, and haste 2.
+  # No drops will be given.
+  break-bedrock:
+    toggle: false
+    # Number of seconds to break the bedrock.
+    seconds: 60
   # Deepslate breaks instantly when mined with a netherite pickaxe, efficiency 5, and haste 2.
   break-deepslate: false
   # Protect your ender chests by picking between different break behaviors.

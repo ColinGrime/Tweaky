@@ -25,6 +25,7 @@ public class Settings extends Configuration {
 	public final Option<Boolean>       TWEAK_SNOWBALLS_KNOCKBACK           = getTweak("snowballs-knockback");
 
 	// Tweak Settings
+	public final Option<Integer>       TWEAK_BREAK_BEDROCK_SECONDS         = option("tweaks.break-bedrock.seconds", 60);
 	public final Option<String>        TWEAK_BREAK_ENDER_CHEST_MODE        = option("tweaks.break-ender-chest.mode", "Protection");
 	public final Option<Set<Material>> TWEAK_BREAK_GLASS_MATERIALS         = option("tweaks.break-glass.materials", "tweaks.break-glass", sec -> sec.getStringList("materials").stream().map(m -> Material.getMaterial(m.toUpperCase())).filter(Objects::nonNull).collect(Collectors.toSet()));
 	public final Option<Boolean>       TWEAK_CAULDRON_CONCRETE_USE_WATER   = option("tweaks.cauldron-concrete.use-water");
