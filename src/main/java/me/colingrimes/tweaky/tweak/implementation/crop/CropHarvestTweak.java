@@ -6,7 +6,7 @@ import me.colingrimes.tweaky.tweak.event.TweakHandler;
 import me.colingrimes.tweaky.tweak.type.DefaultTweak;
 import me.colingrimes.tweaky.tweak.properties.TweakProperties;
 import me.colingrimes.tweaky.util.bukkit.Blocks;
-import me.colingrimes.tweaky.util.bukkit.Players;
+import me.colingrimes.tweaky.util.bukkit.Items;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
@@ -30,9 +30,11 @@ public class CropHarvestTweak extends DefaultTweak {
 	@TweakHandler
 	public void onPlayerInteract(@Nonnull PlayerInteractBlockEvent event) {
 		Block block = event.getBlock();
-		if (event.getPlayer().breakBlock(block)) {
-			Players.use(event.getPlayer(), event.getHand(), block.getBlockData().getSoundGroup().getBreakSound(), event.getLocation());
-			Blocks.edit(block, Ageable.class, c -> c.setAge(0));
+		if (block.getBlockData() instanceof Ageable crop && event.getPlayer().breakBlock(block)) {
+			crop.setAge(0);
+			block.setBlockData(crop);
+			Items.damage(event.getItem(), event.getPlayer());
+			Blocks.breakSound(block);
 		}
 	}
 }
