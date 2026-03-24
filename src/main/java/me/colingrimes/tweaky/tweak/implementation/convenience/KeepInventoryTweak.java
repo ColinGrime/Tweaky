@@ -42,14 +42,14 @@ public class KeepInventoryTweak extends DefaultTweak {
 
 			if (keepStackable(item)) {
 				double percentToKeep = settings.TWEAK_KEEP_INVENTORY_STACKABLES.get() / 100;
-				int dropAmount = (int) Math.ceil(item.getAmount() * percentToKeep);
 				int keepAmount = (int) Math.floor(item.getAmount() * percentToKeep);
-
-				item.setAmount(dropAmount);
+				int dropAmount = item.getAmount() - keepAmount;
 
 				ItemStack clone = item.clone();
 				clone.setAmount(keepAmount);
 				event.getItemsToKeep().add(clone);
+
+				item.setAmount(dropAmount);
 			}
 		}
 	}
