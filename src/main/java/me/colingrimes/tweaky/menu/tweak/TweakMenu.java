@@ -39,11 +39,11 @@ public class TweakMenu extends Gui {
 			// Blocks
 			"break_ender_chest",
 			"anvil_repair",
+			"break_bedrock",
 			"break_deepslate",
 			"break_glass",
 			"break_leaves",
 			"break_plants",
-			"ladder_placement",
 			"cauldron_concrete",
 			"cauldron_mud",
 			"revert_farmland",
@@ -52,6 +52,7 @@ public class TweakMenu extends Gui {
 			"doors_double",
 			"doors_iron",
 			"sponge_ignite",
+			"ladder_placement",
 			// Crops
 			"crops_harvest",
 			"crops_protection",

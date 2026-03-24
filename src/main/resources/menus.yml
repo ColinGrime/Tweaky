@@ -323,7 +323,7 @@ tweak-menu:
         armor: "&a► &7Keep your &eArmor &7on death."
         tools: "&a► &7Keep your &eTools &7on death."
         stackables: "&a► &7Keep &e{percent}% &7of stackables on death."
-        unstackables: "&a► &7&e{chance}% &7to keep unstackables on death."
+        unstackables: "&a► &7&e{chance}% &7chance to keep unstackables on death."
       usage: "&eUsage: &aPartially keep your inventory on death."
     ladder-placement:
       type: LADDER
