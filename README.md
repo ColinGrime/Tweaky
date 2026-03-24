@@ -13,6 +13,7 @@
 * `armor-swap` - Shift over an armor stand to quick swap armor.
 * `armor-stand-arms` - Armor stands have arms by default when spawned.
 * `bee-capture` - Right-click a bee with a beehive to capture it.
+* `break-bedrock` - Bedrock can be broken when mined with a netherite pickaxe, efficiency 5, and haste 2. No drops.
 * `break-deepslate` - Deepslate breaks instantly when mined with a netherite pickaxe, eff 5, and haste 2.
 * `break-ender-chest` - Protect your ender chests by picking between different break behaviors.
 * `break-glass` - Glass breaks instantly when broken by a Netherite Pickaxe (configurable).
@@ -46,6 +47,7 @@
 * `inventory-ender-chest` - Right-clicking a silk touch ender chest in your inventory opens it.
 * `item-frame-click-through` - Right-click item frame on chest to open it. Shift for normal behavior.
 * `item-frame-invisible` - Shift-right-click an item frame with shears to toggle its visibility on/off.
+* `keep-inventory` - Customizable keep inventory tweak (xp, armor, tools, stackables, unstackables).
 * `ladder-placement` - Place ladders up/down depending on your direction by right-clicking existing ladders.
 * `ladder-teleportation` - Allows you to instantly climb up/down ladders (different modes are available).
 * `night-vision` - Toggle night vision with the /nv command.
