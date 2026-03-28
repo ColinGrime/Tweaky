@@ -1,7 +1,6 @@
 package me.colingrimes.tweaky;
 
-import me.colingrimes.tweaky.command.TweaksCommand;
-import me.colingrimes.tweaky.command.TweakyCommand;
+import me.colingrimes.tweaky.command.manager.CommandManager;
 import me.colingrimes.tweaky.config.implementation.Menus;
 import me.colingrimes.tweaky.config.implementation.Messages;
 import me.colingrimes.tweaky.config.implementation.Settings;
@@ -25,6 +24,7 @@ public class Tweaky extends JavaPlugin {
 	private static Tweaky instance;
 	private TweakManager tweakManager;
 	private ConfigurationManager configManager;
+	private CommandManager commandManager;
 	private boolean isPaper = false;
 
 	@Override
@@ -35,13 +35,16 @@ public class Tweaky extends JavaPlugin {
 		configManager = new ConfigurationManager(this);
 		configManager.init();
 
-		// Setup commands + listeners.
-		Bukkit.getPluginCommand("tweaky").setExecutor(new TweakyCommand(this));
-		Bukkit.getPluginCommand("tweaks").setExecutor(new TweaksCommand(this));
+		// Initialize commands.
+		commandManager = new CommandManager(this);
+		commandManager.init();
+		Logger.log("Registered main commands.");
+
+		// Initialize listeners.
 		Bukkit.getPluginManager().registerEvents(new MenuListeners(), this);
 		Bukkit.getPluginManager().registerEvents(new PlayerListeners(), this);
 		Bukkit.getPluginManager().registerEvents(new TweakListeners(this), this);
-		Logger.log("Registered all commands and events.");
+		Logger.log("Registered all events.");
 
 		// Register all the tweaks.
 		tweakManager = new TweakManager(this);
@@ -62,6 +65,7 @@ public class Tweaky extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		new HashSet<>(Gui.players.values()).forEach(Gui::invalidate);
+		commandManager.shutdown();
 		tweakManager.shutdown();
 	}
 
@@ -88,6 +92,16 @@ public class Tweaky extends JavaPlugin {
 	@Nonnull
 	public ConfigurationManager getConfigManager() {
 		return configManager;
+	}
+
+	/**
+	 * Gets the manager responsible for commands.
+	 *
+	 * @return the command manager
+	 */
+	@Nonnull
+	public CommandManager getCommandManager() {
+		return commandManager;
 	}
 
 	/**

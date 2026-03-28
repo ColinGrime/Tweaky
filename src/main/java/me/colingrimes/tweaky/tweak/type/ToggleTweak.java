@@ -4,7 +4,6 @@ import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.util.bukkit.NBT;
 import me.colingrimes.tweaky.util.bukkit.Players;
-import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -14,7 +13,6 @@ import org.bukkit.entity.Player;
 
 import javax.annotation.Nonnull;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -45,13 +43,13 @@ public abstract class ToggleTweak extends DefaultTweak implements CommandExecuto
 
 	@Override
 	public void init() {
-		Objects.requireNonNull(Bukkit.getPluginCommand(command)).setExecutor(this);
+		plugin.getCommandManager().register(command, this);
 		Players.forEach(this::checkToggle);
 	}
 
 	@Override
 	public void shutdown() {
-		Objects.requireNonNull(Bukkit.getPluginCommand(command)).setExecutor(null);
+		plugin.getCommandManager().unregister(command);
 		toggleOn.clear();
 	}
 
