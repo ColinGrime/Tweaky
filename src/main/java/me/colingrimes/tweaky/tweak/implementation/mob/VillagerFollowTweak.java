@@ -60,6 +60,13 @@ public class VillagerFollowTweak extends DefaultTweak {
 	 * @param villager the villager
 	 */
 	private void checkVillager(@Nonnull Villager villager) {
+		// Prevent weird glitchy movement from being in bed.
+		if (villager.isSleeping()) {
+			villager.getPathfinder().stopPathfinding();
+			villagers.remove(villager);
+			return;
+		}
+
 		Player closest = null;
 		double closestDistance = Double.MAX_VALUE;
 		for (Player player : villager.getWorld().getNearbyPlayers(villager.getLocation(), 20)) {
