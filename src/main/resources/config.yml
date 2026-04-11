@@ -158,6 +158,8 @@ tweaks:
   night-vision: false
   # Prevents you from attacking your own pet.
   pet-protection: false
+  # Right-click on a player with food to feed them! :)
+  player-feed: false
   # Nether portals can no longer be destroyed by explosions.
   # No more ghasts or creepers destroying them!
   portal-protection: false

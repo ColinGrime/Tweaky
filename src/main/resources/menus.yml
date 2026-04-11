@@ -361,6 +361,11 @@ tweak-menu:
       name: "&aPet Protection"
       lore: "&7Protects your Pets from yourself."
       usage: "&eUsage: &aPrevents you from attacking your own Pet."
+    player-feed:
+      type: COOKED_BEEF
+      name: "&aPlayer Feeding &8(Right Click)"
+      lore: "&7Feed Food to Players"
+      usage: "&eUsage: &aRight Click on a Player with food to feed them."
     portal-protection:
       type: OBSIDIAN
       name: "&aPortal Protection"

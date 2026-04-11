@@ -12,7 +12,7 @@ import java.util.*;
 
 public class TweakManager {
 
-	private static final Set<String> PAPER_ONLY_TWEAKS = Set.of("VillagerFollowTweak", "FortuneSilkSwapTweak");
+	private static final Set<String> PAPER_ONLY_TWEAKS = Set.of("VillagerFollowTweak", "FortuneSilkSwapTweak", "PlayerFeed");
 	private final Tweaky plugin;
 	private final List<Tweak> tweaks;
 	private final List<String> availableTweaks;

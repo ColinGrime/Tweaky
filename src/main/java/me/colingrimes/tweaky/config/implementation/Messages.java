@@ -23,6 +23,8 @@ public class Messages extends Configuration {
 	public final Message<?> TWEAK_FORTUNE_SUFFIX        = message("tweaks.fortune-suffix", "&7(&aFortune&7)");
 	public final Message<?> TWEAK_SILK_TOUCH_SUFFIX     = message("tweaks.silk-touch-suffix", "&7(&aSilk Touch&7)");
 	public final Message<?> TWEAK_HORSE_STATISTICS      = message("tweaks.horse-statistics", List.of());
+	public final Message<?> TWEAK_FEED_NOTIFY           = message("tweaks.feed-notify", "&e{player} &7just fed you a &e{item}&7. (&a+{hunger} &7hunger)");
+	public final Message<?> TWEAK_FEED_FULL             = message("tweaks.feed-full", "&e{player} &7is full and cannot be fed right now.");
 	public final Message<?> PLAYER_NO_PERMISSION        = message("player.no-permission", "&7[&eTweaky&7] &cYou lack the required permission for this command.");
 	public final Message<?> ADMIN_GENERAL_LIST          = message("admin.general.list", "&6Loaded Tweaks &7(&f{amount}&7): {tweaks}");
 	public final Message<?> ADMIN_GENERAL_NEW_UPGRADE   = message("admin.general.new-update", List.of());

@@ -90,7 +90,8 @@ public class TweakMenu extends Gui {
 			"portal_protection",
 			"item_frame_invisible",
 			"armor_stand_arms",
-			"torch_throw"
+			"torch_throw",
+			"player_feed"
 	);
 
 	private static final List<TweakCategory> CATEGORY_ORDER = List.of(

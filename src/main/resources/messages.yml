@@ -31,6 +31,10 @@ tweaks:
     - "&7Max Health: &e{health} &a(max: 30)"
     - "&7Speed: &e{speed} &a(max: 14.23)"
     - "&7Jump: &e{jump} &a(max: 5.3)"
+  # (player-feed) Message to send to the player being fed.
+  feed-notify: "&e{player} &7just fed you a &e{item}&7. (&a+{hunger} &7hunger)"
+  # (player-feed) Message to send when you cannot feed a player.
+  feed-full: "&e{player} &7is full and cannot be fed right now."
 
 # Messages that regular players can receive.
 player:

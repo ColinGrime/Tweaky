@@ -7,6 +7,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * Convenience methods for global sounds.
@@ -20,8 +21,8 @@ public final class Sounds {
 	 * @param location the location to play the sound
 	 * @param sound the sound to play
 	 */
-	public static void play(@Nonnull Location location, @Nonnull Sound sound) {
-		if (location.getWorld() != null) {
+	public static void play(@Nonnull Location location, @Nullable Sound sound) {
+		if (location.getWorld() != null && sound != null) {
 			location.getWorld().playSound(location, sound, 1F, 1F);
 		}
 	}
@@ -32,7 +33,7 @@ public final class Sounds {
 	 * @param entity the entity
 	 * @param sound the sound to play
 	 */
-	public static void play(@Nonnull Entity entity, @Nonnull Sound sound) {
+	public static void play(@Nonnull Entity entity, @Nullable Sound sound) {
 		play(entity.getLocation(), sound);
 	}
 
@@ -42,7 +43,7 @@ public final class Sounds {
 	 * @param block the block
 	 * @param sound the sound to play
 	 */
-	public static void play(@Nonnull Block block, @Nonnull Sound sound) {
+	public static void play(@Nonnull Block block, @Nullable Sound sound) {
 		play(block.getLocation(), sound);
 	}
 }
