@@ -2,8 +2,12 @@ package me.colingrimes.tweaky.util.bukkit;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.HashMultimap;
+import me.colingrimes.tweaky.message.Message;
+import me.colingrimes.tweaky.message.Placeholders;
 import me.colingrimes.tweaky.util.misc.Random;
 import me.colingrimes.tweaky.util.text.Text;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -183,13 +187,13 @@ public final class Items {
 	 */
 	public static class Builder {
 
-		protected final Map<String, String> placeholders = new HashMap<>();
+		protected final Placeholders placeholders = Placeholders.create();
 		private final Material defMaterial;
 		private ItemStack baseItem;
 
 		private Material material;
-		private String name;
-		private List<String> lore = new ArrayList<>();
+		private Component name;
+		private List<Component> lore = new ArrayList<>();
 		private boolean hide = false;
 		private boolean glow = false;
 		private boolean unbreakable = false;
@@ -203,8 +207,8 @@ public final class Items {
 			Preconditions.checkNotNull(base.getItemMeta(), "Item meta is null.");
 			this.defMaterial = null;
 			this.baseItem = base;
-			this.name = base.getItemMeta().hasDisplayName() ? base.getItemMeta().getDisplayName() : null;
-			this.lore = base.getItemMeta().hasLore() ? base.getItemMeta().getLore() : new ArrayList<>();
+			this.name = base.getItemMeta().hasDisplayName() ? base.getItemMeta().displayName() : null;
+			this.lore = base.getItemMeta().hasLore() ? base.getItemMeta().lore() : new ArrayList<>();
 		}
 
 		/**
@@ -254,8 +258,28 @@ public final class Items {
 		 * @return the item builder object
 		 */
 		@Nonnull
+		public Builder name(@Nullable Component name) {
+			if (name == null) {
+				return this;
+			}
+
+			this.name = name.decoration(TextDecoration.ITALIC, false);
+			return this;
+		}
+
+		/**
+		 * Sets the name of the item.
+		 *
+		 * @param name the name you want the item to be
+		 * @return the item builder object
+		 */
+		@Nonnull
 		public Builder name(@Nullable String name) {
-			this.name = name;
+			if (name == null) {
+				return this;
+			}
+
+			this.name = Message.LEGACY.deserialize(name).decoration(TextDecoration.ITALIC, false);
 			return this;
 		}
 
@@ -266,7 +290,7 @@ public final class Items {
 		 */
 		@Nonnull
 		public Builder lore() {
-			lore.add("");
+			lore.add(Component.empty());
 			return this;
 		}
 
@@ -278,7 +302,11 @@ public final class Items {
 		 */
 		@Nonnull
 		public Builder lore(@Nullable String line) {
-			lore.add(line);
+			if (line == null) {
+				return this;
+			}
+
+			lore.add(Message.LEGACY.deserialize(line).decoration(TextDecoration.ITALIC, false));
 			return this;
 		}
 
@@ -305,7 +333,11 @@ public final class Items {
 		 */
 		@Nonnull
 		public Builder lore(@Nullable List<String> lore) {
-			this.lore = lore;
+			if (lore == null) {
+				return this;
+			}
+
+			this.lore = lore.stream().map(l -> (Component) Message.LEGACY.deserialize(l).decoration(TextDecoration.ITALIC, false)).toList();
 			return this;
 		}
 
@@ -411,7 +443,7 @@ public final class Items {
 		 */
 		@Nonnull
 		public <T> Builder placeholder(@Nonnull String placeholder, @Nonnull T replacement) {
-			placeholders.put(placeholder, String.valueOf(replacement));
+			placeholders.add(placeholder, replacement);
 			return this;
 		}
 
@@ -426,13 +458,8 @@ public final class Items {
 			ItemStack item = baseItem != null ? baseItem : new ItemStack(Objects.requireNonNull(type, "Material is null."));
 			ItemMeta meta = Objects.requireNonNull(item.getItemMeta(), "Item meta is null.");
 
-			for (var entry : placeholders.entrySet()) {
-				name = name.replace(entry.getKey(), entry.getValue());
-				lore = lore.stream().map(l -> l.replace(entry.getKey(), entry.getValue())).toList();
-			}
-
-			if (name != null) meta.setDisplayName(Text.color(name));
-			if (lore != null && !lore.isEmpty()) meta.setLore(Text.color(lore));
+			if (name != null) meta.displayName(placeholders.apply(name).toComponent());
+			if (lore != null && !lore.isEmpty()) meta.lore(lore.stream().map(l -> placeholders.apply(l).getContent()).toList());
 			if (hide) {
 				meta.setAttributeModifiers(HashMultimap.create());
 				meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ADDITIONAL_TOOLTIP);

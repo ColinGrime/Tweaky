@@ -1,13 +1,12 @@
 package me.colingrimes.tweaky.message;
 
-import me.colingrimes.tweaky.message.implementation.ListMessage;
-import me.colingrimes.tweaky.message.implementation.TextMessage;
+import me.colingrimes.tweaky.message.implementation.ComponentMessage;
 import me.colingrimes.tweaky.util.misc.Types;
-import me.colingrimes.tweaky.util.text.Text;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextReplacementConfig;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,8 +14,6 @@ import java.util.Map;
 /**
  * A utility class designed for managing and applying multiple placeholders
  * within different types of input, including strings, lists of strings, or components.
- * <p>
- * In addition, this class also supports the use of PlaceholderAPI placeholders.
  */
 public class Placeholders {
 
@@ -67,7 +64,7 @@ public class Placeholders {
 	 */
 	@Nonnull
 	public <T> Placeholders add(@Nonnull String placeholder, @Nonnull T value) {
-		placeholders.put(placeholder, Message.of(String.valueOf(value)));
+		placeholders.put(placeholder, Message.of(value instanceof Component ? value : String.valueOf(value)));
 		return this;
 	}
 
@@ -91,14 +88,12 @@ public class Placeholders {
 	 * @return the new string with applied placeholders
 	 */
 	@Nonnull
-	public TextMessage apply(@Nullable String str) {
-		if (str == null) {
-			return new TextMessage();
+	public ComponentMessage apply(@Nullable String str) {
+		if (str != null) {
+			return apply(Message.of(str).toComponent());
+		} else {
+			return new ComponentMessage();
 		}
-		for (Map.Entry<String, Message<?>> replacement : placeholders.entrySet()) {
-			str = str.replace(replacement.getKey(), replacement.getValue().toText());
-		}
-		return new TextMessage(Text.color(str));
 	}
 
 	/**
@@ -108,14 +103,47 @@ public class Placeholders {
 	 * @return the new list of strings with applied placeholders
 	 */
 	@Nonnull
-	public ListMessage apply(@Nullable List<String> strList) {
-		if (strList == null || strList.isEmpty()) {
-			return new ListMessage();
+	public ComponentMessage apply(@Nullable List<String> strList) {
+		if (strList != null) {
+			return apply(Message.of(strList).toComponent());
+		} else {
+			return new ComponentMessage();
+		}
+	}
+
+	/**
+	 * Applies all placeholders in a component.
+	 *
+	 * @param component the component to apply placeholders to
+	 * @return the new component with applied placeholders
+	 */
+	@Nonnull
+	public ComponentMessage apply(@Nullable Component component) {
+		if (component == null) {
+			return new ComponentMessage();
 		}
 
-		List<String> converted = new ArrayList<>();
-		strList.forEach(str -> converted.add(apply(str).getContent()));
-		return new ListMessage(converted);
+		for (Map.Entry<String, Message<?>> replacement : placeholders.entrySet()) {
+			if (replacement.getValue().getContent() instanceof Component content) {
+				component = component.replaceText(
+						TextReplacementConfig
+								.builder()
+								.matchLiteral(replacement.getKey())
+								.replacement(content)
+								.build()
+				);
+			} else {
+				component = component.replaceText(
+						TextReplacementConfig
+								.builder()
+								.matchLiteral(replacement.getKey())
+								.replacement(replacement.getValue().toText())
+								.build()
+				);
+			}
+		}
+
+		return new ComponentMessage(component);
 	}
 
 	/**
@@ -130,6 +158,8 @@ public class Placeholders {
 			return apply(content);
 		} else if (Types.asStringList(message.getContent()).isPresent()) {
 			return apply(Types.asStringList(message.getContent()).get());
+		} else if (message.getContent() instanceof Component component) {
+			return apply(component);
 		} else {
 			throw new IllegalArgumentException("Invalid message content type: " + message.getContent().getClass().getName());
 		}

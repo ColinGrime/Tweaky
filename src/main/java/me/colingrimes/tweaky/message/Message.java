@@ -1,8 +1,13 @@
 package me.colingrimes.tweaky.message;
 
+import me.colingrimes.tweaky.message.implementation.ComponentMessage;
 import me.colingrimes.tweaky.message.implementation.ListMessage;
 import me.colingrimes.tweaky.message.implementation.TextMessage;
 import me.colingrimes.tweaky.util.misc.Types;
+import me.colingrimes.tweaky.util.text.Text;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.JoinConfiguration;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -16,11 +21,14 @@ import java.util.List;
  */
 public interface Message<T> {
 
+    LegacyComponentSerializer LEGACY = LegacyComponentSerializer.builder().character('&').extractUrls().build();
+
     /**
      * Constructs a new {@link Message} object. Must be either:
      * <ul>
      *     <li>A string for {@link TextMessage}'s.</li>
      *     <li>A list of strings for {@link ListMessage}'s.</li>
+     *     <li>Adventure's components for {@link ComponentMessage}'s.</li>
      * </ul>
      *
      * @param content the content of the message
@@ -33,6 +41,8 @@ public interface Message<T> {
             return (Message<T>) new TextMessage((String) content);
         } else if (Types.asStringList(content).isPresent()) {
             return (Message<T>) new ListMessage(Types.asStringList(content).get());
+        } else if (content instanceof Component component) {
+            return (Message<T>) new ComponentMessage(component);
         } else {
             throw new IllegalArgumentException("Unsupported message content type: " + content.getClass().getName());
         }
@@ -55,10 +65,12 @@ public interface Message<T> {
     @Nonnull
     default String toText() {
         T content = getContent();
-        if (content instanceof String) {
-            return (String) content;
+        if (content instanceof String str) {
+            return Text.color(str);
         } else if (Types.asStringList(content).isPresent()) {
-            return String.join("\n", Types.asStringList(content).get());
+            return Text.color(String.join("\n", Types.asStringList(content).get()));
+        } else if (content instanceof Component component) {
+            return Text.color(LEGACY.serialize(component));
         } else {
             return "";
         }
@@ -73,6 +85,29 @@ public interface Message<T> {
     @Nonnull
     default List<String> toTextList() {
         return List.of(toText().split("\n"));
+    }
+
+    /**
+     * Converts the message content to a component.
+     * Supports color codes.
+     *
+     * @return the component
+     */
+    @Nonnull
+    default Component toComponent() {
+        T content = getContent();
+        if (content instanceof String str) {
+            return LEGACY.deserialize(str);
+        } else if (Types.asStringList(content).isPresent()) {
+            return Component.join(
+                    JoinConfiguration.separator(Component.newline()),
+                    Types.asStringList(content).get().stream().map(LEGACY::deserialize).toList()
+            );
+        } else if (content instanceof Component) {
+            return (Component) content;
+        }else {
+            return Component.empty();
+        }
     }
 
     /**

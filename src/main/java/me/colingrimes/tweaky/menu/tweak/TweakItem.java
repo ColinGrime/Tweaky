@@ -1,7 +1,6 @@
 package me.colingrimes.tweaky.menu.tweak;
 
 import me.colingrimes.tweaky.util.bukkit.Items;
-import me.colingrimes.tweaky.util.text.Text;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.ItemStack;
@@ -110,12 +109,8 @@ public class TweakItem extends Items.Builder {
 			return;
 		}
 
-		for (var entry : placeholders.entrySet()) {
-			usage = usage.stream().map(l -> l.replace(entry.getKey(), entry.getValue())).toList();
-		}
-
 		player.sendMessage("");
-		Text.color(usage).forEach(player::sendMessage);
+		placeholders.apply(usage).send(player);
 		player.sendMessage("");
 	}
 }

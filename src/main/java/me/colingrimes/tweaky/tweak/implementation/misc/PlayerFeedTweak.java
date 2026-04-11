@@ -12,7 +12,7 @@ import me.colingrimes.tweaky.tweak.type.DefaultTweak;
 import me.colingrimes.tweaky.util.bukkit.Items;
 import me.colingrimes.tweaky.util.bukkit.Sounds;
 import me.colingrimes.tweaky.util.misc.Random;
-import me.colingrimes.tweaky.util.text.Text;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Particle;
 import org.bukkit.Registry;
 import org.bukkit.entity.EntityType;
@@ -63,7 +63,7 @@ public class PlayerFeedTweak extends DefaultTweak {
 		target.setSaturation(Math.min(20, target.getSaturation() + food.saturation()));
 		plugin.getMessages().TWEAK_FEED_NOTIFY
 				.replace("{player}", player.getName())
-				.replace("{item}", Text.format(item.getType().name()))
+				.replace("{item}", Component.translatable(item.translationKey()))
 				.replace("{hunger}", food.nutrition())
 				.send(target);
 

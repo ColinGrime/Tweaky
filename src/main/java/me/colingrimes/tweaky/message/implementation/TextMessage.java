@@ -1,14 +1,13 @@
 package me.colingrimes.tweaky.message.implementation;
 
 import me.colingrimes.tweaky.message.Message;
-import me.colingrimes.tweaky.util.text.Text;
 import org.bukkit.command.CommandSender;
 
 import javax.annotation.Nonnull;
 
 /**
  * Represents a message that is sent as plain text.
- * Text is automatically colored.
+ * Text is automatically colored when sent.
  */
 public class TextMessage implements Message<String> {
 
@@ -19,7 +18,7 @@ public class TextMessage implements Message<String> {
     }
 
     public TextMessage(@Nonnull String content) {
-        this.content = Text.color(content);
+        this.content = content;
     }
 
     @Nonnull
@@ -30,6 +29,6 @@ public class TextMessage implements Message<String> {
 
     @Override
     public void send(@Nonnull CommandSender recipient) {
-        recipient.sendMessage(content);
+        recipient.sendMessage(toText());
     }
 }

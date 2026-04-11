@@ -1,7 +1,6 @@
 package me.colingrimes.tweaky.message.implementation;
 
 import me.colingrimes.tweaky.message.Message;
-import me.colingrimes.tweaky.util.text.Text;
 import org.bukkit.command.CommandSender;
 
 import javax.annotation.Nonnull;
@@ -10,7 +9,7 @@ import java.util.List;
 
 /**
  * Represents a list of messages that is sent as plain text.
- * Text is automatically colored.
+ * Text is automatically colored when sent.
  */
 public class ListMessage implements Message<List<String>> {
 
@@ -21,7 +20,7 @@ public class ListMessage implements Message<List<String>> {
     }
 
     public ListMessage(@Nonnull List<String> content) {
-        this.content = Text.color(content);
+        this.content = content;
     }
 
     @Nonnull
@@ -32,6 +31,6 @@ public class ListMessage implements Message<List<String>> {
 
     @Override
     public void send(@Nonnull CommandSender recipient) {
-        content.forEach(recipient::sendMessage);
+        toTextList().forEach(recipient::sendMessage);
     }
 }

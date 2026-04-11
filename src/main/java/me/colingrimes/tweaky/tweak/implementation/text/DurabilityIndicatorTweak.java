@@ -5,7 +5,8 @@ import me.colingrimes.tweaky.scheduler.Scheduler;
 import me.colingrimes.tweaky.tweak.type.DefaultTweak;
 import me.colingrimes.tweaky.util.bukkit.Items;
 import me.colingrimes.tweaky.util.bukkit.Players;
-import me.colingrimes.tweaky.util.text.Text;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.title.Title;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -37,8 +38,8 @@ public class DurabilityIndicatorTweak extends DefaultTweak {
 			return;
 		}
 
-		String name = Text.format(item.getType().name());
-		player.sendTitle("", plugin.getMessages().TWEAK_DURABILITY_MESSAGE.toText().replace("{item}", name), 10, 40, 10);
+		Component subtitle = plugin.getMessages().TWEAK_DURABILITY_MESSAGE.replace("{item}", Component.translatable(item.translationKey())).toComponent();
+		player.showTitle(Title.title(Component.empty(), subtitle, 10, 40, 10));
 		Scheduler.sync().runRepeating(() -> Players.sound(player, Sound.BLOCK_NOTE_BLOCK_DIDGERIDOO), 0L, 3L, 9L);
 	}
 }

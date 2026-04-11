@@ -8,7 +8,7 @@ import me.colingrimes.tweaky.util.bukkit.Events;
 import me.colingrimes.tweaky.util.bukkit.Items;
 import me.colingrimes.tweaky.util.bukkit.NBT;
 import me.colingrimes.tweaky.util.bukkit.Players;
-import me.colingrimes.tweaky.util.text.Text;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.entity.Player;
@@ -115,7 +115,7 @@ public class DropFilterTweak extends ToggleTweak {
 			List<Material> materials = filter.get(player.getUniqueId());
 			for (int i=0; i<Math.min(54, materials.size()); i++) {
 				Material type = materials.get(i);
-				String name = menus.FILTER_MENU_ITEM_NAME.replace("{item}", Text.format(type.name())).toText();
+				String name = menus.FILTER_MENU_ITEM_NAME.replace("{item}", Component.translatable(type.translationKey())).toText();
 				List<String> lore = menus.FILTER_MENU_ITEM_LORE.toTextList();
 				ItemStack preview = Items.of(type).name(name).lore(lore).build();
 				getSlot(i).setItem(preview).bind(this::remove, ClickType.LEFT, ClickType.RIGHT);
@@ -148,12 +148,12 @@ public class DropFilterTweak extends ToggleTweak {
 				}
 
 				Material type = item.getType();
-				String name = menus.FILTER_MENU_ITEM_NAME.replace("{item}", Text.format(type.name())).toText();
+				Component name = menus.FILTER_MENU_ITEM_NAME.replace("{item}", Component.translatable(item.translationKey())).toComponent();
 				List<String> lore = menus.FILTER_MENU_ITEM_LORE.toTextList();
 				ItemStack preview = Items.of(type).name(name).lore(lore).build();
 				getSlot(i).setItem(preview).bind(this::remove, ClickType.LEFT, ClickType.RIGHT);
 
-				msg.TWEAK_FILTER_ADD.replace("{item}", Text.format(type.name())).send(player);
+				msg.TWEAK_FILTER_ADD.replace("{item}", Component.translatable(item.translationKey())).send(player);
 				filter.get(player.getUniqueId()).add(type);
 				filterSet.get(player.getUniqueId()).add(type);
 				saveFilter(player);
@@ -183,7 +183,7 @@ public class DropFilterTweak extends ToggleTweak {
 				}
 			}
 
-			msg.TWEAK_FILTER_REMOVE.replace("{item}", Text.format(type.name())).send(player);
+			msg.TWEAK_FILTER_REMOVE.replace("{item}", Component.translatable(type.translationKey())).send(player);
 			filter.get(player.getUniqueId()).remove(type);
 			filterSet.get(player.getUniqueId()).remove(type);
 			saveFilter(player);
