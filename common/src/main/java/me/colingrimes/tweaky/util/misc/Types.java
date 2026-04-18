@@ -1,5 +1,7 @@
 package me.colingrimes.tweaky.util.misc;
 
+import net.kyori.adventure.text.Component;
+
 import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Optional;
@@ -46,6 +48,31 @@ public final class Types {
     public static Optional<List<String>> asStringList(@Nonnull Object candidateList) {
         if (isStringList(candidateList)) {
             return Optional.of(((List<?>) candidateList).stream().map(String::valueOf).toList());
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    /**
+     * Gets whether the specificed object could be parsed into a component list.
+     *
+     * @param candidateList the object to check
+     * @return true if the object is a component list
+     */
+    public static boolean isComponentList(@Nonnull Object candidateList) {
+        return candidateList instanceof List<?> list && !list.isEmpty() && list.stream().allMatch(item -> item instanceof Component);
+    }
+
+    /**
+     * Gets the object as a component list if the conversion is possible.
+     *
+     * @param candidateList the object to check
+     * @return an optional containing a list of components if available
+     */
+    @Nonnull
+    public static Optional<List<Component>> asComponentList(@Nonnull Object candidateList) {
+        if (isComponentList(candidateList)) {
+            return Optional.of(((List<?>) candidateList).stream().map(o -> (Component) o).toList());
         } else {
             return Optional.empty();
         }
