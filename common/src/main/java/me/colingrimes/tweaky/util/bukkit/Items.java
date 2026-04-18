@@ -277,10 +277,9 @@ public final class Items {
 		public Builder name(@Nullable String name) {
 			if (name == null) {
 				return this;
+			} else {
+				return name(Message.LEGACY.deserialize(name));
 			}
-
-			this.name = Message.LEGACY.deserialize(name).decoration(TextDecoration.ITALIC, false);
-			return this;
 		}
 
 		/**
@@ -456,10 +455,14 @@ public final class Items {
 		public ItemStack build() {
 			Material type = material != null ? material : defMaterial;
 			ItemStack item = baseItem != null ? baseItem : new ItemStack(Objects.requireNonNull(type, "Material is null."));
-			ItemMeta meta = Objects.requireNonNull(item.getItemMeta(), "Item meta is null.");
+			if (name != null) {
+				placeholders.apply(name).setName(item);
+			}
+			if (lore != null && !lore.isEmpty()) {
+				placeholders.applyComponents(lore).setLore(item);
+			}
 
-			if (name != null) meta.displayName(placeholders.apply(name).toComponent());
-			if (lore != null && !lore.isEmpty()) meta.lore(lore.stream().map(l -> placeholders.apply(l).getContent()).toList());
+			ItemMeta meta = Objects.requireNonNull(item.getItemMeta(), "Item meta is null.");
 			if (hide) {
 				meta.setAttributeModifiers(HashMultimap.create());
 				meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
