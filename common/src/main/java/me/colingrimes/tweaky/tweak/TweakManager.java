@@ -1,18 +1,21 @@
 package me.colingrimes.tweaky.tweak;
 
 import me.colingrimes.tweaky.Tweaky;
+import me.colingrimes.tweaky.tweak.implementation.hidden.BreedingIndicatorTweak_RoseStackerFix;
+import me.colingrimes.tweaky.tweak.implementation.text.BreedingIndicatorTweak;
 import me.colingrimes.tweaky.tweak.properties.TweakCategory;
 import me.colingrimes.tweaky.util.io.Introspector;
 import me.colingrimes.tweaky.util.io.Logger;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
 import javax.annotation.Nonnull;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class TweakManager {
 
-	private static final Set<String> PAPER_ONLY_TWEAKS = Set.of("VillagerFollowTweak", "FortuneSilkSwapTweak", "PlayerFeed");
 	private final Tweaky plugin;
 	private final List<Tweak> tweaks;
 	private final List<String> availableTweaks;
@@ -39,11 +42,11 @@ public class TweakManager {
 		shutdown();
 
 		// Registration.
-		List<Class<?>> classes = Introspector.getClasses(plugin.getClass().getClassLoader(), plugin.getClass().getPackage().getName() + ".tweak.implementation");
-		List<Class<?>> safeClasses = classes.stream().filter(this::paperCheck).toList();
-		List<Tweak> tweakClasses = Introspector.instantiateClasses(safeClasses, Tweak.class, plugin);
+		List<Tweak> tweakClasses = Introspector.getTweaks(plugin);
+		List<Tweak> enabledClasses = tweakClasses.stream().filter(Tweak::isEnabled).collect(Collectors.toList());
+		List<Tweak> filteredClasses = checkForHooks(enabledClasses);
 
-		for (Tweak tweak : tweakClasses.stream().filter(Tweak::isEnabled).toList()) {
+		for (Tweak tweak : filteredClasses) {
 			initializeCategory(tweak);
 			tweak.init();
 			tweaks.add(tweak);
@@ -140,20 +143,31 @@ public class TweakManager {
 	}
 
 	/**
-	 * Checks if the given class is a Paper-only tweak.
-	 * If it is, Paper must be enabled for it to pass.
+	 * Checks for hooks to fix potential conflicts from other plugins.
 	 *
-	 * @param clazz the class
-	 * @return true if the tweak passes
+	 * @return updated list of tweaks if applicable
 	 */
-	private boolean paperCheck(@Nonnull Class<?> clazz) {
-		if (plugin.isPaper()) {
-			return true;
+	@Nonnull
+	private List<Tweak> checkForHooks(@Nonnull List<Tweak> tweaks) {
+		ListIterator<Tweak> iterator = tweaks.listIterator();
+		while (iterator.hasNext()) {
+			checkForHooks(iterator, iterator.next());
 		}
+		return tweaks;
+	}
 
-		String[] words = clazz.getName().split("\\.");
-		String tweak = words[words.length - 1];
-		return !PAPER_ONLY_TWEAKS.contains(tweak);
+	/**
+	 * Checks for any hooks to fix potential conflicts from other plugins.
+	 *
+	 * @param iterator the tweak iteraotr
+	 * @param tweak the current tweak of the iterator
+	 */
+	private void checkForHooks(@Nonnull ListIterator<Tweak> iterator, @Nonnull Tweak tweak) {
+		boolean breedingIndicatorRoseStackerHook = tweak instanceof BreedingIndicatorTweak && Bukkit.getPluginManager().isPluginEnabled("ProtocolLib") && Bukkit.getPluginManager().isPluginEnabled("RoseStacker");
+		if (breedingIndicatorRoseStackerHook) {
+			iterator.remove();
+			iterator.add(new BreedingIndicatorTweak_RoseStackerFix(plugin));
+		}
 	}
 
 	/**

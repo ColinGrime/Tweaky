@@ -1,5 +1,8 @@
 package me.colingrimes.tweaky.util.io;
 
+import me.colingrimes.tweaky.Tweaky;
+import me.colingrimes.tweaky.tweak.Tweak;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.IOException;
@@ -12,10 +15,19 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
 
 /**
- * Utility to retrieve and load classes. Taken and adapted from the Midnight library.
+ * Utility to retrieve and load tweaks. Taken and adapted from the Midnight library.
  * @see <a href=https://github.com/ColinGrime/Midnight/blob/master/src/main/java/me/colingrimes/midnight/util/io/Introspector.java>Midnight</a>
  */
 public final class Introspector {
+
+	private static final String IGNORE_PACKAGE = "/hidden/";
+	private static final Set<String> PAPER_ONLY_TWEAKS = Set.of("VillagerFollowTweak", "FortuneSilkSwapTweak", "PlayerFeedTweak");
+
+	@Nonnull
+	public static List<Tweak> getTweaks(@Nonnull Tweaky plugin) {
+		List<Class<?>> classes = getClasses(plugin.getClass().getClassLoader(), plugin.getClass().getPackage().getName() + ".tweak.implementation");
+		return instantiateTweaks(classes, plugin);
+	}
 
 	/**
 	 * Gets all classes in the given package, one level deep.
@@ -25,33 +37,26 @@ public final class Introspector {
 	 * @return the list of classes
 	 */
 	@Nonnull
-	public static List<Class<?>> getClasses(@Nonnull ClassLoader classLoader, @Nonnull String packageName) {
+	private static List<Class<?>> getClasses(@Nonnull ClassLoader classLoader, @Nonnull String packageName) {
 		return walkFileSystem(classLoader, packageName);
 	}
 
 	/**
-	 * Instantiates the classes and converts them into the given class.
+	 * Instantiates the tweak classes.
 	 *
 	 * @param classes the classes to instantiate
-	 * @param type the class type to convert the classes to
-	 * @param args optional args to pass into the constructor
+	 * @param plugin the tweaky plugin
 	 * @return the instantiated classes
 	 */
 	@Nonnull
-	public static <T> List<T> instantiateClasses(@Nonnull List<Class<?>> classes, @Nonnull Class<T> type, Object...args) {
-		List<T> instances = new ArrayList<>();
+	private static List<Tweak> instantiateTweaks(@Nonnull List<Class<?>> classes, @Nonnull Tweaky plugin) {
+		List<Tweak> instances = new ArrayList<>();
 		for (Class<?> clazz : classes) {
 			try {
-				if (args.length == 0) {
-					instances.add(type.cast(clazz.getConstructor().newInstance()));
-				} else {
-					Class<?>[] parameters = Arrays.stream(args).map(Object::getClass).toArray(Class<?>[]::new);
-					instances.add(type.cast(clazz.getConstructor(parameters).newInstance(args)));
-				}
+				instances.add((Tweak) clazz.getConstructor(Tweaky.class).newInstance(plugin));
 			} catch (InstantiationException | IllegalAccessException | InvocationTargetException |
 					 NoSuchMethodException e) {
-				Logger.severe("Introspector has failed to instantiate a class:", e);
-				throw new RuntimeException(e);
+				throw new RuntimeException("[Tweaky] Introspector has failed to instantiate a class:", e);
 			}
 		}
 		return instances;
@@ -73,21 +78,16 @@ public final class Introspector {
 			return new ArrayList<>();
 		}
 
-		// If the URI is a file, walk the directory.
-		if (uri.getScheme().equals("file")) {
-			Path startingPath = Paths.get(uri);
-			return walkFileSystem(classLoader, packageName, startingPath);
-		} else if (!uri.getScheme().equals("jar")) {
-			throw new IllegalArgumentException("Unsupported URI scheme: " + uri.getScheme());
+		// Only support JAR files.
+		if (!uri.getScheme().equals("jar")) {
+			throw new IllegalArgumentException("[Tweaky] Unsupported URI scheme: " + uri.getScheme());
 		}
 
 		// If the URI is a JAR, walk the JAR.
 		try (FileSystem fileSystem = FileSystems.newFileSystem(uri, new HashMap<>())) {
-			Path startingPath = fileSystem.getPath(packagePath);
-			return walkFileSystem(classLoader, packageName, startingPath);
+			return walkFileSystem(classLoader, fileSystem.getPath(packagePath));
 		} catch (IOException e) {
-			Logger.severe("Introspector has failed to walk the JAR file system:", e);
-			throw new RuntimeException(e);
+			throw new RuntimeException("[Tweaky] Introspector has failed to walk the JAR file system:", e);
 		}
 	}
 
@@ -95,19 +95,17 @@ public final class Introspector {
 	 * Walks the file system from a starting path, retrieving classes.
 	 *
 	 * @param classLoader  the class loader used to locate and retrieve classes
-	 * @param packageName  the fully qualified package name
 	 * @param startingPath the starting path from which to begin the search
 	 * @return a list of classes
 	 */
 	@Nonnull
-	private static List<Class<?>> walkFileSystem(@Nonnull ClassLoader classLoader, @Nonnull String packageName, @Nonnull Path startingPath) {
+	private static List<Class<?>> walkFileSystem(@Nonnull ClassLoader classLoader, @Nonnull Path startingPath) {
 		try {
-			ClassFileVisitor fileVisitor = new ClassFileVisitor(startingPath, packageName, classLoader);
+			ClassFileVisitor fileVisitor = new ClassFileVisitor(classLoader);
 			Files.walkFileTree(startingPath, Set.of(FileVisitOption.FOLLOW_LINKS), Integer.MAX_VALUE, fileVisitor);
 			return fileVisitor.getList();
 		} catch (IOException e) {
-			Logger.severe("Introspector has failed to walk the file system:", e);
-			throw new RuntimeException(e);
+			throw new RuntimeException("[Tweaky] Introspector has failed to walk the file system:", e);
 		}
 	}
 
@@ -129,7 +127,7 @@ public final class Introspector {
 		try {
 			return resourceUrl.toURI();
 		} catch (URISyntaxException e) {
-			throw new RuntimeException("Invalid URI syntax for resource path: " + path, e);
+			throw new RuntimeException("[Tweaky] Invalid URI syntax for resource path: " + path, e);
 		}
 	}
 
@@ -137,19 +135,9 @@ public final class Introspector {
 	private static class ClassFileVisitor extends SimpleFileVisitor<Path> {
 
 		private final List<Class<?>> list = new ArrayList<>();
-		private final Path startingPath;
-		private final String packageName;
 		private ClassLoader classLoader;
 
-		public ClassFileVisitor(@Nonnull Path startingPath, @Nonnull String packageName, @Nullable ClassLoader classLoader) {
-			String normalizedPath = startingPath.toString().replace("\\", "/");
-			String normalizedPackage = packageName.replace(".", "/");
-			if (!normalizedPath.endsWith(normalizedPackage)) {
-				throw new IllegalArgumentException("Path " + startingPath + " does not end with " + packageName);
-			}
-
-			this.startingPath = startingPath;
-			this.packageName = packageName;
+		public ClassFileVisitor(@Nullable ClassLoader classLoader) {
 			this.classLoader = classLoader;
 		}
 
@@ -166,7 +154,12 @@ public final class Introspector {
 		@Nonnull
 		@Override
 		public FileVisitResult visitFile(@Nonnull Path file, @Nullable BasicFileAttributes attrs) {
-			if (!file.toString().endsWith(".class") || file.toString().contains("$")) {
+			if (!file.toString().endsWith(".class") || file.toString().contains("$") || file.toString().contains(IGNORE_PACKAGE)) {
+				return FileVisitResult.CONTINUE;
+			}
+
+			boolean ignorePaperTweaks = !Tweaky.getInstance().isPaper() && PAPER_ONLY_TWEAKS.stream().anyMatch(t -> file.toString().contains(t));
+			if (ignorePaperTweaks) {
 				return FileVisitResult.CONTINUE;
 			}
 
@@ -187,10 +180,9 @@ public final class Introspector {
 			}
 
 			try {
-				getList().add(Class.forName(className, true, classLoader));
-			} catch (ClassNotFoundException e) {
-				Logger.severe("Class '" + className + "' could not be found:", e);
-				throw new RuntimeException(e);
+				getList().add(Class.forName(className, false, classLoader));
+			} catch (ClassNotFoundException | NoClassDefFoundError e) {
+				Logger.severe("Class '" + className + "' could not be found/loaded:", e);
 			}
 		}
 
@@ -206,20 +198,10 @@ public final class Introspector {
 		 */
 		@Nonnull
 		private String toQualifiedName(@Nonnull Path path) {
-			if (!path.normalize().toUri().toString().startsWith(startingPath.normalize().toUri().toString())) {
-				throw new IllegalArgumentException("Path " + path + " is not a child of " + startingPath);
-			}
-
 			String name = path.toString();
-			int startLength = startingPath.toString().length();
-			if (startLength < name.length() && (name.charAt(startLength) == '/' || name.charAt(startLength) == '\\')) {
-				startLength++;
-			}
-
-			name = name.substring(startLength);
 			name = name.replace(".class", "");
 			name = name.replace("\\", ".").replace("/", ".");
-			return packageName + "." + name;
+			return name;
 		}
 	}
 
