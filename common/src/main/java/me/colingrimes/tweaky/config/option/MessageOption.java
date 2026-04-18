@@ -3,17 +3,17 @@ package me.colingrimes.tweaky.config.option;
 import me.colingrimes.tweaky.config.manager.ConfigurationProvider;
 import me.colingrimes.tweaky.message.Message;
 import net.kyori.adventure.text.Component;
-import org.bukkit.command.CommandSender;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.function.Function;
 
-public class MessageOption<T> implements Option<T>, Message<Component> {
+public class MessageOption<T> extends Message implements Option<T> {
 
 	private final Function<ConfigurationProvider, T> function;
 	private T value;
-	private Component component;
+	private Message message;
 
 	public MessageOption(@Nonnull Function<ConfigurationProvider, T> function) {
 		this.function = function;
@@ -28,17 +28,18 @@ public class MessageOption<T> implements Option<T>, Message<Component> {
 	@Override
 	public void reload(@Nullable ConfigurationProvider adapter) {
 		value = function.apply(adapter);
-		component = Message.of(value).toComponent();
+		message = Message.of(value);
 	}
 
 	@Nonnull
 	@Override
-	public Component getContent() {
-		return component;
+	public Component getComponent() {
+		return message.getComponent();
 	}
 
+	@Nonnull
 	@Override
-	public void send(@Nonnull CommandSender recipient) {
-		recipient.sendMessage(component);
+	public List<Component> getComponents() {
+		return message.getComponents();
 	}
 }

@@ -1,23 +1,18 @@
 package me.colingrimes.tweaky.message;
 
-import me.colingrimes.tweaky.message.implementation.ComponentMessage;
-import me.colingrimes.tweaky.util.misc.Types;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * A utility class designed for managing and applying multiple placeholders
- * within different types of input, including strings, lists of strings, or components.
- */
 public class Placeholders {
 
-	private final Map<String, Message<?>> placeholders = new HashMap<>();
+	private final Map<String, Message> placeholders = new HashMap<>();
 
 	/**
 	 * Creates a new placeholders object.
@@ -50,7 +45,7 @@ public class Placeholders {
 	 * @return the placeholders object
 	 */
 	@Nonnull
-	public static Placeholders of(@Nonnull String placeholder, @Nonnull Message<?> value) {
+	public static Placeholders of(@Nonnull String placeholder, @Nonnull Message value) {
 		return new Placeholders().add(placeholder, value);
 	}
 
@@ -64,7 +59,7 @@ public class Placeholders {
 	 */
 	@Nonnull
 	public <T> Placeholders add(@Nonnull String placeholder, @Nonnull T value) {
-		placeholders.put(placeholder, Message.of(value instanceof Component ? value : String.valueOf(value)));
+		placeholders.put(placeholder, Message.of(value));
 		return this;
 	}
 
@@ -76,7 +71,7 @@ public class Placeholders {
 	 * @return the placeholders object
 	 */
 	@Nonnull
-	public Placeholders add(@Nonnull String placeholder, @Nonnull Message<?> value) {
+	public Placeholders add(@Nonnull String placeholder, @Nonnull Message value) {
 		placeholders.put(placeholder, value);
 		return this;
 	}
@@ -88,11 +83,11 @@ public class Placeholders {
 	 * @return the new string with applied placeholders
 	 */
 	@Nonnull
-	public ComponentMessage apply(@Nullable String str) {
+	public Message apply(@Nullable String str) {
 		if (str != null) {
-			return apply(Message.of(str).toComponent());
+			return apply(Message.of(str));
 		} else {
-			return new ComponentMessage();
+			return Message.empty();
 		}
 	}
 
@@ -103,11 +98,11 @@ public class Placeholders {
 	 * @return the new list of strings with applied placeholders
 	 */
 	@Nonnull
-	public ComponentMessage apply(@Nullable List<String> strList) {
+	public Message apply(@Nullable List<String> strList) {
 		if (strList != null) {
-			return apply(Message.of(strList).toComponent());
+			return apply(Message.of(strList));
 		} else {
-			return new ComponentMessage();
+			return Message.empty();
 		}
 	}
 
@@ -118,32 +113,41 @@ public class Placeholders {
 	 * @return the new component with applied placeholders
 	 */
 	@Nonnull
-	public ComponentMessage apply(@Nullable Component component) {
-		if (component == null) {
-			return new ComponentMessage();
+	public Message apply(@Nullable Component component) {
+		if (component != null) {
+			return applyComponents(List.of(component));
+		} else {
+			return Message.empty();
+		}
+	}
+
+	/**
+	 * Applies all placeholders in all components.
+	 *
+	 * @param components the list of components to apply placeholders to
+	 * @return the new list of components with applied placeholders
+	 */
+	@Nonnull
+	public Message applyComponents(@Nullable List<Component> components) {
+		if (components == null || components.isEmpty()) {
+			return Message.empty();
 		}
 
-		for (Map.Entry<String, Message<?>> replacement : placeholders.entrySet()) {
-			if (replacement.getValue().getContent() instanceof Component content) {
+		List<Component> newComponents = new ArrayList<>();
+		for (Component component : components) {
+			for (Map.Entry<String, Message> replacement : placeholders.entrySet()) {
 				component = component.replaceText(
 						TextReplacementConfig
 								.builder()
 								.matchLiteral(replacement.getKey())
-								.replacement(content)
-								.build()
-				);
-			} else {
-				component = component.replaceText(
-						TextReplacementConfig
-								.builder()
-								.matchLiteral(replacement.getKey())
-								.replacement(replacement.getValue().toText())
+								.replacement(replacement.getValue().getComponent())
 								.build()
 				);
 			}
+			newComponents.add(component);
 		}
 
-		return new ComponentMessage(component);
+		return Message.of(newComponents);
 	}
 
 	/**
@@ -153,15 +157,7 @@ public class Placeholders {
 	 * @return the new message with applied placeholders
 	 */
 	@Nonnull
-	public <T> Message<?> apply(@Nonnull Message<T> message) {
-		if (message.getContent() instanceof String content) {
-			return apply(content);
-		} else if (Types.asStringList(message.getContent()).isPresent()) {
-			return apply(Types.asStringList(message.getContent()).get());
-		} else if (message.getContent() instanceof Component component) {
-			return apply(component);
-		} else {
-			throw new IllegalArgumentException("Invalid message content type: " + message.getContent().getClass().getName());
-		}
+	public Message apply(@Nonnull Message message) {
+		return applyComponents(message.getComponents());
 	}
 }
