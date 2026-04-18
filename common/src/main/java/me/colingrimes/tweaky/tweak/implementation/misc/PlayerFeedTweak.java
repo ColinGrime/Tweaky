@@ -63,7 +63,7 @@ public class PlayerFeedTweak extends DefaultTweak {
 		target.setSaturation(Math.min(20, target.getSaturation() + food.saturation()));
 		plugin.getMessages().TWEAK_FEED_NOTIFY
 				.replace("{player}", player.getName())
-				.replace("{item}", Component.translatable(item.translationKey()))
+				.replace("{item}", Component.translatable(item))
 				.replace("{hunger}", food.nutrition())
 				.send(target);
 

@@ -25,6 +25,9 @@ public class CommandManager {
 		register("tweaks", new TweaksCommand(plugin));
 	}
 
+	/**
+	 * Cleans up all registered commands for the plugin.
+	 */
 	public void shutdown() {
 		unregister("tweaky");
 		unregister("tweaks");

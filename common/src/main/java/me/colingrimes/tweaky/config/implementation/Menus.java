@@ -16,10 +16,10 @@ import java.util.Optional;
 
 public class Menus extends Configuration {
 
-	public final Message<?> TWEAK_MENU_NAME       = message("tweak-menu.name", "&8Tweaks (&2{count}&8)");
-	public final Message<?> FILTER_MENU_TITLE     = message("filter-menu.title", "&8Drop Filter");
-	public final Message<?> FILTER_MENU_ITEM_NAME = message("filter-menu.item-name", "&a{item}");
-	public final Message<?> FILTER_MENU_ITEM_LORE = message("filter-menu.item-lore", "&7Click to Remove");
+	public final Message TWEAK_MENU_NAME       = message("tweak-menu.name", "&8Tweaks (&2{count}&8)");
+	public final Message FILTER_MENU_TITLE     = message("filter-menu.title", "&8Drop Filter");
+	public final Message FILTER_MENU_ITEM_NAME = message("filter-menu.item-name", "&a{item}");
+	public final Message FILTER_MENU_ITEM_LORE = message("filter-menu.item-lore", "&7Click to Remove");
 
 	// Tweak category items.
 	public final Option<Map<TweakCategory, Items.Builder>> TWEAK_MENU_CATEGORIES = option("tweak-menu.categories", sec -> {

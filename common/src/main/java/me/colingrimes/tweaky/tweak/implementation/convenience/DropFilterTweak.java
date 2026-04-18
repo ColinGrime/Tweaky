@@ -115,7 +115,7 @@ public class DropFilterTweak extends ToggleTweak {
 			List<Material> materials = filter.get(player.getUniqueId());
 			for (int i=0; i<Math.min(54, materials.size()); i++) {
 				Material type = materials.get(i);
-				String name = menus.FILTER_MENU_ITEM_NAME.replace("{item}", Component.translatable(type.translationKey())).toText();
+				String name = menus.FILTER_MENU_ITEM_NAME.replace("{item}", Component.translatable(type)).toText();
 				List<String> lore = menus.FILTER_MENU_ITEM_LORE.toTextList();
 				ItemStack preview = Items.of(type).name(name).lore(lore).build();
 				getSlot(i).setItem(preview).bind(this::remove, ClickType.LEFT, ClickType.RIGHT);
@@ -148,12 +148,12 @@ public class DropFilterTweak extends ToggleTweak {
 				}
 
 				Material type = item.getType();
-				Component name = menus.FILTER_MENU_ITEM_NAME.replace("{item}", Component.translatable(item.translationKey())).toComponent();
+				Component name = menus.FILTER_MENU_ITEM_NAME.replace("{item}", Component.translatable(item)).getComponent();
 				List<String> lore = menus.FILTER_MENU_ITEM_LORE.toTextList();
 				ItemStack preview = Items.of(type).name(name).lore(lore).build();
 				getSlot(i).setItem(preview).bind(this::remove, ClickType.LEFT, ClickType.RIGHT);
 
-				msg.TWEAK_FILTER_ADD.replace("{item}", Component.translatable(item.translationKey())).send(player);
+				msg.TWEAK_FILTER_ADD.replace("{item}", Component.translatable(item)).send(player);
 				filter.get(player.getUniqueId()).add(type);
 				filterSet.get(player.getUniqueId()).add(type);
 				saveFilter(player);
@@ -183,7 +183,7 @@ public class DropFilterTweak extends ToggleTweak {
 				}
 			}
 
-			msg.TWEAK_FILTER_REMOVE.replace("{item}", Component.translatable(type.translationKey())).send(player);
+			msg.TWEAK_FILTER_REMOVE.replace("{item}", Component.translatable(type)).send(player);
 			filter.get(player.getUniqueId()).remove(type);
 			filterSet.get(player.getUniqueId()).remove(type);
 			saveFilter(player);

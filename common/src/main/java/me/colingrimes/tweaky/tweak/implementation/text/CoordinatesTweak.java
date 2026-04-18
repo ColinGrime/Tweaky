@@ -38,7 +38,7 @@ public class CoordinatesTweak extends ToggleTweak {
 	@Override
 	protected void activateTweak(@Nonnull Player player) {
 		Location location = player.getLocation();
-		Message<?> message = player.getWorld().getTime() <= 12541 ? msg.TWEAK_COORDINATES_DAY : msg.TWEAK_COORDINATES_NIGHT;
+		Message message = player.getWorld().getTime() <= 12541 ? msg.TWEAK_COORDINATES_DAY : msg.TWEAK_COORDINATES_NIGHT;
 		message = message
 				.replace("{x}", String.valueOf(location.getBlockX()))
 				.replace("{y}", String.valueOf(location.getBlockY()))
