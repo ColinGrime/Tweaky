@@ -9,6 +9,8 @@ import me.colingrimes.tweaky.listener.MenuListeners;
 import me.colingrimes.tweaky.listener.PlayerListeners;
 import me.colingrimes.tweaky.listener.TweakListeners;
 import me.colingrimes.tweaky.menu.Gui;
+import me.colingrimes.tweaky.message.Message;
+import me.colingrimes.tweaky.message.MessageService;
 import me.colingrimes.tweaky.tweak.TweakManager;
 import me.colingrimes.tweaky.update.UpdateCheckerSpigot;
 import me.colingrimes.tweaky.util.io.Logger;
@@ -19,17 +21,17 @@ import org.bukkit.plugin.java.JavaPlugin;
 import javax.annotation.Nonnull;
 import java.util.HashSet;
 
-public class Tweaky extends JavaPlugin {
+public abstract class Tweaky extends JavaPlugin {
 
 	private static Tweaky instance;
 	private TweakManager tweakManager;
 	private ConfigurationManager configManager;
 	private CommandManager commandManager;
-	private boolean isPaper = false;
 
 	@Override
 	public void onEnable() {
 		instance = this;
+		Message.init(getMessageService());
 
 		// Initialize settings.
 		configManager = new ConfigurationManager(this);
@@ -59,14 +61,18 @@ public class Tweaky extends JavaPlugin {
 		new UpdateCheckerSpigot(this, 123654);
 
 		// Finished starting plugin.
-		Logger.log("Tweaky v" + getDescription().getVersion() + " has been fully enabled.");
+		Logger.log(getVersion() + " has been fully enabled.");
 	}
 
 	@Override
 	public void onDisable() {
 		new HashSet<>(Gui.players.values()).forEach(Gui::invalidate);
-		commandManager.shutdown();
-		tweakManager.shutdown();
+		if (commandManager != null) {
+			commandManager.shutdown();
+		}
+		if (tweakManager != null) {
+			tweakManager.shutdown();
+		}
 	}
 
 	@Nonnull
@@ -135,20 +141,25 @@ public class Tweaky extends JavaPlugin {
 	}
 
 	/**
+	 * Gets the message service to initialize for the {@link Message} class.
+	 *
+	 * @return the message service
+	 */
+	@Nonnull
+	public abstract MessageService getMessageService();
+
+	/**
+	 * Gets the version string of the plugin.
+	 *
+	 * @return the version string
+	 */
+	@Nonnull
+	public abstract String getVersion();
+
+	/**
 	 * Checks if the server is running Paper.
 	 *
 	 * @return true if the server is a Paper server
 	 */
-	public boolean isPaper() {
-		if (isPaper) {
-			return true;
-		}
-		try {
-			Class.forName("com.destroystokyo.paper.ParticleBuilder");
-			isPaper = true;
-			return true;
-		} catch (ClassNotFoundException ignored) {
-			return false;
-		}
-	}
+	public abstract boolean isPaper();
 }

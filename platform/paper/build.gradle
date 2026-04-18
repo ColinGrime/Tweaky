@@ -1,0 +1,13 @@
+plugins {
+    id 'com.gradleup.shadow' version '8.3.6'
+}
+
+dependencies {
+    implementation project(":common")
+    compileOnly 'io.papermc.paper:paper-api:1.21.10-R0.1-SNAPSHOT'
+}
+
+shadowJar {
+    archiveFileName = "Tweaky-${project.version}-paper.jar"
+    relocate 'org.bstats', 'me.colingrimes.tweaky.libs.bstats'
+}

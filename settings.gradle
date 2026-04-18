@@ -1,1 +1,5 @@
 rootProject.name = 'Tweaky'
+
+include 'common'
+include 'platform:bukkit'
+include 'platform:paper'

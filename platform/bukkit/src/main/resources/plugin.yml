@@ -1,8 +1,9 @@
 name: Tweaky
-main: me.colingrimes.tweaky.Tweaky
+main: me.colingrimes.tweaky.TweakyBukkit
 version: ${version}
 api-version: 1.21
 author: Scill
+softdepend: [ProtocolLib, RoseStacker]
 commands:
   tweaky:
     description: Main command for the Tweaky plugin.

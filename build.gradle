@@ -1,40 +1,23 @@
 import org.apache.tools.ant.filters.ReplaceTokens
 
-plugins {
-    id 'java'
-    id 'com.gradleup.shadow' version '8.3.6'
-}
+subprojects {
+    apply plugin: 'java-library'
+    group 'me.colingrimes.tweaky'
+    version '1.13'
 
-java {
-    sourceCompatibility JavaVersion.VERSION_21
-    targetCompatibility JavaVersion.VERSION_21
-}
+    java {
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
+    }
 
-group 'me.colingrimes.tweaky'
-version '1.12.1'
+    repositories {
+        mavenCentral()
+        maven { url 'https://repo.papermc.io/repository/maven-public/' }
+        maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+        maven { url 'https://repo.rosewooddev.io/repository/public/' }
+    }
 
-repositories {
-    mavenCentral()
-    maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
-    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
-    maven { url 'https://repo.papermc.io/repository/maven-public/' }
-}
-
-dependencies {
-    compileOnly 'io.papermc.paper:paper-api:1.21.10-R0.1-SNAPSHOT'
-    compileOnly 'com.google.code.findbugs:jsr305:3.0.2'
-    implementation 'org.bstats:bstats-bukkit:3.0.2'
-}
-
-processResources {
-    filter ReplaceTokens, beginToken: '${', endToken: '}', tokens: ['version': version]
-}
-
-shadowJar {
-    archiveFileName = "Tweaky-${project.version}.jar"
-    relocate 'org.bstats', 'me.colingrimes.tweaky.libs.bstats'
-    dependencies {
-        include dependency('org.bstats:bstats-bukkit')
-        include dependency('org.bstats:bstats-base')
+    processResources {
+        filter ReplaceTokens, beginToken: '${', endToken: '}', tokens: ['version': version]
     }
 }
