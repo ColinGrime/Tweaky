@@ -131,8 +131,22 @@ public final class Players {
 	 * @param location the location to play the sound
 	 */
 	public static void use(@Nonnull Player player, @Nonnull EquipmentSlot hand, @Nonnull Sound useSound, @Nonnull Location location) {
-		player.swingHand(hand);
+		swingHand(player, hand);
 		Items.use(player.getInventory().getItem(hand), player, useSound, location);
+	}
+
+	/**
+	 * Swings the player's hand.
+	 *
+	 * @param player the player
+	 * @param hand the hand to swing
+	 */
+	public static void swingHand(@Nonnull Player player, @Nonnull EquipmentSlot hand) {
+		if (hand == EquipmentSlot.HAND) {
+			player.swingMainHand();
+		} else if (hand == EquipmentSlot.OFF_HAND) {
+			player.swingOffHand();
+		}
 	}
 
 	private Players() {

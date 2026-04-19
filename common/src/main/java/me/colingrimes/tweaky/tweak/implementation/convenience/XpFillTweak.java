@@ -47,7 +47,7 @@ public class XpFillTweak extends DefaultTweak {
 		double maxConversions = (double) Experience.fromPlayer(player) / settings.TWEAK_XP_FILL_COST.get();
 		int conversions = Math.min(bottles, (int) maxConversions);
 
-		player.swingHand(event.getHand());
+		Players.swingHand(player, event.getHand());
 		player.getInventory().getItem(event.getHand()).setAmount(bottles - conversions);
 		Scheduler.sync().run(() -> Items.give(event.getPlayer(), new ItemStack(Material.EXPERIENCE_BOTTLE, conversions)));
 		Experience.remove(event.getPlayer(), settings.TWEAK_XP_FILL_COST.get() * conversions);

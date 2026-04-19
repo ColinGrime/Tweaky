@@ -5,6 +5,7 @@ import me.colingrimes.tweaky.tweak.event.TweakHandler;
 import me.colingrimes.tweaky.tweak.properties.TweakProperties;
 import me.colingrimes.tweaky.tweak.type.DefaultTweak;
 import me.colingrimes.tweaky.util.bukkit.Items;
+import me.colingrimes.tweaky.util.bukkit.Players;
 import org.bukkit.entity.*;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
@@ -37,7 +38,7 @@ public class VehicleMobTweak extends DefaultTweak {
 		vehicle.addPassenger(entity);
 
 		Items.remove(item);
-		player.swingHand(event.getHand());
+		Players.swingHand(player, event.getHand());
 	}
 
 	/**
