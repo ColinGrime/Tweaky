@@ -1,9 +1,11 @@
-package me.colingrimes.tweaky.tweak.implementation.convenience;
+package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.config.implementation.Messages;
 import me.colingrimes.tweaky.scheduler.Scheduler;
 import me.colingrimes.tweaky.tweak.event.TweakHandler;
+import me.colingrimes.tweaky.tweak.properties.TweakCategory;
+import me.colingrimes.tweaky.tweak.properties.TweakProperties;
 import me.colingrimes.tweaky.tweak.type.DefaultTweak;
 import me.colingrimes.tweaky.util.bukkit.Blocks;
 import me.colingrimes.tweaky.util.bukkit.Items;
@@ -51,6 +53,11 @@ public class FortuneSilkSwapTweak extends DefaultTweak {
 
 	public FortuneSilkSwapTweak(@Nonnull Tweaky plugin) {
 		super(plugin, "fortune_silk_swap");
+	}
+
+	@Override
+	protected void configureProperties(@Nonnull TweakProperties properties) {
+		properties.setCategory(TweakCategory.CONVENIENCE);
 	}
 
 	@TweakHandler(priority = EventPriority.HIGH)

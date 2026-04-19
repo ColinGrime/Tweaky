@@ -1,8 +1,10 @@
-package me.colingrimes.tweaky.tweak.implementation.convenience;
+package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.event.TweakHandler;
+import me.colingrimes.tweaky.tweak.properties.TweakCategory;
+import me.colingrimes.tweaky.tweak.properties.TweakProperties;
 import me.colingrimes.tweaky.tweak.type.DefaultTweak;
 import me.colingrimes.tweaky.util.misc.Random;
 import org.bukkit.Material;
@@ -16,6 +18,11 @@ public class KeepInventoryTweak extends DefaultTweak {
 
 	public KeepInventoryTweak(@Nonnull Tweaky plugin) {
 		super(plugin, "keep_inventory");
+	}
+
+	@Override
+	protected void configureProperties(@Nonnull TweakProperties properties) {
+		properties.setCategory(TweakCategory.CONVENIENCE);
 	}
 
 	@Nonnull

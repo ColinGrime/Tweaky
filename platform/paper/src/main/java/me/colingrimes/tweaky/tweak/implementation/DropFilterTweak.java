@@ -1,9 +1,11 @@
-package me.colingrimes.tweaky.tweak.implementation.convenience;
+package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.event.PlayerInteractBlockEvent;
 import me.colingrimes.tweaky.menu.Gui;
 import me.colingrimes.tweaky.message.Message;
+import me.colingrimes.tweaky.tweak.properties.TweakCategory;
+import me.colingrimes.tweaky.tweak.properties.TweakProperties;
 import me.colingrimes.tweaky.tweak.type.ToggleTweak;
 import me.colingrimes.tweaky.util.bukkit.Events;
 import me.colingrimes.tweaky.util.bukkit.Items;
@@ -40,25 +42,28 @@ public class DropFilterTweak extends ToggleTweak {
 	}
 
 	@Override
-	public void init() {
-		super.init();
+	public void onEnable() {
 		Players.forEach(this::loadFilter);
 	}
 
 	@Override
-	public void shutdown() {
-		super.shutdown();
+	public void onDisable() {
 		filter.clear();
 		filterSet.clear();
 	}
 
 	@Override
-	protected void activateTweak(@Nonnull Player player) {
+	protected void configureProperties(@Nonnull TweakProperties properties) {
+		properties.setCategory(TweakCategory.CONVENIENCE);
+	}
+
+	@Override
+	protected void onActivate(@Nonnull Player player) {
 		msg.TWEAK_FILTER_ON.send(player);
 	}
 
 	@Override
-	protected void deactivateTweak(@Nonnull Player player) {
+	protected void onDeactivate(@Nonnull Player player) {
 		msg.TWEAK_FILTER_OFF.send(player);
 	}
 
@@ -116,7 +121,7 @@ public class DropFilterTweak extends ToggleTweak {
 			List<Material> materials = filter.get(player.getUniqueId());
 			for (int i=0; i<Math.min(54, materials.size()); i++) {
 				Material type = materials.get(i);
-				String name = menus.FILTER_MENU_ITEM_NAME.replace("{item}", Component.translatable(type)).toText();
+				Message name = menus.FILTER_MENU_ITEM_NAME.replace("{item}", Component.translatable(type.getTranslationKey()));
 				List<String> lore = menus.FILTER_MENU_ITEM_LORE.toTextList();
 				ItemStack preview = Items.of(type).name(name).lore(lore).build();
 				getSlot(i).setItem(preview).bind(this::remove, ClickType.LEFT, ClickType.RIGHT);
@@ -149,12 +154,12 @@ public class DropFilterTweak extends ToggleTweak {
 				}
 
 				Material type = item.getType();
-				Message name = menus.FILTER_MENU_ITEM_NAME.replace("{item}", Component.translatable(item));
+				Message name = menus.FILTER_MENU_ITEM_NAME.replace("{item}", Component.translatable(item.getTranslationKey()));
 				List<String> lore = menus.FILTER_MENU_ITEM_LORE.toTextList();
 				ItemStack preview = Items.of(type).name(name).lore(lore).build();
 				getSlot(i).setItem(preview).bind(this::remove, ClickType.LEFT, ClickType.RIGHT);
 
-				msg.TWEAK_FILTER_ADD.replace("{item}", Component.translatable(item)).send(player);
+				msg.TWEAK_FILTER_ADD.replace("{item}", Component.translatable(item.getTranslationKey())).send(player);
 				filter.get(player.getUniqueId()).add(type);
 				filterSet.get(player.getUniqueId()).add(type);
 				saveFilter(player);
@@ -184,7 +189,7 @@ public class DropFilterTweak extends ToggleTweak {
 				}
 			}
 
-			msg.TWEAK_FILTER_REMOVE.replace("{item}", Component.translatable(type)).send(player);
+			msg.TWEAK_FILTER_REMOVE.replace("{item}", Component.translatable(type.getTranslationKey())).send(player);
 			filter.get(player.getUniqueId()).remove(type);
 			filterSet.get(player.getUniqueId()).remove(type);
 			saveFilter(player);

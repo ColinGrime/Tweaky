@@ -1,8 +1,10 @@
-package me.colingrimes.tweaky.tweak.implementation.mob;
+package me.colingrimes.tweaky.tweak.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.scheduler.Scheduler;
 import me.colingrimes.tweaky.scheduler.task.Task;
+import me.colingrimes.tweaky.tweak.properties.TweakCategory;
+import me.colingrimes.tweaky.tweak.properties.TweakProperties;
 import me.colingrimes.tweaky.tweak.type.DefaultTweak;
 import me.colingrimes.tweaky.util.Util;
 import me.colingrimes.tweaky.util.bukkit.Players;
@@ -25,16 +27,21 @@ public class VillagerFollowTweak extends DefaultTweak {
 	}
 
 	@Override
-	public void init() {
+	public void onEnable() {
 		playerTask = Scheduler.sync().runRepeating(() -> Players.forEach(this::checkPlayer), 10L, 10L);
 		villagerTask = Scheduler.sync().runRepeating(() -> new HashSet<>(villagers).forEach(this::checkVillager), 10L, 10L);
 	}
 
 	@Override
-	public void shutdown() {
+	public void onDisable() {
 		villagers.clear();
 		playerTask.stop();
 		villagerTask.stop();
+	}
+
+	@Override
+	protected void configureProperties(@Nonnull TweakProperties properties) {
+		properties.setCategory(TweakCategory.MOBS);
 	}
 
 	/**

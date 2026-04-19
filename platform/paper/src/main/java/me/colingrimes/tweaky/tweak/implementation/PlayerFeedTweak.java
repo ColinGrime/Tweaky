@@ -1,4 +1,4 @@
-package me.colingrimes.tweaky.tweak.implementation.misc;
+package me.colingrimes.tweaky.tweak.implementation;
 
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.Consumable;
@@ -7,6 +7,7 @@ import io.papermc.paper.datacomponent.item.consumable.ConsumeEffect;
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.scheduler.Scheduler;
 import me.colingrimes.tweaky.tweak.event.TweakHandler;
+import me.colingrimes.tweaky.tweak.properties.TweakCategory;
 import me.colingrimes.tweaky.tweak.properties.TweakProperties;
 import me.colingrimes.tweaky.tweak.type.DefaultTweak;
 import me.colingrimes.tweaky.util.bukkit.Items;
@@ -31,6 +32,7 @@ public class PlayerFeedTweak extends DefaultTweak {
 
 	@Override
 	protected void configureProperties(@Nonnull TweakProperties properties) {
+		properties.setCategory(TweakCategory.MISCELLANEOUS);
 		properties.getGuard()
 				.item(i -> i.hasData(DataComponentTypes.CONSUMABLE))
 				.item(i -> i.hasData(DataComponentTypes.FOOD) && i.getData(DataComponentTypes.FOOD).nutrition() > 0)
