@@ -10,7 +10,7 @@ dependencies {
 }
 
 shadowJar {
-    archiveFileName = "Tweaky-${project.version}-bukkit.jar"
+    archiveFileName = "Tweaky-Bukkit-${project.version}.jar"
     relocate 'net.kyori', 'me.colingrimes.tweaky.libs.adventure'
     relocate 'org.bstats', 'me.colingrimes.tweaky.libs.bstats'
 }

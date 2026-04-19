@@ -16,7 +16,7 @@ public class TweakyPaper extends Tweaky {
 	@Nonnull
 	@Override
 	public String getVersion() {
-		return "Tweaky-" + getDescription().getVersion() + "-paper";
+		return "Tweaky-Paper-" + getDescription().getVersion();
 	}
 
 	@Override

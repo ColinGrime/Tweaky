@@ -49,7 +49,7 @@ public class TweakyBukkit extends Tweaky {
 	@Nonnull
 	@Override
 	public String getVersion() {
-		return "Tweaky-" + getDescription().getVersion() + "-bukkit";
+		return "Tweaky-Bukkit-" + getDescription().getVersion();
 	}
 
 	@Override

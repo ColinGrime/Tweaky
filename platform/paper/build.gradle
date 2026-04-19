@@ -8,6 +8,6 @@ dependencies {
 }
 
 shadowJar {
-    archiveFileName = "Tweaky-${project.version}-paper.jar"
+    archiveFileName = "Tweaky-Paper-${project.version}.jar"
     relocate 'org.bstats', 'me.colingrimes.tweaky.libs.bstats'
 }
