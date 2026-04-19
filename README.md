@@ -52,6 +52,7 @@
 * `ladder-teleportation` - Allows you to instantly climb up/down ladders (different modes are available).
 * `night-vision` - Toggle night vision with the /nv command.
 * `pet-protection` - Prevents you from attacking your own pet.
+* `player-feed` - Right-click on a player with food to feed them.
 * `portal-protection` - Nether portals can no longer be destroyed by explosions.
 * `recipe-unlock-all` - Players who join the server will have all the recipes unlocked.
 * `revert-farmland` - Sneak-right-click on farmland with a hoe to revert it back to dirt.
