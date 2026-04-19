@@ -193,7 +193,7 @@ public final class Events {
 	 */
 	public static boolean isLeftClick(@Nonnull Event event) {
 		return switch (event) {
-			case PlayerInteractEvent e -> e.getAction().isLeftClick();
+			case PlayerInteractEvent e -> e.getAction() == Action.LEFT_CLICK_BLOCK || e.getAction() == Action.LEFT_CLICK_AIR;
 			case PlayerInteractBlockEvent e -> e.isLeftClick();
 			case InventoryClickEvent e -> e.isLeftClick();
 			default -> false;
@@ -208,7 +208,7 @@ public final class Events {
 	 */
 	public static boolean isRightClick(@Nonnull Event event) {
 		return switch (event) {
-			case PlayerInteractEvent e -> e.getAction().isRightClick();
+			case PlayerInteractEvent e -> e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR;
 			case PlayerInteractBlockEvent e -> e.isRightClick();
 			case InventoryClickEvent e -> e.isRightClick();
 			default -> false;
