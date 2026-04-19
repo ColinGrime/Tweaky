@@ -37,7 +37,7 @@ public class DurabilityIndicatorTweak extends DefaultTweak {
 			return;
 		}
 
-		plugin.getMessages().TWEAK_DURABILITY_MESSAGE.replace("{item}", Component.translatable(item)).subtitle(player, 10, 40, 10);
+		plugin.getMessages().TWEAK_DURABILITY_MESSAGE.replace("{item}", Component.translatable(item.getTranslationKey())).subtitle(player, 10, 40, 10);
 		Scheduler.sync().runRepeating(() -> Players.sound(player, Sound.BLOCK_NOTE_BLOCK_DIDGERIDOO), 0L, 3L, 9L);
 	}
 }
