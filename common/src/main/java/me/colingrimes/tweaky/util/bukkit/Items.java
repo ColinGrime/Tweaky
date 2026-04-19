@@ -1,13 +1,11 @@
 package me.colingrimes.tweaky.util.bukkit;
 
-import com.google.common.base.Preconditions;
 import com.google.common.collect.HashMultimap;
 import me.colingrimes.tweaky.message.Message;
 import me.colingrimes.tweaky.message.Placeholders;
 import me.colingrimes.tweaky.util.misc.Random;
 import me.colingrimes.tweaky.util.text.Text;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -46,19 +44,6 @@ public final class Items {
 	@Nonnull
 	public static Builder of(@Nonnull Material material) {
 		return new Builder(material);
-	}
-
-	/**
-	 * Creates a new {@link Builder} object.
-	 * <p>
-	 * This will use the provided item as a base for the item builder.
-	 *
-	 * @param item the item stack
-	 * @return the item builder object
-	 */
-	@Nonnull
-	public static Builder of(@Nonnull ItemStack item) {
-		return new Builder(item);
 	}
 
 	/**
@@ -192,8 +177,8 @@ public final class Items {
 		private ItemStack baseItem;
 
 		private Material material;
-		private Component name;
-		private List<Component> lore = new ArrayList<>();
+		private Message name;
+		private Message lore;
 		private boolean hide = false;
 		private boolean glow = false;
 		private boolean unbreakable = false;
@@ -201,14 +186,6 @@ public final class Items {
 		public Builder(@Nonnull Material def) {
 			this.defMaterial = Objects.requireNonNull(def, "material");
 			this.baseItem = null;
-		}
-
-		public Builder(@Nonnull ItemStack base) {
-			Preconditions.checkNotNull(base.getItemMeta(), "Item meta is null.");
-			this.defMaterial = null;
-			this.baseItem = base;
-			this.name = base.getItemMeta().hasDisplayName() ? base.getItemMeta().displayName() : null;
-			this.lore = base.getItemMeta().hasLore() ? base.getItemMeta().lore() : new ArrayList<>();
 		}
 
 		/**
@@ -258,12 +235,12 @@ public final class Items {
 		 * @return the item builder object
 		 */
 		@Nonnull
-		public Builder name(@Nullable Component name) {
+		public Builder name(@Nullable Message name) {
 			if (name == null) {
 				return this;
 			}
 
-			this.name = name.decoration(TextDecoration.ITALIC, false);
+			this.name = name;
 			return this;
 		}
 
@@ -278,7 +255,7 @@ public final class Items {
 			if (name == null) {
 				return this;
 			} else {
-				return name(Message.LEGACY.deserialize(name));
+				return name(Message.of(name));
 			}
 		}
 
@@ -289,7 +266,7 @@ public final class Items {
 		 */
 		@Nonnull
 		public Builder lore() {
-			lore.add(Component.empty());
+			lore.getComponents().add(Component.empty());
 			return this;
 		}
 
@@ -303,10 +280,13 @@ public final class Items {
 		public Builder lore(@Nullable String line) {
 			if (line == null) {
 				return this;
+			} else if (lore != null) {
+				lore.getComponents().add(Message.of(line).getComponent());
+				return this;
+			} else {
+				lore = Message.of(line);
+				return this;
 			}
-
-			lore.add(Message.LEGACY.deserialize(line).decoration(TextDecoration.ITALIC, false));
-			return this;
 		}
 
 		/**
@@ -336,7 +316,7 @@ public final class Items {
 				return this;
 			}
 
-			this.lore = lore.stream().map(l -> (Component) Message.LEGACY.deserialize(l).decoration(TextDecoration.ITALIC, false)).toList();
+			this.lore = Message.of(lore);
 			return this;
 		}
 
@@ -458,8 +438,8 @@ public final class Items {
 			if (name != null) {
 				placeholders.apply(name).setName(item);
 			}
-			if (lore != null && !lore.isEmpty()) {
-				placeholders.applyComponents(lore).setLore(item);
+			if (lore != null && !lore.getComponents().isEmpty()) {
+				placeholders.apply(lore).setLore(item);
 			}
 
 			ItemMeta meta = Objects.requireNonNull(item.getItemMeta(), "Item meta is null.");

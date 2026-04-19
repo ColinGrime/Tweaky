@@ -3,6 +3,7 @@ package me.colingrimes.tweaky.tweak.implementation.convenience;
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.event.PlayerInteractBlockEvent;
 import me.colingrimes.tweaky.menu.Gui;
+import me.colingrimes.tweaky.message.Message;
 import me.colingrimes.tweaky.tweak.type.ToggleTweak;
 import me.colingrimes.tweaky.util.bukkit.Events;
 import me.colingrimes.tweaky.util.bukkit.Items;
@@ -148,7 +149,7 @@ public class DropFilterTweak extends ToggleTweak {
 				}
 
 				Material type = item.getType();
-				Component name = menus.FILTER_MENU_ITEM_NAME.replace("{item}", Component.translatable(item)).getComponent();
+				Message name = menus.FILTER_MENU_ITEM_NAME.replace("{item}", Component.translatable(item));
 				List<String> lore = menus.FILTER_MENU_ITEM_LORE.toTextList();
 				ItemStack preview = Items.of(type).name(name).lore(lore).build();
 				getSlot(i).setItem(preview).bind(this::remove, ClickType.LEFT, ClickType.RIGHT);

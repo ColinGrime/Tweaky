@@ -4,16 +4,19 @@ import me.colingrimes.tweaky.util.misc.Types;
 import me.colingrimes.tweaky.util.text.Text;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Message {
 
-    public static final LegacyComponentSerializer LEGACY = LegacyComponentSerializer.builder().character('&').extractUrls().build();
+    private static final LegacyComponentSerializer LEGACY = LegacyComponentSerializer.builder().character('&').extractUrls().build();
     private static MessageService messageService;
     private final List<Component> components;
 
@@ -67,7 +70,8 @@ public class Message {
     }
 
     protected Message(@Nonnull List<Component> components) {
-        this.components = components;
+        // Reset italic for items.
+        this.components = components.stream().map(c -> c.decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)).collect(Collectors.toCollection(ArrayList::new));
     }
 
     @Nonnull
