@@ -131,7 +131,7 @@ public class LadderTeleportationTweak extends DefaultTweak {
 		}
 
 		Player player = event.getPlayer();
-		boolean up = player.getPitch() <= 0;
+		boolean up = player.getLocation().getPitch() <= 0;
 
 		Vector direction = up ? new Vector(0, 1, 0) : new Vector(0, -1, 0);
 		while (block.getBlockData() instanceof Ladder l && l.getFacing() == ladder.getFacing()) {
@@ -139,8 +139,8 @@ public class LadderTeleportationTweak extends DefaultTweak {
 		}
 
 		Location location = block.getLocation().add(0.5, 0, 0.5);
-		location.setYaw(player.getYaw());
-		location.setPitch(player.getPitch());
+		location.setYaw(player.getLocation().getYaw());
+		location.setPitch(player.getLocation().getPitch());
 
 		if (up && !block.getType().isSolid() && !block.getLocation().add(0, 1, 0).getBlock().getType().isSolid()) {
 			UP_OFFSETS.get(ladder.getFacing()).accept(location);
