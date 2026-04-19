@@ -50,6 +50,7 @@ public abstract class Tweaky extends JavaPlugin {
 
 		// Register all the tweaks.
 		tweakManager = new TweakManager(this);
+		tweakManager.init();
 		tweakManager.register();
 
 		// Check for Metrics.

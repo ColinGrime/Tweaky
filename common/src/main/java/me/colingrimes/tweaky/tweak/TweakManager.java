@@ -2,39 +2,69 @@ package me.colingrimes.tweaky.tweak;
 
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.tweak.implementation.hidden.BreedingIndicatorTweak_RoseStackerFix;
+import me.colingrimes.tweaky.tweak.implementation.misc.SnowballTweak;
 import me.colingrimes.tweaky.tweak.implementation.text.BreedingIndicatorTweak;
 import me.colingrimes.tweaky.tweak.properties.TweakCategory;
 import me.colingrimes.tweaky.util.io.Introspector;
 import me.colingrimes.tweaky.util.io.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.HandlerList;
 
 import javax.annotation.Nonnull;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class TweakManager {
 
 	private final Tweaky plugin;
-	private final List<Tweak> tweaks;
-	private final List<String> availableTweaks;
+	private final List<String> allTweakIds = new ArrayList<>();
+	private final List<Tweak> allTweaks = new ArrayList<>();
+	private final List<Tweak> enabledTweaks = new ArrayList<>();
 	private final Map<TweakCategory, Set<Tweak>> categoryToTweaks = new HashMap<>();
 	private int tweakCount = 0;
+	private boolean initialized = false;
 
 	public TweakManager(@Nonnull Tweaky plugin) {
 		this.plugin = plugin;
-		this.tweaks = new ArrayList<>();
-		this.availableTweaks = plugin.getConfig().getConfigurationSection("tweaks").getKeys(false).stream().toList();
+	}
+
+	/**
+	 * Initializes all tweak classes. This performs a number of actions:
+	 * <ul>
+	 *   <li>Dynamically loads all classes containing tweaks.</li>
+	 *   <li>Creates an instance of all tweak classes found.</li>
+	 *   <li>Sets the category of the tweak based on its package.</lI>
+	 *   <li>Gets the tweak IDs of all valid tweaks (to be displayed in the /tweaky list command).</li>
+	 * </ul>
+	 */
+	public void init() {
+		if (initialized) {
+			return;
+		}
+
+		List<Tweak> tweakClasses = Introspector.getTweaks(plugin);
+		List<Tweak> filteredClasses = checkForHooks(tweakClasses);
+		allTweaks.addAll(filteredClasses);
+		allTweaks.forEach(this::initializeCategory);
+		Logger.log("Found " + allTweaks.size() + " tweak classes.");
+
+		// Get all tweak IDs.
+		for (Tweak tweak : allTweaks.stream().sorted(Comparator.comparing(Tweak::getId)).toList()) {
+			if (tweak instanceof SnowballTweak) {
+				allTweakIds.addAll(List.of("snowballs-add-snow-layer", "snowballs-break-plants", "snowballs-damage", "snowballs-extinguish-entities", "snowballs-extinguish-fire", "snowballs-form-ice", "snowballs-form-snow", "snowballs-knockback"));
+			} else if (tweak.getProperties().getCategory() != TweakCategory.UNKNOWN) {
+				allTweakIds.add(tweak.getId().replace("_", "-"));
+			}
+		}
+
+		initialized = true;
 	}
 
 	/**
 	 * Registers all tweaks. This performs a number of actions:
 	 * <ul>
-	 *   <li>Unregisters, shuts down, and cleans up all previously activated tweaks.</li>
-	 *   <li>Gets all tweak classes and initializes all enabled ones (ensuring compatability).</li>
-	 *   <li>Activates all enabled tweaks to set them up properly.</li>
-	 *   <li>Caches and returns the number of tweaks that were activated.</li>
+	 *   <li>Unregisters, shuts down, and cleans up all previously enabled tweaks.</li>
+	 *   <li>Gets all enabled tweak classes and initializes them.</li>
+	 *   <li>Caches and returns the number of tweaks that were enabled.</li>
 	 * </ul>
 	 */
 	public int register() {
@@ -42,19 +72,15 @@ public class TweakManager {
 		shutdown();
 
 		// Registration.
-		List<Tweak> tweakClasses = Introspector.getTweaks(plugin);
-		List<Tweak> enabledClasses = tweakClasses.stream().filter(Tweak::isEnabled).collect(Collectors.toList());
-		List<Tweak> filteredClasses = checkForHooks(enabledClasses);
-
-		for (Tweak tweak : filteredClasses) {
-			initializeCategory(tweak);
-			tweak.init();
-			tweaks.add(tweak);
+		List<Tweak> enabledClasses = allTweaks.stream().filter(Tweak::isEnabled).toList();
+		for (Tweak tweak : enabledClasses) {
+			tweak.enable();
+			enabledTweaks.add(tweak);
 			categoryToTweaks.computeIfAbsent(tweak.getProperties().getCategory(), k -> new HashSet<>()).add(tweak);
 		}
 
 		// Tweak count.
-		tweakCount = tweaks.stream().mapToInt(Tweak::getCount).sum();
+		tweakCount = enabledTweaks.stream().mapToInt(Tweak::getCount).sum();
 		Logger.log("Registered " + tweakCount + " tweaks.");
 		return tweakCount;
 	}
@@ -63,47 +89,44 @@ public class TweakManager {
 	 * Handles the proper shutdown of tweaks.
 	 */
 	public void shutdown() {
-		tweaks.forEach(tweak -> {
-			HandlerList.unregisterAll(tweak);
-			tweak.shutdown();
-		});
-		tweaks.clear();
+		enabledTweaks.forEach(Tweak::disable);
+		enabledTweaks.clear();
 		categoryToTweaks.clear();
 	}
 
 	/**
-	 * Gets the names of all available tweaks, including disabled tweaks.
+	 * Gets all tweak IDs, including disabled tweaks.
 	 *
-	 * @return the list of all available tweak names
+	 * @return the list of all tweaks
 	 */
 	@Nonnull
-	public List<String> getAvailableTweaks() {
-		return availableTweaks;
+	public List<String> getAllTweaks() {
+		return allTweakIds;
 	}
 
 	/**
-	 * Gets all the enabled tweaks.
+	 * Gets all enabled tweaks.
 	 *
 	 * @return the list of enabled tweaks
 	 */
 	@Nonnull
 	public List<Tweak> getTweaks() {
-		return tweaks;
+		return enabledTweaks;
 	}
 
 	/**
-	 * Gets all the enabled tweaks for the specified player.
+	 * Gets all enabled tweaks for the specified player.
 	 *
 	 * @param player the player
 	 * @return the list of enabled tweaks for the player
 	 */
 	@Nonnull
 	public List<Tweak> getTweaks(@Nonnull Player player) {
-		return tweaks.stream().filter(tweak -> tweak.hasPermission(player)).toList();
+		return enabledTweaks.stream().filter(tweak -> tweak.hasPermission(player)).toList();
 	}
 
 	/**
-	 * Gets all the enabled tweaks for the specified player and category.
+	 * Gets all enabled tweaks for the specified player and category.
 	 *
 	 * @param player the player
 	 * @param category the category
@@ -115,18 +138,18 @@ public class TweakManager {
 	}
 
 	/**
-	 * Gets the number of activated tweaks.
+	 * Gets the number of enabled tweaks.
 	 *
-	 * @return the count of activated tweaks
+	 * @return the count of enabled tweaks
 	 */
 	public int getTweakCount() {
 		return tweakCount;
 	}
 
 	/**
-	 * Gets the number of activated tweaks for the specific player.
+	 * Gets the number of enabled tweaks for the specific player.
 	 *
-	 * @return the count of activated tweaks for the player
+	 * @return the count of enabled tweaks for the player
 	 */
 	public int getTweakCount(@Nonnull Player player) {
 		return getTweaks(player).stream().mapToInt(Tweak::getCount).sum();

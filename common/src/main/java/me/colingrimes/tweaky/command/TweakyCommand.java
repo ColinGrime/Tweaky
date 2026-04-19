@@ -66,7 +66,7 @@ public class TweakyCommand implements CommandExecutor, TabCompleter {
 		}
 
 		if (args[0].equalsIgnoreCase("toggle")) {
-			return plugin.getTweakManager().getAvailableTweaks().stream().filter(tweak -> tweak.contains(args[1].toLowerCase())).toList();
+			return plugin.getTweakManager().getAllTweaks().stream().filter(tweak -> tweak.contains(args[1].toLowerCase())).toList();
 		}
 
 		return null;
@@ -74,7 +74,7 @@ public class TweakyCommand implements CommandExecutor, TabCompleter {
 
 	private void listTweaks(@Nonnull CommandSender sender) {
 		List<String> tweaks = new ArrayList<>();
-		for (String id : plugin.getTweakManager().getAvailableTweaks()) {
+		for (String id : plugin.getTweakManager().getAllTweaks()) {
 			String defPath = "tweaks." + id;
 			String nestedPath = defPath + ".toggle";
 			if (plugin.getConfig().getBoolean(defPath, false) || plugin.getConfig().getBoolean(nestedPath, false)) {
@@ -86,7 +86,7 @@ public class TweakyCommand implements CommandExecutor, TabCompleter {
 
 		plugin.getMessages().ADMIN_GENERAL_LIST
 				.replace("{enabled}", plugin.getTweakManager().getTweakCount())
-				.replace("{amount}", plugin.getTweakManager().getAvailableTweaks().size())
+				.replace("{amount}", plugin.getTweakManager().getAllTweaks().size())
 				.replace("{tweaks}", String.join("&f, ", tweaks))
 				.send(sender);
 	}
