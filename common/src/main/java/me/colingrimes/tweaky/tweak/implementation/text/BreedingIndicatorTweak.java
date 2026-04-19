@@ -30,7 +30,7 @@ public class BreedingIndicatorTweak extends DefaultTweak {
 	}
 
 	@Override
-	public void init() {
+	public void onEnable() {
 		task = Scheduler.sync().runRepeating(() -> {
 			Instant now = Instant.now();
 			var iterator = breedingEntities.entrySet().iterator();
@@ -46,7 +46,7 @@ public class BreedingIndicatorTweak extends DefaultTweak {
 	}
 
 	@Override
-	public void shutdown() {
+	public void onDisable() {
 		task.stop();
 		breedingEntities.keySet().forEach(uuid -> {
 			Entity mob = Bukkit.getEntity(uuid);

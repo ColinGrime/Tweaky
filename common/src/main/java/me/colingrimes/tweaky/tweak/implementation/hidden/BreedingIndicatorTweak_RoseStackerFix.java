@@ -49,12 +49,7 @@ public class BreedingIndicatorTweak_RoseStackerFix extends DefaultTweak {
 	}
 
 	@Override
-	protected void configureProperties(@Nonnull TweakProperties properties) {
-		properties.setCategory(TweakCategory.TEXT);
-	}
-
-	@Override
-	public void init() {
+	public void onEnable() {
 		ProtocolLibrary.getProtocolManager().addPacketListener(ignoreTags);
 		task = Scheduler.sync().runRepeating(() -> {
 			Instant now = Instant.now();
@@ -71,12 +66,17 @@ public class BreedingIndicatorTweak_RoseStackerFix extends DefaultTweak {
 	}
 
 	@Override
-	public void shutdown() {
+	public void onDisable() {
 		ProtocolLibrary.getProtocolManager().removePacketListener(ignoreTags);
 		task.stop();
 		breedingEntities.keySet().forEach(uuid -> updateEntityName(Bukkit.getEntity(uuid), null));
 		breedingEntities.clear();
 		ignoredEntities.clear();
+	}
+
+	@Override
+	protected void configureProperties(@Nonnull TweakProperties properties) {
+		properties.setCategory(TweakCategory.TEXT);
 	}
 
 	@EventHandler

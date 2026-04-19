@@ -28,7 +28,7 @@ public class DropMagnetTweak extends DefaultTweak {
 	}
 
 	@Override
-	public void init() {
+	public void onEnable() {
 		task = Scheduler.sync().runRepeating(() -> {
 			Instant now = Instant.now();
 			drops.values().removeIf(instant -> instant.plusSeconds(2).isBefore(now));
@@ -36,7 +36,7 @@ public class DropMagnetTweak extends DefaultTweak {
 	}
 
 	@Override
-	public void shutdown() {
+	public void onDisable() {
 		task.stop();
 		drops.clear();
 	}

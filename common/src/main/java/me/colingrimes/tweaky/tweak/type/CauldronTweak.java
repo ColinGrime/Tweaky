@@ -44,7 +44,7 @@ public abstract class CauldronTweak extends DefaultTweak {
 	}
 
 	@Override
-	public void init() {
+	public void onEnable() {
 		task = Scheduler.sync().runRepeating(() -> {
 			Instant now = Instant.now();
 			var iterator = items.entrySet().iterator();
@@ -64,7 +64,7 @@ public abstract class CauldronTweak extends DefaultTweak {
 	}
 
 	@Override
-	public void shutdown() {
+	public void onDisable() {
 		items.clear();
 		task.stop();
 	}

@@ -24,19 +24,17 @@ public class CoordinatesTweak extends ToggleTweak {
 	}
 
 	@Override
-	public void init() {
-		super.init();
+	public void onEnable() {
 		task = Scheduler.sync().runRepeating(() -> Players.forEach(this::activate), 0L, 30L);
 	}
 
 	@Override
-	public void shutdown() {
-		super.shutdown();
+	public void onDisable() {
 		task.stop();
 	}
 
 	@Override
-	protected void activateTweak(@Nonnull Player player) {
+	protected void onActivate(@Nonnull Player player) {
 		Location location = player.getLocation();
 		Message message = player.getWorld().getTime() <= 12541 ? msg.TWEAK_COORDINATES_DAY : msg.TWEAK_COORDINATES_NIGHT;
 		message = message
@@ -47,7 +45,7 @@ public class CoordinatesTweak extends ToggleTweak {
 	}
 
 	@Override
-	protected void deactivateTweak(@Nonnull Player player) {
+	protected void onDeactivate(@Nonnull Player player) {
 		player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent());
 	}
 

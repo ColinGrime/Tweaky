@@ -35,12 +35,12 @@ public class NightVisionTweak extends ToggleTweak {
 	}
 
 	@Override
-	protected void activateTweak(@Nonnull Player player) {
+	protected void onActivate(@Nonnull Player player) {
 		player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, -1, 0, false, false));
 	}
 
 	@Override
-	protected void deactivateTweak(@Nonnull Player player) {
+	protected void onDeactivate(@Nonnull Player player) {
 		player.removePotionEffect(PotionEffectType.NIGHT_VISION);
 	}
 

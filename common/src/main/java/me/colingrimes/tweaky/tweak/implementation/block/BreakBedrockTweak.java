@@ -36,12 +36,12 @@ public class BreakBedrockTweak extends DefaultTweak {
 	}
 
 	@Override
-	public void init() {
+	protected void onEnable() {
 		task = Scheduler.sync().runRepeating(() -> damagedBlocks.entrySet().removeIf(e -> e.getKey() == null || !e.getKey().isValid() || tick(e.getValue())), 2L, 2L);
 	}
 
 	@Override
-	public void shutdown() {
+	protected void onDisable() {
 		task.stop();
 		damagedBlocks.values().forEach(d -> setDestroyStage(d, 0));
 		damagedBlocks.clear();

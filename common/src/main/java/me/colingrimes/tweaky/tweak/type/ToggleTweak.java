@@ -42,13 +42,15 @@ public abstract class ToggleTweak extends DefaultTweak implements CommandExecuto
 	}
 
 	@Override
-	public void init() {
+	public final void enable() {
+		super.enable();
 		plugin.getCommandManager().register(command, this);
 		Players.forEach(this::checkToggle);
 	}
 
 	@Override
-	public void shutdown() {
+	public final void disable() {
+		super.disable();
 		plugin.getCommandManager().unregister(command);
 		toggleOn.clear();
 	}
@@ -119,7 +121,7 @@ public abstract class ToggleTweak extends DefaultTweak implements CommandExecuto
 	 */
 	public void activate(@Nonnull Player player) {
 		if (isToggled(player) && hasPermission(player)) {
-			activateTweak(player);
+			onActivate(player);
 		}
 	}
 
@@ -130,7 +132,7 @@ public abstract class ToggleTweak extends DefaultTweak implements CommandExecuto
 	 */
 	public void deactivate(@Nonnull Player player) {
 		if (!isToggled(player) && hasPermission(player)) {
-			deactivateTweak(player);
+			onDeactivate(player);
 		}
 	}
 
@@ -139,12 +141,12 @@ public abstract class ToggleTweak extends DefaultTweak implements CommandExecuto
 	 *
 	 * @param player the player
 	 */
-	protected abstract void activateTweak(@Nonnull Player player);
+	protected abstract void onActivate(@Nonnull Player player);
 
 	/**
 	 * Method that should be called when the toggle is deactivated.
 	 *
 	 * @param player the player
 	 */
-	protected abstract void deactivateTweak(@Nonnull Player player);
+	protected abstract void onDeactivate(@Nonnull Player player);
 }

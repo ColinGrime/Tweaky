@@ -8,6 +8,7 @@ import me.colingrimes.tweaky.menu.tweak.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.tweak.event.TweakEvent;
 import me.colingrimes.tweaky.tweak.properties.TweakProperties;
+import org.bukkit.event.HandlerList;
 
 import javax.annotation.Nonnull;
 
@@ -28,8 +29,17 @@ public abstract class DefaultTweak implements Tweak {
 		this.id = id;
 		this.properties = new TweakProperties();
 		this.configureProperties(properties);
-		TweakEvent.register(plugin, this);
 	}
+
+	/**
+	 * Runs when the tweak is enabled.
+	 */
+	protected void onEnable() {}
+
+	/**
+	 * Runs when the tweak is disabled.
+	 */
+	protected void onDisable() {}
 
 	/**
 	 * Configures the various properties of the tweak.
@@ -37,6 +47,18 @@ public abstract class DefaultTweak implements Tweak {
 	 * @param properties the tweak properties to configure
 	 */
 	protected void configureProperties(@Nonnull TweakProperties properties) {}
+
+	@Override
+	public void enable() {
+		TweakEvent.register(plugin, this);
+		onEnable();
+	}
+
+	@Override
+	public void disable() {
+		HandlerList.unregisterAll(this);
+		onDisable();
+	}
 
 	@Nonnull
 	@Override

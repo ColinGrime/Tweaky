@@ -12,14 +12,14 @@ import javax.annotation.Nullable;
 public interface Tweak extends Listener {
 
 	/**
-	 * Runs when the tweak is initialized.
+	 * Runs when the tweak is enabled.
 	 */
-	default void init() {}
+	default void enable() {}
 
 	/**
-	 * Runs when the tweak is shutdown.
+	 * Runs when the tweak is disabled.
 	 */
-	default void shutdown() {}
+	default void disable() {}
 
 	/**
 	 * Gets the ID of the tweak.
