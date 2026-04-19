@@ -15,11 +15,13 @@ import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
 import org.bukkit.entity.*;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.util.RayTraceResult;
 
 import javax.annotation.Nonnull;
@@ -93,6 +95,12 @@ public class HappyGhastPlacementTweak extends DefaultTweak {
 
 		// Set the block on the happy ghast.
 		target.block.setType(item.getType());
+		if (item.getItemMeta() instanceof BlockStateMeta meta && meta.hasBlockState()) {
+			BlockState state = meta.getBlockState().copy(target.block.getLocation());
+			state.update(true, false);
+		}
+
+		// Clean up
 		target.blockDisplay.remove();
 		targets.remove(player);
 		Items.remove(item);
