@@ -21,7 +21,6 @@ import java.util.*;
 public final class Introspector {
 
 	private static final String IGNORE_PACKAGE = "/hidden/";
-	private static final Set<String> PAPER_ONLY_TWEAKS = Set.of("VillagerFollowTweak", "FortuneSilkSwapTweak", "PlayerFeedTweak");
 
 	@Nonnull
 	public static List<Tweak> getTweaks(@Nonnull Tweaky plugin) {
@@ -155,11 +154,6 @@ public final class Introspector {
 		@Override
 		public FileVisitResult visitFile(@Nonnull Path file, @Nullable BasicFileAttributes attrs) {
 			if (!file.toString().endsWith(".class") || file.toString().contains("$") || file.toString().contains(IGNORE_PACKAGE)) {
-				return FileVisitResult.CONTINUE;
-			}
-
-			boolean ignorePaperTweaks = !Tweaky.getInstance().isPaper() && PAPER_ONLY_TWEAKS.stream().anyMatch(t -> file.toString().contains(t));
-			if (ignorePaperTweaks) {
 				return FileVisitResult.CONTINUE;
 			}
 
