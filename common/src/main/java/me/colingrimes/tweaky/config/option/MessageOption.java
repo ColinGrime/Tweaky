@@ -1,5 +1,6 @@
 package me.colingrimes.tweaky.config.option;
 
+import me.colingrimes.tweaky.config.Option;
 import me.colingrimes.tweaky.config.manager.ConfigurationProvider;
 import me.colingrimes.tweaky.message.Message;
 import net.kyori.adventure.text.Component;

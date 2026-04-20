@@ -2,7 +2,7 @@ package me.colingrimes.tweaky.config.implementation;
 
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.config.Configuration;
-import me.colingrimes.tweaky.config.option.Option;
+import me.colingrimes.tweaky.config.Option;
 import org.bukkit.Material;
 
 import javax.annotation.Nonnull;

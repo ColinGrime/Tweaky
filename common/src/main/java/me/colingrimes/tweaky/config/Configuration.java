@@ -3,7 +3,6 @@ package me.colingrimes.tweaky.config;
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.config.manager.ConfigurationProvider;
 import me.colingrimes.tweaky.config.option.MessageOption;
-import me.colingrimes.tweaky.config.option.Option;
 import me.colingrimes.tweaky.config.option.SimpleOption;
 import org.bukkit.configuration.ConfigurationSection;
 

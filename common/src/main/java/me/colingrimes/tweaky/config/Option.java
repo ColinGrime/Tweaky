@@ -1,6 +1,7 @@
-package me.colingrimes.tweaky.config.option;
+package me.colingrimes.tweaky.config;
 
 import me.colingrimes.tweaky.config.manager.ConfigurationProvider;
+import me.colingrimes.tweaky.config.option.SimpleOption;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
