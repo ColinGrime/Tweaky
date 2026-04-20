@@ -27,13 +27,13 @@ public class VillagerFollowTweak extends DefaultTweak {
 	}
 
 	@Override
-	public void onEnable() {
+	protected void onEnable() {
 		playerTask = Scheduler.sync().runRepeating(() -> Players.forEach(this::checkPlayer), 10L, 10L);
 		villagerTask = Scheduler.sync().runRepeating(() -> new HashSet<>(villagers).forEach(this::checkVillager), 10L, 10L);
 	}
 
 	@Override
-	public void onDisable() {
+	protected void onDisable() {
 		villagers.clear();
 		playerTask.stop();
 		villagerTask.stop();

@@ -42,12 +42,12 @@ public class DropFilterTweak extends ToggleTweak {
 	}
 
 	@Override
-	public void onEnable() {
+	protected void onEnable() {
 		Players.forEach(this::loadFilter);
 	}
 
 	@Override
-	public void onDisable() {
+	protected void onDisable() {
 		filter.clear();
 		filterSet.clear();
 	}

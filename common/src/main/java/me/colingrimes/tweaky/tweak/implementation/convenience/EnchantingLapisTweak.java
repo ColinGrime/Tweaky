@@ -35,7 +35,7 @@ public class EnchantingLapisTweak extends DefaultTweak {
 	}
 
 	@Override
-	public void onDisable() {
+	protected void onDisable() {
 		shared.values().forEach(ench -> new HashSet<>(ench.viewers).forEach(viewer -> {
 			ench.close(viewer);
 			viewer.closeInventory();

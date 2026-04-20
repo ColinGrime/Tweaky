@@ -21,7 +21,7 @@ public class RecipeUnlockAllTweak extends DefaultTweak {
 	}
 
 	@Override
-	public void onEnable() {
+	protected void onEnable() {
 		Bukkit.recipeIterator().forEachRemaining(recipe -> {
 			if (recipe instanceof Keyed keyed) {
 				recipes.add(keyed.getKey());
@@ -30,7 +30,7 @@ public class RecipeUnlockAllTweak extends DefaultTweak {
 	}
 
 	@Override
-	public void onDisable() {
+	protected void onDisable() {
 		recipes.clear();
 	}
 

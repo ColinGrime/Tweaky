@@ -41,13 +41,13 @@ public class HappyGhastPlacementTweak extends DefaultTweak {
 	}
 
 	@Override
-	public void onEnable() {
+	protected void onEnable() {
 		rangeCheck = Scheduler.sync().runRepeating(() -> Players.forEach(this::checkRange), 0L, 20L);
 		targetCheck = Scheduler.sync().runRepeating(() -> new HashSet<>(inRange).forEach(this::checkTarget), 0L, 2L);
 	}
 
 	@Override
-	public void onDisable() {
+	protected void onDisable() {
 		rangeCheck.stop();
 		targetCheck.stop();
 

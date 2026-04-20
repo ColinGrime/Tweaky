@@ -22,14 +22,16 @@ public abstract class RecipeTweak extends DefaultTweak {
 	}
 
 	@Override
-	public final void onEnable() {
+	public final void enable() {
+		super.enable();
 		if (Bukkit.getRecipe(RECIPE_KEY) == null) {
 			Bukkit.addRecipe(recipe(RECIPE_KEY));
 		}
 	}
 
 	@Override
-	public final void onDisable() {
+	public final void disable() {
+		super.disable();
 		if (Bukkit.getRecipe(RECIPE_KEY) != null) {
 			Bukkit.removeRecipe(RECIPE_KEY);
 		}

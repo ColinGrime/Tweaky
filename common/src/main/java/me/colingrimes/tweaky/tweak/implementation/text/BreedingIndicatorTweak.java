@@ -3,6 +3,7 @@ package me.colingrimes.tweaky.tweak.implementation.text;
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.scheduler.Scheduler;
 import me.colingrimes.tweaky.scheduler.task.Task;
+import me.colingrimes.tweaky.tweak.properties.TweakProperties;
 import me.colingrimes.tweaky.tweak.type.DefaultTweak;
 import me.colingrimes.tweaky.util.Util;
 import me.colingrimes.tweaky.util.text.Text;
@@ -30,7 +31,7 @@ public class BreedingIndicatorTweak extends DefaultTweak {
 	}
 
 	@Override
-	public void onEnable() {
+	protected void onEnable() {
 		task = Scheduler.sync().runRepeating(() -> {
 			Instant now = Instant.now();
 			var iterator = breedingEntities.entrySet().iterator();
@@ -46,7 +47,7 @@ public class BreedingIndicatorTweak extends DefaultTweak {
 	}
 
 	@Override
-	public void onDisable() {
+	protected void onDisable() {
 		task.stop();
 		breedingEntities.keySet().forEach(uuid -> {
 			Entity mob = Bukkit.getEntity(uuid);
@@ -56,6 +57,11 @@ public class BreedingIndicatorTweak extends DefaultTweak {
 			}
 		});
 		breedingEntities.clear();
+	}
+
+	@Override
+	protected void configureProperties(@Nonnull TweakProperties properties) {
+		properties.setPermissionRequired(false);
 	}
 
 	@EventHandler

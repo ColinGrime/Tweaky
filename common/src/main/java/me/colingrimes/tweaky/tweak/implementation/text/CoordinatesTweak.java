@@ -24,12 +24,12 @@ public class CoordinatesTweak extends ToggleTweak {
 	}
 
 	@Override
-	public void onEnable() {
+	protected void onEnable() {
 		task = Scheduler.sync().runRepeating(() -> Players.forEach(this::activate), 0L, 30L);
 	}
 
 	@Override
-	public void onDisable() {
+	protected void onDisable() {
 		task.stop();
 	}
 
