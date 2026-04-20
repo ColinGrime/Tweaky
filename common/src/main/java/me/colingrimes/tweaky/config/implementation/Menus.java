@@ -4,7 +4,7 @@ import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.config.Configuration;
 import me.colingrimes.tweaky.config.Option;
 import me.colingrimes.tweaky.config.option.SimpleOption;
-import me.colingrimes.tweaky.menu.tweak.TweakItem;
+import me.colingrimes.tweaky.menu.tweak.util.TweakItem;
 import me.colingrimes.tweaky.message.Message;
 import me.colingrimes.tweaky.tweak.properties.TweakCategory;
 import me.colingrimes.tweaky.util.bukkit.Items;

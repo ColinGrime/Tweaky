@@ -1,6 +1,6 @@
 package me.colingrimes.tweaky.tweak;
 
-import me.colingrimes.tweaky.menu.tweak.TweakItem;
+import me.colingrimes.tweaky.menu.tweak.util.TweakItem;
 import me.colingrimes.tweaky.tweak.properties.TweakProperties;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;

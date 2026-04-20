@@ -1,4 +1,4 @@
-package me.colingrimes.tweaky.menu.tweak;
+package me.colingrimes.tweaky.menu.tweak.util;
 
 import me.colingrimes.tweaky.util.bukkit.Items;
 import org.bukkit.Material;

@@ -1,7 +1,7 @@
 package me.colingrimes.tweaky.tweak.implementation.convenience;
 
 import me.colingrimes.tweaky.Tweaky;
-import me.colingrimes.tweaky.menu.tweak.TweakItem;
+import me.colingrimes.tweaky.menu.tweak.util.TweakItem;
 import me.colingrimes.tweaky.scheduler.Scheduler;
 import me.colingrimes.tweaky.tweak.type.ToggleTweak;
 import org.bukkit.Material;

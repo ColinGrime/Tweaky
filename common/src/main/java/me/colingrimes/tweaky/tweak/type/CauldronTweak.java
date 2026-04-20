@@ -1,7 +1,7 @@
 package me.colingrimes.tweaky.tweak.type;
 
 import me.colingrimes.tweaky.Tweaky;
-import me.colingrimes.tweaky.config.option.Option;
+import me.colingrimes.tweaky.config.Option;
 import me.colingrimes.tweaky.scheduler.Scheduler;
 import me.colingrimes.tweaky.scheduler.task.Task;
 import me.colingrimes.tweaky.tweak.Tweak;
