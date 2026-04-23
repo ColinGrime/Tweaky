@@ -28,7 +28,8 @@ public class EntitySilenceTweak extends DefaultTweak {
 	@TweakHandler(ignoreCancelled = true)
 	public void onPlayerInteract(@Nonnull PlayerInteractEntityEvent event) {
 		LivingEntity entity = (LivingEntity) event.getRightClicked();
-		Scheduler.sync().run(() -> checkSilence(entity, entity.getCustomName()));
+		String prevName = entity.getCustomName();
+		Scheduler.sync().run(() -> checkSilence(entity, prevName));
 	}
 
 	/**
