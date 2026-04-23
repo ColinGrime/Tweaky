@@ -3,6 +3,7 @@ package me.colingrimes.tweaky.menu.tweak;
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.menu.Gui;
 import me.colingrimes.tweaky.menu.pattern.Pattern;
+import me.colingrimes.tweaky.menu.tweak.util.TweakItem;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.tweak.TweakManager;
 import me.colingrimes.tweaky.tweak.properties.TweakCategory;
