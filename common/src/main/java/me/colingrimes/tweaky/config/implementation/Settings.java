@@ -43,7 +43,6 @@ public class Settings extends Configuration {
 	public final Option<String>        TWEAK_LADDER_TELEPORTATION_CONTROL  = option("tweaks.ladder-teleportation.control", "Automatic");
 	public final Option<Double>        TWEAK_SNOWBALLS_DAMAGE_AMOUNT       = option("tweaks.snowballs-damage.amount", 1.0);
 	public final Option<Double>        TWEAK_SNOWBALLS_KNOCKBACK_AMOUNT    = option("tweaks.snowballs-knockback.amount", 0.5);
-	public final Option<Integer>       TWEAK_WATER_BOTTLE_CRAFT_AMOUNT     = option("tweaks.water-bottle-craft.amount", 8);
 	public final Option<Integer>       TWEAK_XP_FILL_COST                  = option("tweaks.xp-fill.cost", 8);
 
 	// Everything Else
