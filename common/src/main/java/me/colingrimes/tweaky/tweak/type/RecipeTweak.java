@@ -8,6 +8,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.Recipe;
 
 import javax.annotation.Nonnull;
+import java.util.Optional;
 
 /**
  * Represents a {@link Tweak} whose action involves adding a new recipe.
@@ -18,7 +19,7 @@ public abstract class RecipeTweak extends DefaultTweak {
 
 	public RecipeTweak(@Nonnull Tweaky plugin, @Nonnull String id) {
 		super(plugin, id);
-		this.RECIPE_KEY = new NamespacedKey(plugin, id + "_recipe");
+		this.RECIPE_KEY = new NamespacedKey(plugin, id);
 	}
 
 	@Override
@@ -43,11 +44,21 @@ public abstract class RecipeTweak extends DefaultTweak {
 	}
 
 	/**
-	 * Gets the recipe associated with this tweak.
+	 * Gets the recipe to be added to the game.
 	 *
 	 * @param key the recipe key
 	 * @return the recipe to add
 	 */
 	@Nonnull
 	protected abstract Recipe recipe(@Nonnull NamespacedKey key);
+
+	/**
+	 * Gets the recipe associated with this tweak.
+	 *
+	 * @return the recipe if it exists
+	 */
+	@Nonnull
+	public Optional<Recipe> getRecipe() {
+		return Optional.ofNullable(Bukkit.getRecipe(RECIPE_KEY));
+	}
 }
