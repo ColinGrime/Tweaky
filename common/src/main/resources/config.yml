@@ -163,16 +163,49 @@ tweaks:
   # Nether portals can no longer be destroyed by explosions.
   # No more ghasts or creepers destroying them!
   portal-protection: false
+  # Craft black dye from coal / charcoal.
+  recipe-black-dye: false
+  # Craft 4 chests from 8 logs.
+  recipe-chests: false
+  # Craft cobwebs from 5 string.
+  recipe-cobweb: false
+  # Craft the OG god apple.
+  recipe-god-apple: false
+  # Craft golden carrots using 1 gold ingot instead of 8 gold nuggets.
+  recipe-golden-carrot: false
+  # Craft golden melons using 1 gold ingot instead of 8 gold nuggets.
+  recipe-golden-melon: false
+  # Craft hoppers using 2 logs instead of 1 chest.
+  recipe-hopper: false
+  # Smelt rotten flesh into leather.
+  recipe-leather: false
+  # Craft comparators from repeaters + quartz.
+  recipe-redstone-comparator: false
+  # Craft repeaters from comparators.
+  recipe-redstone-repeater: false
+  # Craft 4 splash water bottles from a water bucket.
+  # Complements the 'water-bottle-convert-lava' tweak.
+  recipe-splash-water-bottles: false
+  # Craft 16 sticks from 2 logs.
+  recipe-sticks: false
   # Players who join the server will have all the recipes unlocked.
   recipe-unlock-all: false
+  # Unpack bookshelves into 3 books.
+  recipe-unpack-bookshelf: false
+  # Unpack books into 3 paper.
+  recipe-unpack-book: false
+  # Unpack cobwebs into 5 string.
+  recipe-unpack-cobweb: false
+  # Upack quartz blocks into 4 quartz.
+  recipe-unpack-quartz: false
+  # Unpack wool into 4 string.
+  recipe-unpack-wool: false
   # Sneak-right-click on farmland with a hoe to revert it back to dirt.
   revert-farmland: false
   # Sneak-right-click on dirt paths with a shovel to revert it back to dirt.
   revert-path: false
   # Sneak-right-click on a stripped log or stem to revert it back to its previous variant.
   revert-stripped: false
-  # Allows you to smelt rotten flesh into leather.
-  rotten-flesh-to-leather: false
   # Throwing snowballs on existing snow layers will add snow layers.
   snowballs-add-snow-layer: false
   # Throwing snowballs on plants or flowers will break them.
@@ -210,11 +243,6 @@ tweaks:
   villager-protection: false
   # Splashing a water bottle into lava converts it into obsidian.
   water-bottle-convert-lava: false
-  # Allows you to convert a water bucket into splash water bottles.
-  water-bottle-craft:
-    toggle: false
-    # Amount of splash water bottles you get.
-    amount: 4
   # Allows weapons (swords/axes) to swing through passable blocks to hit mobs.
   weapon-swing-through: false
   # Allows the filling of empty bottles into XP bottles by right-clicking on an enchanting table.

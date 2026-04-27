@@ -371,11 +371,79 @@ tweak-menu:
       name: "&aPortal Protection"
       lore: "&7Protects Nether Portals from explosions."
       usage: "&eUsage: &aNether Portals can no longer be destroyed by explosions."
+    recipe-black-dye:
+      type: BLACK_DYE
+      name: "&aBlack Dye &8(Craft)"
+      lore: "&7Craft Black Dye from Coal / Charcoal."
+    recipe-chests:
+      type: CHEST
+      name: "&aChests &8(Craft)"
+      lore: "&7Craft Chests from Logs."
+    recipe-cobweb:
+      type: COBWEB
+      name: "&aCobweb &8(Craft)"
+      lore: "&7Craft Cobwebs from String."
+    recipe-god-apple:
+      type: ENCHANTED_GOLDEN_APPLE
+      name: "&aGod Apple &8(Craft)"
+      lore: "&7Craft OG God Apple."
+    recipe-golden-carrot:
+      type: GOLDEN_CARROT
+      name: "&aGolden Carrot &8(Craft)"
+      lore: "&7Craft Golden Carrot from Gold Ingot."
+    recipe-golden-melon:
+      type: GLISTERING_MELON_SLICE
+      name: "&aGlistering Melon &8(Craft)"
+      lore: "&7Craft Glistering Melon from Gold Ingot."
+    recipe-hopper:
+      type: HOPPER
+      name: "&aHopper &8(Craft)"
+      lore: "&7Craft Hopper using Logs."
+    recipe-leather:
+      type: LEATHER
+      name: "&aLeather &8(Smelt)"
+      lore: "&7Smelt Rotten Flesh into Leather."
+    recipe-redstone-comparator:
+      type: COMPARATOR
+      name: "&aRedstone Comparator &8(Craft)"
+      lore: "&7Craft Comparators from Repeaters + Quartz."
+    recipe-redstone-repeater:
+      type: REPEATER
+      name: "&aRedstone Repeater &8(Craft)"
+      lore: "&7Craft Repeaters from Comparators."
+    recipe-splash-water-bottles:
+      type: SPLASH_POTION
+      name: "&aSplash Water Bottles &8(Craft)"
+      lore: "&7Craft Water Bottles from Water Bucket."
+    recipe-sticks:
+      type: STICK
+      name: "&aSticks &8(Craft)"
+      lore: "&7Craft Sticks using Logs."
     recipe-unlock-all:
       type: CRAFTING_TABLE
       name: "&aUnlock All Recipes"
       lore: "&7All recipes are unlocked."
       usage: "&eUsage: &aAutomatically unlock all recipes."
+    recipe-unpack-bookshelf:
+      type: BOOKSHELF
+      name: "&aUnpack Bookshelves &8(Craft)"
+      lore: "&7Unpack Bookshelves into Books"
+    recipe-unpack-book:
+      type: BOOK
+      name: "&aUnpack Books &8(Craft)"
+      lore: "&7Unpack Books into Paper"
+    recipe-unpack-cobweb:
+      type: COBWEB
+      name: "&aUnpack Cobweb &8(Craft)"
+      lore: "&7Unpack Cobwebs into String"
+    recipe-unpack-quartz:
+      type: QUARTZ_BLOCK
+      name: "&aUnpack Quartz Block &8(Craft)"
+      lore: "&7Unpack Quartz Blocks into Quartz"
+    recipe-unpack-wool:
+      type: WHITE_WOOL
+      name: "&aUnpack Wool &8(Craft)"
+      lore: "&7Unpack Wool into String"
     revert-farmland:
       type: FARMLAND
       name: "&aRevert Farmland &8(Sneak Right Click)"
@@ -403,11 +471,6 @@ tweak-menu:
         - "&8Requires:"
         - " &7Axe &8(Any)"
       usage: "&eUsage: &aSneak Right Click on a Stripped Log or Stem with an Axe to revert it back to its previous variant."
-    rotten-flesh-to-leather:
-      type: ROTTEN_FLESH
-      name: "&aRotten Flesh to Leather &8(Smelt)"
-      lore: "&7Smelt Rotten Flesh into Leather."
-      usage: "&eUsage: &aAllows you to smelt Rotten Flesh into Leather."
     snowballs:
       type: SNOWBALL
       name: "&aSnowball Tweaks &8({count})"
@@ -470,15 +533,6 @@ tweak-menu:
         - "&8Requires:"
         - " &7Splash Water Bottle &8(Default)"
       usage: "&eUsage: &aSplashing a Water Bottle into Lava converts it into Obsidian."
-    water-bottle-craft:
-      type: SPLASH_POTION
-      name: "&aWater Bottle Craft &8(Craft)"
-      lore:
-        - "&7Craft Splash Water Bottles."
-        - ""
-        - "&8Requires:"
-        - " &7Water Bucket &8(Default)"
-      usage: "&eUsage: &aConvert a Water Bucket into Splash Water Bottles."
     weapon-swing-through:
       type: DIAMOND_SWORD
       name: "&aWeapon Swing Through"
