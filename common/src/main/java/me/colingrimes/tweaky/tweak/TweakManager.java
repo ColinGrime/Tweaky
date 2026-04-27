@@ -17,8 +17,8 @@ public class TweakManager {
 
 	private final Tweaky plugin;
 	private final List<String> allTweakIds = new ArrayList<>();
-	private final List<Tweak> allTweaks = new ArrayList<>();
-	private final List<Tweak> enabledTweaks = new ArrayList<>();
+	private final Set<Tweak> allTweaks = new HashSet<>();
+	private final Set<Tweak> enabledTweaks = new HashSet<>();
 	private final Map<TweakCategory, Set<Tweak>> categoryToTweaks = new HashMap<>();
 	private int tweakCount = 0;
 	private boolean initialized = false;
@@ -68,19 +68,28 @@ public class TweakManager {
 	 * </ul>
 	 */
 	public int register() {
-		// Clean up.
-		shutdown();
+		// Clean up previously enabled tweaks that are now disabled.
+		Iterator<Tweak> iterator = enabledTweaks.iterator();
+		while (iterator.hasNext()) {
+			Tweak tweak = iterator.next();
+			if (!tweak.isEnabled()) {
+				tweak.disable();
+				iterator.remove();
+				categoryToTweaks.get(tweak.getProperties().getCategory()).remove(tweak);
+			}
+		}
 
-		// Registration.
-		List<Tweak> enabledClasses = allTweaks.stream().filter(Tweak::isEnabled).toList();
-		for (Tweak tweak : enabledClasses) {
-			tweak.enable();
-			enabledTweaks.add(tweak);
-			categoryToTweaks.computeIfAbsent(tweak.getProperties().getCategory(), k -> new HashSet<>()).add(tweak);
+		// Register newly enabled tweaks.
+		for (Tweak tweak : allTweaks.stream().filter(Tweak::isEnabled).toList()) {
+			if (!enabledTweaks.contains(tweak)) {
+				tweak.enable();
+				enabledTweaks.add(tweak);
+				categoryToTweaks.computeIfAbsent(tweak.getProperties().getCategory(), k -> new HashSet<>()).add(tweak);
+			}
 		}
 
 		// Tweak count.
-		tweakCount = enabledTweaks.stream().mapToInt(Tweak::getCount).sum();
+		tweakCount = countTweaks(enabledTweaks);
 		Logger.log("Registered " + tweakCount + " tweaks.");
 		return tweakCount;
 	}
@@ -97,11 +106,11 @@ public class TweakManager {
 	/**
 	 * Gets all tweak IDs, including disabled tweaks.
 	 *
-	 * @return the list of all tweaks
+	 * @return the list of all tweaks in alphabetical order
 	 */
 	@Nonnull
 	public List<String> getAllTweaks() {
-		return allTweakIds;
+		return List.copyOf(allTweakIds);
 	}
 
 	/**
@@ -111,7 +120,7 @@ public class TweakManager {
 	 */
 	@Nonnull
 	public List<Tweak> getTweaks() {
-		return enabledTweaks;
+		return List.copyOf(enabledTweaks);
 	}
 
 	/**
@@ -152,7 +161,7 @@ public class TweakManager {
 	 * @return the count of enabled tweaks for the player
 	 */
 	public int getTweakCount(@Nonnull Player player) {
-		return getTweaks(player).stream().mapToInt(Tweak::getCount).sum();
+		return countTweaks(getTweaks(player));
 	}
 
 	/**
@@ -161,7 +170,7 @@ public class TweakManager {
 	 * @param tweaks the tweaks to count
 	 * @return the number of tweaks
 	 */
-	public static int countTweaks(@Nonnull List<Tweak> tweaks) {
+	public static int countTweaks(@Nonnull Collection<Tweak> tweaks) {
 		return tweaks.stream().mapToInt(Tweak::getCount).sum();
 	}
 
