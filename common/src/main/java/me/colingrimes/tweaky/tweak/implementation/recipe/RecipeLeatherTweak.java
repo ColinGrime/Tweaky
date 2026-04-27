@@ -10,10 +10,10 @@ import org.bukkit.inventory.Recipe;
 
 import javax.annotation.Nonnull;
 
-public class RottenFleshToLeatherTweak extends RecipeTweak {
+public class RecipeLeatherTweak extends RecipeTweak {
 
-	public RottenFleshToLeatherTweak(@Nonnull Tweaky plugin) {
-		super(plugin, "rotten_flesh_to_leather");
+	public RecipeLeatherTweak(@Nonnull Tweaky plugin) {
+		super(plugin, "recipe_leather");
 	}
 
 	@Nonnull

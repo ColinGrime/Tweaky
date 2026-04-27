@@ -15,21 +15,21 @@ import org.bukkit.potion.PotionType;
 
 import javax.annotation.Nonnull;
 
-public class WaterBottleCraftTweak extends RecipeTweak {
+public class RecipeSplashWaterBottlesTweak extends RecipeTweak {
 
-	public WaterBottleCraftTweak(@Nonnull Tweaky plugin) {
-		super(plugin, "water_bottle_craft");
+	public RecipeSplashWaterBottlesTweak(@Nonnull Tweaky plugin) {
+		super(plugin, "recipe_splash_water_bottles");
 	}
 
 	@Nonnull
 	@Override
 	protected Recipe recipe(@Nonnull NamespacedKey key) {
-		ItemStack item = new ItemStack(Material.SPLASH_POTION, settings.TWEAK_WATER_BOTTLE_CRAFT_AMOUNT.get());
+		ItemStack item = new ItemStack(Material.SPLASH_POTION, 4);
 		if (item.getItemMeta() == null || !(item.getItemMeta() instanceof PotionMeta meta)) {
 			throw new IllegalStateException("Item meta is not a potion.");
 		}
 
-		meta.setMaxStackSize(settings.TWEAK_WATER_BOTTLE_CRAFT_AMOUNT.get());
+		meta.setMaxStackSize(4);
 		meta.setBasePotionType(PotionType.WATER);
 		item.setItemMeta(meta);
 
