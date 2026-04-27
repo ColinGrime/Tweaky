@@ -1,15 +1,11 @@
 package me.colingrimes.tweaky.listener;
 
 import me.colingrimes.tweaky.Tweaky;
-import me.colingrimes.tweaky.menu.Gui;
-import me.colingrimes.tweaky.menu.tweak.TweakMenu;
 import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.tweak.type.ToggleTweak;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -38,15 +34,6 @@ public class TweakListeners implements Listener {
 			if (tweak instanceof ToggleTweak toggle) {
 				toggle.removeToggle(event.getPlayer());
 			}
-		}
-	}
-
-	@EventHandler(priority = EventPriority.LOW)
-	public void onInventoryClose(@Nonnull InventoryCloseEvent event) {
-		Player player = (Player) event.getPlayer();
-		Gui gui = Gui.players.get(player);
-		if (gui instanceof TweakMenu.CategoryMenu menu && menu.isValid()) {
-			new TweakMenu(plugin, player).open();
 		}
 	}
 }

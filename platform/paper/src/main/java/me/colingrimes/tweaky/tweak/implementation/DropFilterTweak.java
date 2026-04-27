@@ -96,7 +96,7 @@ public class DropFilterTweak extends ToggleTweak {
 
 		event.setCancelled(true);
 		event.getPlayer().swingMainHand();
-		new FilterMenu(event.getPlayer()).open();
+		new FilterMenu(plugin, event.getPlayer()).open();
 	}
 
 	@EventHandler
@@ -112,16 +112,17 @@ public class DropFilterTweak extends ToggleTweak {
 	}
 
 	private class FilterMenu extends Gui {
-		public FilterMenu(@Nonnull Player player) {
-			super(player, menus.FILTER_MENU_TITLE.toText(), 6);
+
+		public FilterMenu(@Nonnull Tweaky plugin, @Nonnull Player player) {
+			super(plugin, player, menus.FILTER_MENU_TITLE.toText(), 6);
 		}
 
 		@Override
-		public void draw() {
+		protected void draw() {
 			List<Material> materials = filter.get(player.getUniqueId());
 			for (int i=0; i<Math.min(54, materials.size()); i++) {
 				Material type = materials.get(i);
-				Message name = menus.FILTER_MENU_ITEM_NAME.replace("{item}", Component.translatable(type.getTranslationKey()));
+				Message name = menus.FILTER_MENU_ITEM_NAME.replace("{item}", Component.translatable(type));
 				List<String> lore = menus.FILTER_MENU_ITEM_LORE.toTextList();
 				ItemStack preview = Items.of(type).name(name).lore(lore).build();
 				getSlot(i).setItem(preview).bind(this::remove, ClickType.LEFT, ClickType.RIGHT);
@@ -154,12 +155,12 @@ public class DropFilterTweak extends ToggleTweak {
 				}
 
 				Material type = item.getType();
-				Message name = menus.FILTER_MENU_ITEM_NAME.replace("{item}", Component.translatable(item.getTranslationKey()));
+				Message name = menus.FILTER_MENU_ITEM_NAME.replace("{item}", Component.translatable(type));
 				List<String> lore = menus.FILTER_MENU_ITEM_LORE.toTextList();
 				ItemStack preview = Items.of(type).name(name).lore(lore).build();
 				getSlot(i).setItem(preview).bind(this::remove, ClickType.LEFT, ClickType.RIGHT);
 
-				msg.TWEAK_FILTER_ADD.replace("{item}", Component.translatable(item.getTranslationKey())).send(player);
+				msg.TWEAK_FILTER_ADD.replace("{item}", Component.translatable(type)).send(player);
 				filter.get(player.getUniqueId()).add(type);
 				filterSet.get(player.getUniqueId()).add(type);
 				saveFilter(player);
@@ -189,7 +190,7 @@ public class DropFilterTweak extends ToggleTweak {
 				}
 			}
 
-			msg.TWEAK_FILTER_REMOVE.replace("{item}", Component.translatable(type.getTranslationKey())).send(player);
+			msg.TWEAK_FILTER_REMOVE.replace("{item}", Component.translatable(type)).send(player);
 			filter.get(player.getUniqueId()).remove(type);
 			filterSet.get(player.getUniqueId()).remove(type);
 			saveFilter(player);
@@ -207,7 +208,7 @@ public class DropFilterTweak extends ToggleTweak {
 		}
 
 		Player player = (Player) event.getWhoClicked();
-		Gui gui = Gui.players.get(player);
+		Gui gui = plugin.getMenuManager().getMenu(player);
 		if (!(gui instanceof FilterMenu)) {
 			return;
 		}

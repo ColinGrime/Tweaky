@@ -1,5 +1,6 @@
 package me.colingrimes.tweaky.listener;
 
+import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.menu.Gui;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
@@ -16,6 +17,12 @@ import javax.annotation.Nonnull;
 
 public class MenuListeners implements Listener {
 
+    private final Tweaky plugin;
+
+    public MenuListeners(@Nonnull Tweaky plugin) {
+        this.plugin = plugin;
+    }
+
     @EventHandler
     public void onInventoryClick(@Nonnull InventoryClickEvent event) {
         // Allow editing your own inventory while having a custom one open.
@@ -25,7 +32,7 @@ public class MenuListeners implements Listener {
         }
 
         Player player = (Player) event.getWhoClicked();
-        Gui gui = Gui.players.get(player);
+        Gui gui = plugin.getMenuManager().getMenu(player);
         if (gui == null) {
             return;
         }
@@ -41,7 +48,7 @@ public class MenuListeners implements Listener {
     @EventHandler
     public void onInventoryDrag(@Nonnull InventoryDragEvent event) {
         Player player = (Player) event.getWhoClicked();
-        Gui gui = Gui.players.get(player);
+        Gui gui = plugin.getMenuManager().getMenu(player);
         boolean playerInventoryDrag = event.getRawSlots().stream().allMatch(slot -> slot >= event.getInventory().getSize());
         if (gui == null || playerInventoryDrag) {
             return;
@@ -84,13 +91,8 @@ public class MenuListeners implements Listener {
      * @param humanEntity the entity
      */
     private void invalidate(@Nonnull HumanEntity humanEntity) {
-        if (!(humanEntity instanceof Player player)) {
-            return;
-        }
-
-        Gui gui = Gui.players.get(player);
-        if (gui != null) {
-            gui.invalidate();
+        if (humanEntity instanceof Player player) {
+            plugin.getMenuManager().closeMenu(player);
         }
     }
 }

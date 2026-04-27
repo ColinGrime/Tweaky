@@ -51,13 +51,13 @@ public class SimpleSlot implements Slot {
 	@Nullable
 	@Override
 	public ItemStack getItem() {
-		return gui.getHandle().getItem(id);
+		return gui.getInventory().getItem(id);
 	}
 
 	@Nonnull
 	@Override
 	public Slot setItem(@Nullable ItemStack item) {
-		this.gui.getHandle().setItem(id, item);
+		this.gui.getInventory().setItem(id, item);
 		return this;
 	}
 

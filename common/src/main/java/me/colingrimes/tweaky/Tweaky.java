@@ -8,7 +8,7 @@ import me.colingrimes.tweaky.config.manager.ConfigurationManager;
 import me.colingrimes.tweaky.listener.MenuListeners;
 import me.colingrimes.tweaky.listener.PlayerListeners;
 import me.colingrimes.tweaky.listener.TweakListeners;
-import me.colingrimes.tweaky.menu.Gui;
+import me.colingrimes.tweaky.menu.manager.MenuManager;
 import me.colingrimes.tweaky.message.Message;
 import me.colingrimes.tweaky.message.MessageService;
 import me.colingrimes.tweaky.tweak.TweakManager;
@@ -19,7 +19,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.annotation.Nonnull;
-import java.util.HashSet;
 
 public abstract class Tweaky extends JavaPlugin {
 
@@ -27,6 +26,7 @@ public abstract class Tweaky extends JavaPlugin {
 	private TweakManager tweakManager;
 	private ConfigurationManager configManager;
 	private CommandManager commandManager;
+	private MenuManager menuManager;
 
 	@Override
 	public void onEnable() {
@@ -42,8 +42,11 @@ public abstract class Tweaky extends JavaPlugin {
 		commandManager.init();
 		Logger.log("Registered main commands.");
 
+		// Initialize menus.
+		menuManager = new MenuManager();
+
 		// Initialize listeners.
-		Bukkit.getPluginManager().registerEvents(new MenuListeners(), this);
+		Bukkit.getPluginManager().registerEvents(new MenuListeners(this), this);
 		Bukkit.getPluginManager().registerEvents(new PlayerListeners(), this);
 		Bukkit.getPluginManager().registerEvents(new TweakListeners(this), this);
 		Logger.log("Registered all events.");
@@ -67,7 +70,9 @@ public abstract class Tweaky extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
-		new HashSet<>(Gui.players.values()).forEach(Gui::invalidate);
+		if (menuManager != null) {
+			menuManager.shutdown();
+		}
 		if (commandManager != null) {
 			commandManager.shutdown();
 		}
@@ -109,6 +114,16 @@ public abstract class Tweaky extends JavaPlugin {
 	@Nonnull
 	public CommandManager getCommandManager() {
 		return commandManager;
+	}
+
+	/**
+	 * Gets the manager responsible for menus.
+	 *
+	 * @return the menu manager
+	 */
+	@Nonnull
+	public MenuManager getMenuManager() {
+		return menuManager;
 	}
 
 	/**
