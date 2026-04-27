@@ -3,7 +3,7 @@ import org.apache.tools.ant.filters.ReplaceTokens
 subprojects {
     apply plugin: 'java-library'
     group 'me.colingrimes.tweaky'
-    version '1.13.1'
+    version '1.14.0'
 
     java {
         sourceCompatibility JavaVersion.VERSION_21
