@@ -48,7 +48,7 @@ public class Menus extends Configuration {
 			return TweakItem.create("No config: tweak-menu.tweaks.keep-inventory");
 		}
 
-		TweakItem item = TweakItem.create();
+		TweakItem item = TweakItem.create().hide();
 		Optional.ofNullable(sec.getString("type")).ifPresent(item::material);
 		Optional.ofNullable(sec.getString("name")).ifPresent(item::name);
 		Optional.ofNullable(sec.getString("usage")).ifPresent(item::usage);
@@ -80,7 +80,7 @@ public class Menus extends Configuration {
 			return TweakItem.create("No config: tweak-menu.tweaks.snowballs");
 		}
 
-		TweakItem item = TweakItem.create();
+		TweakItem item = TweakItem.create().hide();
 		Optional.ofNullable(sec.getString("type")).ifPresent(item::material);
 		Optional.ofNullable(sec.getString("name")).ifPresent(item::name);
 		Optional.ofNullable(sec.getString("usage")).ifPresent(item::usage);
@@ -136,7 +136,7 @@ public class Menus extends Configuration {
 				return TweakItem.create("No config: " + menuPath);
 			}
 
-			TweakItem item = TweakItem.create();
+			TweakItem item = TweakItem.create().hide();
 			provider.getString(menuPath + ".type").ifPresent(item::material);
 			provider.getString(menuPath + ".name").ifPresent(item::name);
 			provider.getStringList(menuPath + ".lore").ifPresent(item::lore);

@@ -70,6 +70,13 @@ public class TweakItem extends Items.Builder {
 
 	@Nonnull
 	@Override
+	public TweakItem hide() {
+		super.hide();
+		return this;
+	}
+
+	@Nonnull
+	@Override
 	public <T> TweakItem placeholder(@Nonnull String placeholder, @Nonnull T replacement) {
 		super.placeholder(placeholder, replacement);
 		return this;

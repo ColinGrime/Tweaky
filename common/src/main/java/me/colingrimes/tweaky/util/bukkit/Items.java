@@ -1,5 +1,6 @@
 package me.colingrimes.tweaky.util.bukkit;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.HashMultimap;
 import me.colingrimes.tweaky.message.Message;
 import me.colingrimes.tweaky.message.Placeholders;
@@ -44,6 +45,19 @@ public final class Items {
 	@Nonnull
 	public static Builder of(@Nonnull Material material) {
 		return new Builder(material);
+	}
+
+	/**
+	 * Creates a new {@link Builder} object.
+	 * <p>
+	 * This will use the provided item as a base for the item builder.
+	 *
+	 * @param item the item stack
+	 * @return the item builder object
+	 */
+	@Nonnull
+	public static Builder of(@Nonnull ItemStack item) {
+		return new Builder(item);
 	}
 
 	/**
@@ -172,7 +186,7 @@ public final class Items {
 	 */
 	public static class Builder {
 
-		protected final Placeholders placeholders = Placeholders.create();
+		protected Placeholders placeholders = Placeholders.create();
 		private final Material defMaterial;
 		private ItemStack baseItem;
 
@@ -186,6 +200,12 @@ public final class Items {
 		public Builder(@Nonnull Material def) {
 			this.defMaterial = Objects.requireNonNull(def, "material");
 			this.baseItem = null;
+		}
+
+		public Builder(@Nonnull ItemStack base) {
+			Preconditions.checkNotNull(base.getItemMeta(), "Item meta is null.");
+			this.defMaterial = null;
+			this.baseItem = base;
 		}
 
 		/**
@@ -435,6 +455,10 @@ public final class Items {
 		public ItemStack build() {
 			Material type = material != null ? material : defMaterial;
 			ItemStack item = baseItem != null ? baseItem : new ItemStack(Objects.requireNonNull(type, "Material is null."));
+
+			if (material != null) {
+				item.setType(material);
+			}
 			if (name != null) {
 				placeholders.apply(name).setName(item);
 			}
@@ -458,6 +482,25 @@ public final class Items {
 
 			item.setItemMeta(meta);
 			return item;
+		}
+
+		/**
+		 * Copies the item builder object.
+		 * 
+		 * @return the item builder copy
+		 */
+		@Nonnull
+		public Builder copy() {
+			Builder builder = new Builder(defMaterial);
+			builder.placeholders = placeholders;
+			builder.baseItem = baseItem != null ? baseItem.clone() : null;
+			builder.material = material;
+			builder.name = name != null ? Message.of(name.getComponents()) : null;
+			builder.lore = lore != null ? Message.of(lore.getComponents()) : null;
+			builder.hide = hide;
+			builder.glow = glow;
+			builder.unbreakable = unbreakable;
+			return builder;
 		}
 
 		/**
