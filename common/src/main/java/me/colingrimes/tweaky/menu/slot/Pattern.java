@@ -1,4 +1,4 @@
-package me.colingrimes.tweaky.menu.pattern;
+package me.colingrimes.tweaky.menu.slot;
 
 import com.google.common.base.Preconditions;
 import me.colingrimes.tweaky.menu.Gui;
@@ -23,9 +23,9 @@ public class Pattern {
     private final Map<Character, Map<ClickType, Set<Consumer<InventoryClickEvent>>>> handlers;
 
     /**
-     * Creates a new MultiPattern instance.
+     * Creates a new pattern.
      *
-     * @return the new MultiPattern instance
+     * @return the new pattern
      */
     @Nonnull
     public static Pattern create() {
