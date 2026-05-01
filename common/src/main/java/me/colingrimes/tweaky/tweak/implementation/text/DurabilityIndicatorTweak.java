@@ -2,6 +2,7 @@ package me.colingrimes.tweaky.tweak.implementation.text;
 
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.scheduler.Scheduler;
+import me.colingrimes.tweaky.tweak.type.ConfigurableTweak;
 import me.colingrimes.tweaky.tweak.type.DefaultTweak;
 import me.colingrimes.tweaky.util.bukkit.Items;
 import me.colingrimes.tweaky.util.bukkit.Players;
@@ -15,10 +16,15 @@ import org.bukkit.inventory.meta.Damageable;
 
 import javax.annotation.Nonnull;
 
-public class DurabilityIndicatorTweak extends DefaultTweak {
+public class DurabilityIndicatorTweak extends DefaultTweak implements ConfigurableTweak {
 
 	public DurabilityIndicatorTweak(@Nonnull Tweaky plugin) {
 		super(plugin, "durability_indicator");
+	}
+
+	@Override
+	public int getOptionCount() {
+		return 2;
 	}
 
 	@EventHandler

@@ -1,6 +1,7 @@
 package me.colingrimes.tweaky.tweak.implementation.block;
 
 import me.colingrimes.tweaky.Tweaky;
+import me.colingrimes.tweaky.tweak.type.ConfigurableTweak;
 import me.colingrimes.tweaky.tweak.type.DefaultTweak;
 import me.colingrimes.tweaky.tweak.event.TweakHandler;
 import me.colingrimes.tweaky.tweak.properties.TweakProperties;
@@ -9,7 +10,7 @@ import org.bukkit.event.block.BlockDamageEvent;
 
 import javax.annotation.Nonnull;
 
-public class BreakGlassTweak extends DefaultTweak {
+public class BreakGlassTweak extends DefaultTweak implements ConfigurableTweak {
 
 	public BreakGlassTweak(@Nonnull Tweaky plugin) {
 		super(plugin, "break_glass");

@@ -5,6 +5,7 @@ import me.colingrimes.tweaky.scheduler.Scheduler;
 import me.colingrimes.tweaky.scheduler.task.Task;
 import me.colingrimes.tweaky.tweak.event.TweakHandler;
 import me.colingrimes.tweaky.tweak.properties.TweakProperties;
+import me.colingrimes.tweaky.tweak.type.ConfigurableTweak;
 import me.colingrimes.tweaky.tweak.type.DefaultTweak;
 import me.colingrimes.tweaky.util.Util;
 import me.colingrimes.tweaky.util.bukkit.Blocks;
@@ -26,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-public class BreakBedrockTweak extends DefaultTweak {
+public class BreakBedrockTweak extends DefaultTweak implements ConfigurableTweak {
 
 	private final Map<Player, DamagedBlock> damagedBlocks = new HashMap<>();
 	private Task task;

@@ -30,7 +30,7 @@ import java.util.function.Function;
 /**
  * Represents a {@link Tweak} whose action involves throwing an item in a cauldron.
  */
-public abstract class CauldronTweak extends DefaultTweak {
+public abstract class CauldronTweak extends DefaultTweak implements ConfigurableTweak {
 
 	private final Map<UUID, Instant> items = new HashMap<>();
 	private final Function<Material, Material> typeConverter;

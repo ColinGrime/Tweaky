@@ -4,6 +4,7 @@ import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.event.PlayerInteractBlockEvent;
 import me.colingrimes.tweaky.scheduler.Scheduler;
 import me.colingrimes.tweaky.tweak.event.TweakHandler;
+import me.colingrimes.tweaky.tweak.type.ConfigurableTweak;
 import me.colingrimes.tweaky.tweak.type.DefaultTweak;
 import me.colingrimes.tweaky.tweak.properties.TweakProperties;
 import me.colingrimes.tweaky.util.bukkit.Experience;
@@ -17,7 +18,7 @@ import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 
-public class XpFillTweak extends DefaultTweak {
+public class XpFillTweak extends DefaultTweak implements ConfigurableTweak {
 
 	public XpFillTweak(@Nonnull Tweaky plugin) {
 		super(plugin, "xp_fill");

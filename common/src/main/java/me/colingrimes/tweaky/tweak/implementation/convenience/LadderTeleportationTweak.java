@@ -6,6 +6,7 @@ import me.colingrimes.tweaky.menu.tweak.util.TweakItem;
 import me.colingrimes.tweaky.scheduler.Scheduler;
 import me.colingrimes.tweaky.tweak.event.TweakHandler;
 import me.colingrimes.tweaky.tweak.properties.TweakProperties;
+import me.colingrimes.tweaky.tweak.type.ConfigurableTweak;
 import me.colingrimes.tweaky.tweak.type.DefaultTweak;
 import me.colingrimes.tweaky.util.Util;
 import me.colingrimes.tweaky.util.bukkit.Sounds;
@@ -25,7 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public class LadderTeleportationTweak extends DefaultTweak {
+public class LadderTeleportationTweak extends DefaultTweak implements ConfigurableTweak {
 
 	// Used to make sure player is positioned on the ladder correctly when teleporting.
 	private static final Map<BlockFace, Consumer<Location>> UP_OFFSETS = new HashMap<>();

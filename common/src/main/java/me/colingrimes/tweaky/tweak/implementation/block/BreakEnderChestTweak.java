@@ -2,6 +2,7 @@ package me.colingrimes.tweaky.tweak.implementation.block;
 
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.menu.tweak.util.TweakItem;
+import me.colingrimes.tweaky.tweak.type.ConfigurableTweak;
 import me.colingrimes.tweaky.tweak.type.DefaultTweak;
 import me.colingrimes.tweaky.tweak.event.TweakHandler;
 import me.colingrimes.tweaky.tweak.properties.TweakProperties;
@@ -14,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 
-public class BreakEnderChestTweak extends DefaultTweak {
+public class BreakEnderChestTweak extends DefaultTweak implements ConfigurableTweak {
 
 	enum Mode {
 		Drop,

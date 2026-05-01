@@ -6,6 +6,7 @@ import me.colingrimes.tweaky.scheduler.Scheduler;
 import me.colingrimes.tweaky.tweak.event.TweakHandler;
 import me.colingrimes.tweaky.tweak.properties.TweakCategory;
 import me.colingrimes.tweaky.tweak.properties.TweakProperties;
+import me.colingrimes.tweaky.tweak.type.ConfigurableTweak;
 import me.colingrimes.tweaky.tweak.type.DefaultTweak;
 import me.colingrimes.tweaky.util.bukkit.Blocks;
 import me.colingrimes.tweaky.util.bukkit.Items;
@@ -32,7 +33,7 @@ import javax.annotation.Nonnull;
 import java.util.Map;
 import java.util.function.Function;
 
-public class FortuneSilkSwapTweak extends DefaultTweak {
+public class FortuneSilkSwapTweak extends DefaultTweak implements ConfigurableTweak {
 
 	enum Type {
 		Fortune(msg -> Text.color(" " + msg.TWEAK_FORTUNE_SUFFIX.toText())),

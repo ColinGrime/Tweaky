@@ -3,6 +3,7 @@ package me.colingrimes.tweaky.tweak.implementation.convenience;
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.scheduler.Scheduler;
 import me.colingrimes.tweaky.tweak.event.TweakHandler;
+import me.colingrimes.tweaky.tweak.type.ConfigurableTweak;
 import me.colingrimes.tweaky.tweak.type.DefaultTweak;
 import me.colingrimes.tweaky.util.bukkit.Items;
 import org.bukkit.Material;
@@ -18,7 +19,7 @@ import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 
 import javax.annotation.Nonnull;
 
-public class InventoryEnderChestTweak extends DefaultTweak {
+public class InventoryEnderChestTweak extends DefaultTweak implements ConfigurableTweak {
 
 	public InventoryEnderChestTweak(@Nonnull Tweaky plugin) {
 		super(plugin, "inventory_ender_chest");

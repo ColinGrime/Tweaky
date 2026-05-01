@@ -5,6 +5,7 @@ import me.colingrimes.tweaky.menu.tweak.util.TweakItem;
 import me.colingrimes.tweaky.tweak.event.TweakHandler;
 import me.colingrimes.tweaky.tweak.properties.TweakCategory;
 import me.colingrimes.tweaky.tweak.properties.TweakProperties;
+import me.colingrimes.tweaky.tweak.type.ConfigurableTweak;
 import me.colingrimes.tweaky.tweak.type.DefaultTweak;
 import me.colingrimes.tweaky.util.misc.Random;
 import org.bukkit.Material;
@@ -14,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import javax.annotation.Nonnull;
 import java.util.Iterator;
 
-public class KeepInventoryTweak extends DefaultTweak {
+public class KeepInventoryTweak extends DefaultTweak implements ConfigurableTweak {
 
 	public KeepInventoryTweak(@Nonnull Tweaky plugin) {
 		super(plugin, "keep_inventory");
@@ -29,6 +30,11 @@ public class KeepInventoryTweak extends DefaultTweak {
 	@Override
 	public TweakItem getGuiItem() {
 		return menus.TWEAK_KEEP_INVENTORY.get();
+	}
+
+	@Override
+	public int getOptionCount() {
+		return 5;
 	}
 
 	@TweakHandler
