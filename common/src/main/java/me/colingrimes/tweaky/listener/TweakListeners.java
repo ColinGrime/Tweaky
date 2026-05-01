@@ -2,6 +2,7 @@ package me.colingrimes.tweaky.listener;
 
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.tweak.Tweak;
+import me.colingrimes.tweaky.tweak.manager.TweakQuery;
 import me.colingrimes.tweaky.tweak.type.ToggleTweak;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -21,7 +22,7 @@ public class TweakListeners implements Listener {
 
 	@EventHandler(priority = EventPriority.LOW)
 	public void onPlayerJoin(@Nonnull PlayerJoinEvent event) {
-		for (Tweak tweak : plugin.getTweakManager().getTweaks()) {
+		for (Tweak tweak : plugin.getTweakManager().getTweaks(TweakQuery.enabled())) {
 			if (tweak instanceof ToggleTweak toggle) {
 				toggle.checkToggle(event.getPlayer());
 			}
@@ -30,7 +31,7 @@ public class TweakListeners implements Listener {
 
 	@EventHandler
 	public void onPlayerQuit(@Nonnull PlayerQuitEvent event) {
-		for (Tweak tweak : plugin.getTweakManager().getTweaks()) {
+		for (Tweak tweak : plugin.getTweakManager().getTweaks(TweakQuery.enabled())) {
 			if (tweak instanceof ToggleTweak toggle) {
 				toggle.removeToggle(event.getPlayer());
 			}

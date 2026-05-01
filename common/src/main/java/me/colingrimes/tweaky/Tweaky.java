@@ -11,7 +11,7 @@ import me.colingrimes.tweaky.listener.TweakListeners;
 import me.colingrimes.tweaky.menu.manager.MenuManager;
 import me.colingrimes.tweaky.message.Message;
 import me.colingrimes.tweaky.message.MessageService;
-import me.colingrimes.tweaky.tweak.TweakManager;
+import me.colingrimes.tweaky.tweak.manager.TweakManager;
 import me.colingrimes.tweaky.update.UpdateCheckerSpigot;
 import me.colingrimes.tweaky.util.io.Logger;
 import org.bstats.bukkit.Metrics;

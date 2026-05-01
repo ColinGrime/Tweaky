@@ -1,6 +1,7 @@
-package me.colingrimes.tweaky.tweak;
+package me.colingrimes.tweaky.tweak.manager;
 
 import me.colingrimes.tweaky.Tweaky;
+import me.colingrimes.tweaky.tweak.Tweak;
 import me.colingrimes.tweaky.tweak.implementation.hidden.BreedingIndicatorTweak_RoseStackerFix;
 import me.colingrimes.tweaky.tweak.implementation.misc.SnowballTweak;
 import me.colingrimes.tweaky.tweak.implementation.text.BreedingIndicatorTweak;
@@ -8,7 +9,7 @@ import me.colingrimes.tweaky.tweak.properties.TweakCategory;
 import me.colingrimes.tweaky.util.io.Introspector;
 import me.colingrimes.tweaky.util.io.Logger;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
+import org.bukkit.command.CommandSender;
 
 import javax.annotation.Nonnull;
 import java.util.*;
@@ -19,8 +20,6 @@ public class TweakManager {
 	private final List<String> allTweakIds = new ArrayList<>();
 	private final Set<Tweak> allTweaks = new HashSet<>();
 	private final Set<Tweak> enabledTweaks = new HashSet<>();
-	private final Map<TweakCategory, Set<Tweak>> categoryToTweaks = new HashMap<>();
-	private int tweakCount = 0;
 	private boolean initialized = false;
 
 	public TweakManager(@Nonnull Tweaky plugin) {
@@ -75,7 +74,6 @@ public class TweakManager {
 			if (!tweak.isEnabled()) {
 				tweak.disable();
 				iterator.remove();
-				categoryToTweaks.get(tweak.getProperties().getCategory()).remove(tweak);
 			}
 		}
 
@@ -84,12 +82,11 @@ public class TweakManager {
 			if (!enabledTweaks.contains(tweak)) {
 				tweak.enable();
 				enabledTweaks.add(tweak);
-				categoryToTweaks.computeIfAbsent(tweak.getProperties().getCategory(), k -> new HashSet<>()).add(tweak);
 			}
 		}
 
 		// Tweak count.
-		tweakCount = countTweaks(enabledTweaks);
+		int tweakCount = getTweakCount(TweakQuery.enabled());
 		Logger.log("Registered " + tweakCount + " tweaks.");
 		return tweakCount;
 	}
@@ -100,78 +97,75 @@ public class TweakManager {
 	public void shutdown() {
 		enabledTweaks.forEach(Tweak::disable);
 		enabledTweaks.clear();
-		categoryToTweaks.clear();
 	}
 
 	/**
-	 * Gets all tweak IDs, including disabled tweaks.
+	 * Attempts to toggle the tweak with the specified ID.
 	 *
-	 * @return the list of all tweaks in alphabetical order
+	 * @param id the tweak ID to toggle
+	 * @param sender the sender who requested the toggle
+	 */
+	public void toggle(@Nonnull String id, @Nonnull CommandSender sender) {
+		String defPath = "tweaks." + id.toLowerCase().replace("_", "-");
+		String nestedPath = defPath + ".toggle";
+
+		boolean value;
+		if (plugin.getConfig().contains(nestedPath)) {
+			value = !plugin.getConfig().getBoolean(nestedPath);
+			plugin.getConfig().set(nestedPath, value);
+		} else if (plugin.getConfig().contains(defPath)) {
+			value = !plugin.getConfig().getBoolean(defPath);
+			plugin.getConfig().set(defPath, value);
+		} else {
+			plugin.getMessages().ADMIN_FAILURE_INVALID_TWEAK.replace("{tweak}", id).send(sender);
+			return;
+		}
+
+		plugin.saveConfig();
+		if (value) {
+			plugin.getMessages().ADMIN_SUCCESS_TOGGLE_ON.replace("{tweak}", id).send(sender);
+		} else {
+			plugin.getMessages().ADMIN_SUCCESS_TOGGLE_OFF.replace("{tweak}", id).send(sender);
+		}
+
+		// Reloads the changed config and re-register tweaks.
+		plugin.getConfigManager().reload();
+		plugin.getTweakManager().register();
+	}
+
+	/**
+	 * Gets all tweak IDs in alphabetical order.
+	 *
+	 * @return the list of tweaks in alphabetical order
 	 */
 	@Nonnull
-	public List<String> getAllTweaks() {
+	public List<String> getAllTweakIds() {
 		return List.copyOf(allTweakIds);
 	}
 
 	/**
-	 * Gets all enabled tweaks.
+	 * Gets the tweaks according to the query.
 	 *
-	 * @return the list of enabled tweaks
+	 * @param query the tweak query
+	 * @return the list of tweaks
 	 */
 	@Nonnull
-	public List<Tweak> getTweaks() {
-		return List.copyOf(enabledTweaks);
+	public List<Tweak> getTweaks(@Nonnull TweakQuery query) {
+		Set<Tweak> tweaks = query.includeAll() ? allTweaks : enabledTweaks;
+		return tweaks.stream()
+				.filter(t -> query.getPlayer() == null || t.hasPermission(query.getPlayer()))
+				.filter(t -> query.getCategory() == null || t.getProperties().getCategory() == query.getCategory())
+				.toList();
 	}
 
 	/**
-	 * Gets all enabled tweaks for the specified player.
+	 * Gets the number of tweaks according to the query.
 	 *
-	 * @param player the player
-	 * @return the list of enabled tweaks for the player
+	 * @param query the tweak query
+	 * @return the count of tweaks
 	 */
-	@Nonnull
-	public List<Tweak> getTweaks(@Nonnull Player player) {
-		return enabledTweaks.stream().filter(tweak -> tweak.hasPermission(player)).toList();
-	}
-
-	/**
-	 * Gets all enabled tweaks for the specified player and category.
-	 *
-	 * @param player the player
-	 * @param category the category
-	 * @return the list of enabled tweaks for the player and category
-	 */
-	@Nonnull
-	public List<Tweak> getTweaks(@Nonnull Player player, @Nonnull TweakCategory category) {
-		return categoryToTweaks.computeIfAbsent(category, k -> new HashSet<>()).stream().filter(tweak -> tweak.hasPermission(player)).toList();
-	}
-
-	/**
-	 * Gets the number of enabled tweaks.
-	 *
-	 * @return the count of enabled tweaks
-	 */
-	public int getTweakCount() {
-		return tweakCount;
-	}
-
-	/**
-	 * Gets the number of enabled tweaks for the specific player.
-	 *
-	 * @return the count of enabled tweaks for the player
-	 */
-	public int getTweakCount(@Nonnull Player player) {
-		return countTweaks(getTweaks(player));
-	}
-
-	/**
-	 * Gets the number of tweaks from the list of tweaks.
-	 *
-	 * @param tweaks the tweaks to count
-	 * @return the number of tweaks
-	 */
-	public static int countTweaks(@Nonnull Collection<Tweak> tweaks) {
-		return tweaks.stream().mapToInt(Tweak::getCount).sum();
+	public int getTweakCount(@Nonnull TweakQuery query) {
+		return Tweak.count(getTweaks(query), query);
 	}
 
 	/**

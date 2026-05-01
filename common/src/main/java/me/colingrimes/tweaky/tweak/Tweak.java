@@ -1,13 +1,16 @@
 package me.colingrimes.tweaky.tweak;
 
 import me.colingrimes.tweaky.menu.tweak.util.TweakItem;
+import me.colingrimes.tweaky.tweak.manager.TweakQuery;
 import me.colingrimes.tweaky.tweak.properties.TweakProperties;
+import me.colingrimes.tweaky.tweak.type.MultiTweak;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Collection;
 
 public interface Tweak extends Listener {
 
@@ -35,15 +38,6 @@ public interface Tweak extends Listener {
 	 * @return true if the tweak is enabled
 	 */
 	boolean isEnabled();
-
-	/**
-	 * Gets the number of tweaks that are enabled by the tweak class.
-	 *
-	 * @return the number of enabled tweaks
-	 */
-	default int getCount() {
-		return isEnabled() ? 1 : 0;
-	}
 
 	/**
 	 * Gets the GUI item representing this tweak.
@@ -85,5 +79,33 @@ public interface Tweak extends Listener {
 			return player.hasPermission(permission);
 		}
 		return true;
+	}
+
+	/**
+	 * Gets the number of enabled tweaks from the list of tweaks.
+	 *
+	 * @param tweaks the tweaks to count
+	 * @return the number of tweaks
+	 */
+	static int count(@Nonnull Collection<Tweak> tweaks) {
+		return count(tweaks, TweakQuery.enabled());
+	}
+
+	/**
+	 * Gets the number of tweaks from the list of tweaks.
+	 *
+	 * @param tweaks the tweaks to count
+	 * @param query the tweak query
+	 * @return the number of tweaks
+	 */
+	static int count(@Nonnull Collection<Tweak> tweaks, @Nonnull TweakQuery query) {
+		if (query.includeAll()) {
+			return tweaks.stream().mapToInt(tweak -> tweak instanceof MultiTweak multi ? multi.getTotalCount() : 1).sum();
+		}
+
+		return tweaks.stream()
+				.filter(Tweak::isEnabled)
+				.mapToInt(tweak -> tweak instanceof MultiTweak multi ? multi.getCount() : 1)
+				.sum();
 	}
 }
