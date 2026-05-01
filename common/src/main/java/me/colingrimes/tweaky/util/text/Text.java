@@ -45,6 +45,19 @@ public final class Text {
 	}
 
 	/**
+	 * Recolors the start of the string with the new color code.
+	 *
+	 * @param str the string to recolor
+	 * @param colorCode the new color code
+	 * @return color-coded string
+	 */
+	@Nonnull
+	public static String recolor(@Nullable String str, @Nonnull String colorCode) {
+		if (str == null || str.length() < 2) return "";
+		return Text.color(colorCode + str.substring(2));
+	}
+
+	/**
 	 * Formats a String object.
 	 *
 	 * <p>In doing so, the following actions are performed:</p>
