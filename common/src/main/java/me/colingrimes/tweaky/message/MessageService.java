@@ -41,6 +41,15 @@ public interface MessageService {
 	void subtitle(@Nonnull CommandSender recipient, @Nonnull Message message, int fadeInTicks, int stayTicks, int fadeOutTicks);
 
 	/**
+	 * Gets the name of the item.
+	 *
+	 * @param item the item
+	 * @return the name of the item
+	 */
+	@Nonnull
+	Message getName(@Nonnull ItemStack item);
+
+	/**
 	 * Sets the name of the item to the message content.
 	 *
 	 * @param item the item

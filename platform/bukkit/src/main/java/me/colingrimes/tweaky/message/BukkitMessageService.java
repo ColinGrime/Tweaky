@@ -41,6 +41,15 @@ public class BukkitMessageService implements MessageService {
 		plugin.getAudiences().sender(recipient).showTitle(Title.title(Component.empty(), message.getComponent(), times));
 	}
 
+	@Nonnull
+	@Override
+	public Message getName(@Nonnull ItemStack item) {
+		if (item.getItemMeta() != null && item.getItemMeta().hasDisplayName()) {
+			return Message.of(item.getItemMeta().getDisplayName());
+		}
+		return Message.empty();
+	}
+
 	@Override
 	public void setName(@Nonnull ItemStack item, @Nonnull Message message) {
 		ItemMeta meta = item.getItemMeta();

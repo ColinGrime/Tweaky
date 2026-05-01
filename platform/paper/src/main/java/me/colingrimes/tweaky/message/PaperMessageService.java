@@ -31,6 +31,17 @@ public class PaperMessageService implements MessageService {
 		recipient.showTitle(Title.title(Component.empty(), message.getComponent(), fadeInTicks, stayTicks, fadeOutTicks));
 	}
 
+	@Nonnull
+	@Override
+	public Message getName(@Nonnull ItemStack item) {
+		if (item.getItemMeta() == null || !item.getItemMeta().hasCustomName()) {
+			return Message.empty();
+		}
+
+		Component component = item.getItemMeta().customName();
+		return component != null ? Message.of(component) : Message.empty();
+	}
+
 	@Override
 	public void setName(@Nonnull ItemStack item, @Nonnull Message message) {
 		ItemMeta meta = item.getItemMeta();
