@@ -5,6 +5,7 @@ import me.colingrimes.tweaky.menu.tweak.util.TweakItem;
 import me.colingrimes.tweaky.scheduler.Scheduler;
 import me.colingrimes.tweaky.tweak.event.TweakHandler;
 import me.colingrimes.tweaky.tweak.type.DefaultTweak;
+import me.colingrimes.tweaky.tweak.type.MultiTweak;
 import me.colingrimes.tweaky.util.Util;
 import me.colingrimes.tweaky.util.bukkit.Blocks;
 import me.colingrimes.tweaky.util.bukkit.Events;
@@ -20,7 +21,7 @@ import org.bukkit.event.entity.ProjectileLaunchEvent;
 import javax.annotation.Nonnull;
 import java.util.Arrays;
 
-public class SnowballTweak extends DefaultTweak {
+public class SnowballTweak extends DefaultTweak implements MultiTweak {
 
 	public SnowballTweak(@Nonnull Tweaky plugin) {
 		super(plugin, "snowballs");
@@ -44,6 +45,11 @@ public class SnowballTweak extends DefaultTweak {
 				settings.TWEAK_SNOWBALLS_KNOCKBACK.get()
 		};
 		return (int) Arrays.stream(toggles).filter(t -> t).count();
+	}
+
+	@Override
+	public int getTotalCount() {
+		return 8;
 	}
 
 	@Nonnull
