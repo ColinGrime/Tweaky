@@ -35,6 +35,7 @@ public class Messages extends Configuration {
 	public final Message ADMIN_USAGE_TWEAKY          = message("admin.usage.tweaky",
 			"&8&l&m━━━━━━━━━━━━━&7 &e&lTweaky &cAdmin Commands &8&l&m━━━━━━━━━━━━━",
 			"&7- &c/tweaky list &e: &7Lists all enabled/disabled tweaks.",
+			"&7- &c/tweaky toggle &e: &7Opens the tweak admin GUI.",
 			"&7- &c/tweaky toggle <tweak_id> &e: &7Toggles the specific tweak.",
 			"&7- &c/tweaky reload &e: &7Reloads config files.",
 			"&8&l&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

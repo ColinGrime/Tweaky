@@ -1,10 +1,13 @@
 package me.colingrimes.tweaky.command;
 
 import me.colingrimes.tweaky.Tweaky;
+import me.colingrimes.tweaky.menu.tweak.TweakMenu;
+import me.colingrimes.tweaky.tweak.manager.TweakQuery;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
@@ -34,12 +37,12 @@ public class TweakyCommand implements CommandExecutor, TabCompleter {
 
 		// Toggle individual tweaks.
 		if (args.length >= 1 && args[0].equalsIgnoreCase("toggle")) {
-			if (args.length == 1) {
-				plugin.getMessages().ADMIN_USAGE_TWEAKY_TOGGLE.send(sender);
+			if (args.length >= 2) {
+				plugin.getTweakManager().toggle(args[1], sender);
+			} else if (sender instanceof Player player) {
+				TweakMenu.admin(plugin, player).open();
 			} else {
-				toggleTweaks(sender, args);
-				plugin.getConfigManager().reload();
-				plugin.getTweakManager().register();
+				plugin.getMessages().ADMIN_USAGE_TWEAKY_TOGGLE.send(sender);
 			}
 			return true;
 		}
@@ -66,7 +69,7 @@ public class TweakyCommand implements CommandExecutor, TabCompleter {
 		}
 
 		if (args[0].equalsIgnoreCase("toggle")) {
-			return plugin.getTweakManager().getAllTweaks().stream().filter(tweak -> tweak.contains(args[1].toLowerCase())).toList();
+			return plugin.getTweakManager().getAllTweakIds().stream().filter(tweak -> tweak.contains(args[1].toLowerCase())).toList();
 		}
 
 		return null;
@@ -74,7 +77,7 @@ public class TweakyCommand implements CommandExecutor, TabCompleter {
 
 	private void listTweaks(@Nonnull CommandSender sender) {
 		List<String> tweaks = new ArrayList<>();
-		for (String id : plugin.getTweakManager().getAllTweaks()) {
+		for (String id : plugin.getTweakManager().getAllTweakIds()) {
 			String defPath = "tweaks." + id;
 			String nestedPath = defPath + ".toggle";
 			if (plugin.getConfig().getBoolean(defPath, false) || plugin.getConfig().getBoolean(nestedPath, false)) {
@@ -85,33 +88,9 @@ public class TweakyCommand implements CommandExecutor, TabCompleter {
 		}
 
 		plugin.getMessages().ADMIN_GENERAL_LIST
-				.replace("{enabled}", plugin.getTweakManager().getTweakCount())
-				.replace("{amount}", plugin.getTweakManager().getAllTweaks().size())
+				.replace("{enabled}", plugin.getTweakManager().getTweakCount(TweakQuery.enabled()))
+				.replace("{amount}", plugin.getTweakManager().getAllTweakIds().size())
 				.replace("{tweaks}", String.join("&f, ", tweaks))
 				.send(sender);
-	}
-
-	private void toggleTweaks(@Nonnull CommandSender sender, @Nonnull String[] args) {
-		String defPath = "tweaks." + args[1].toLowerCase().replace("_", "-");
-		String nestedPath = defPath + ".toggle";
-
-		boolean value;
-		if (plugin.getConfig().contains(nestedPath)) {
-			value = !plugin.getConfig().getBoolean(nestedPath);
-			plugin.getConfig().set(nestedPath, value);
-		} else if (plugin.getConfig().contains(defPath)) {
-			value = !plugin.getConfig().getBoolean(defPath);
-			plugin.getConfig().set(defPath, value);
-		} else {
-			plugin.getMessages().ADMIN_FAILURE_INVALID_TWEAK.replace("{tweak}", args[1]).send(sender);
-			return;
-		}
-
-		plugin.saveConfig();
-		if (value) {
-			plugin.getMessages().ADMIN_SUCCESS_TOGGLE_ON.replace("{tweak}", args[1]).send(sender);
-		} else {
-			plugin.getMessages().ADMIN_SUCCESS_TOGGLE_OFF.replace("{tweak}", args[1]).send(sender);
-		}
 	}
 }

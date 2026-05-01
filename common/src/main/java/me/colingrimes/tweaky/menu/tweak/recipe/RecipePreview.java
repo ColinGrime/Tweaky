@@ -3,10 +3,8 @@ package me.colingrimes.tweaky.menu.tweak.recipe;
 import me.colingrimes.tweaky.Tweaky;
 import me.colingrimes.tweaky.menu.Gui;
 import me.colingrimes.tweaky.menu.Slot;
-import me.colingrimes.tweaky.menu.tweak.TweakMenuCategory;
 import me.colingrimes.tweaky.scheduler.Scheduler;
 import me.colingrimes.tweaky.scheduler.task.Task;
-import me.colingrimes.tweaky.tweak.properties.TweakCategory;
 import me.colingrimes.tweaky.tweak.type.RecipeTweak;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -18,7 +16,7 @@ import java.util.*;
 /**
  * Responsible for showing a preview of a {@link RecipeTweak} to a player.
  */
-public class TweakRecipePreview extends Gui {
+public class RecipePreview extends Gui {
 
 	private static final List<Material> FURNACE_MATERIALS = List.of(
 			Material.CHARCOAL,
@@ -27,6 +25,7 @@ public class TweakRecipePreview extends Gui {
 			Material.LAVA_BUCKET
 	);
 
+	private final Runnable openPrevMenu;
 	private final Recipe recipe;
 	private final List<PreviewRotation> rotations = new ArrayList<>();
 	private Task task;
@@ -37,20 +36,18 @@ public class TweakRecipePreview extends Gui {
 	 * @param plugin the plugin
 	 * @param player the player
 	 * @param tweak the recipe tweak
+	 * @param openPrevMenu a runnable that opens the player's previous menu
 	 * @return the recipe preview if available
 	 */
 	@Nonnull
-	public static Optional<TweakRecipePreview> of(@Nonnull Tweaky plugin, @Nonnull Player player, @Nonnull RecipeTweak tweak) {
-		if (tweak.getRecipe().isPresent()) {
-			return Optional.of(new TweakRecipePreview(plugin, player, tweak.getRecipe().get()));
-		} else {
-			return Optional.empty();
-		}
+	public static RecipePreview of(@Nonnull Tweaky plugin, @Nonnull Player player, @Nonnull RecipeTweak tweak, @Nonnull Runnable openPrevMenu) {
+		return new RecipePreview(plugin, player, tweak.getRecipe(), openPrevMenu);
 	}
 
-	private TweakRecipePreview(@Nonnull Tweaky plugin, @Nonnull Player player, @Nonnull Recipe recipe) {
+	private RecipePreview(@Nonnull Tweaky plugin, @Nonnull Player player, @Nonnull Recipe recipe, @Nonnull Runnable openPrevMenu) {
 		super(plugin, player, RecipeUtil.getInventoryTypeFromRecipe(recipe), "Preview");
 		this.recipe = recipe;
+		this.openPrevMenu = openPrevMenu;
 	}
 
 	@Override
@@ -61,7 +58,7 @@ public class TweakRecipePreview extends Gui {
 	@Override
 	protected void onClose() {
 		task.stop();
-		TweakMenuCategory.of(plugin, player, TweakCategory.RECIPES).open();
+		openPrevMenu.run();
 	}
 
 	@Override

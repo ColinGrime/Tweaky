@@ -20,7 +20,7 @@ public class TweaksCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(@Nonnull CommandSender sender, @Nonnull Command command, @Nonnull String label, @Nonnull String[] args) {
 		if (sender instanceof Player player) {
-			new TweakMenu(plugin, player).open();
+			TweakMenu.player(plugin, player).open();
 		}
 		return true;
 	}
