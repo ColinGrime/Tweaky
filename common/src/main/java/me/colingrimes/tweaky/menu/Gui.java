@@ -25,6 +25,7 @@ public abstract class Gui {
 	protected final MenuManager manager;
 	protected final Player player;
 	protected final Inventory inventory;
+	protected final String title;
 	private final Map<Integer, Slot> slots = new HashMap<>();
 	private boolean valid = true;
 
@@ -33,6 +34,7 @@ public abstract class Gui {
 		this.manager = plugin.getMenuManager();
 		this.player = player;
 		this.inventory = Bukkit.createInventory(player, rows * 9, Text.color(title));
+		this.title = title;
 	}
 
 	public Gui(@Nonnull Tweaky plugin, @Nonnull Player player, @Nonnull InventoryType type, @Nonnull String title) {
@@ -40,6 +42,7 @@ public abstract class Gui {
 		this.manager = plugin.getMenuManager();
 		this.player = player;
 		this.inventory = Bukkit.createInventory(player, type, title);
+		this.title = title;
 	}
 
 	/**
