@@ -8,7 +8,6 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.Recipe;
 
 import javax.annotation.Nonnull;
-import java.util.Optional;
 
 /**
  * Represents a {@link Tweak} whose action involves adding a new recipe.
@@ -16,17 +15,19 @@ import java.util.Optional;
 public abstract class RecipeTweak extends DefaultTweak {
 
 	protected final NamespacedKey RECIPE_KEY;
+	protected final Recipe recipe;
 
 	public RecipeTweak(@Nonnull Tweaky plugin, @Nonnull String id) {
 		super(plugin, id);
 		this.RECIPE_KEY = new NamespacedKey(plugin, id);
+		this.recipe = recipe(RECIPE_KEY);
 	}
 
 	@Override
 	public final void enable() {
 		super.enable();
 		if (Bukkit.getRecipe(RECIPE_KEY) == null) {
-			Bukkit.addRecipe(recipe(RECIPE_KEY));
+			Bukkit.addRecipe(recipe);
 		}
 	}
 
@@ -55,10 +56,10 @@ public abstract class RecipeTweak extends DefaultTweak {
 	/**
 	 * Gets the recipe associated with this tweak.
 	 *
-	 * @return the recipe if it exists
+	 * @return the recipe
 	 */
 	@Nonnull
-	public Optional<Recipe> getRecipe() {
-		return Optional.ofNullable(Bukkit.getRecipe(RECIPE_KEY));
+	public Recipe getRecipe() {
+		return recipe;
 	}
 }
