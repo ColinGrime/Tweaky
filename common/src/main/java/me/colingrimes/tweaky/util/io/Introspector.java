@@ -20,7 +20,7 @@ import java.util.*;
  */
 public final class Introspector {
 
-	private static final String IGNORE_PACKAGE = "/hidden/";
+	private static final String[] IGNORE_PACKAGES = new String[] { "/hidden/", "/test/" };
 
 	@Nonnull
 	public static List<Tweak> getTweaks(@Nonnull Tweaky plugin) {
@@ -153,7 +153,7 @@ public final class Introspector {
 		@Nonnull
 		@Override
 		public FileVisitResult visitFile(@Nonnull Path file, @Nullable BasicFileAttributes attrs) {
-			if (!file.toString().endsWith(".class") || file.toString().contains("$") || file.toString().contains(IGNORE_PACKAGE)) {
+			if (!file.toString().endsWith(".class") || file.toString().contains("$") || Arrays.stream(IGNORE_PACKAGES).anyMatch(p -> file.toString().contains(p))) {
 				return FileVisitResult.CONTINUE;
 			}
 
