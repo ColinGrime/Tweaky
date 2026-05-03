@@ -49,11 +49,18 @@ public class BreakBedrockTweak extends DefaultTweak implements ConfigurableTweak
 	}
 
 	@Override
+	public int getOptionCount() {
+		return 3;
+	}
+
+	@Override
 	protected void configureProperties(@Nonnull TweakProperties properties) {
 		properties.getGuard()
 				.item(Material.NETHERITE_PICKAXE)
 				.item(i -> i.getEnchantmentLevel(Enchantment.EFFICIENCY) >= 5)
-				.block(Material.BEDROCK);
+				.block(Material.BEDROCK)
+				.block(b -> b.getLocation().getBlockY() >= settings.TWEAK_BREAK_BEDROCK_Y_MIN.get())
+				.player(p -> settings.TWEAK_BREAK_BEDROCK_ALLOWED_WORLDS.get().isEmpty() || settings.TWEAK_BREAK_BEDROCK_ALLOWED_WORLDS.get().contains(p.getWorld().getName()));
 	}
 
 	@TweakHandler

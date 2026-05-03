@@ -6,9 +6,7 @@ import me.colingrimes.tweaky.config.Option;
 import org.bukkit.Material;
 
 import javax.annotation.Nonnull;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Settings extends Configuration {
@@ -26,6 +24,8 @@ public class Settings extends Configuration {
 
 	// Tweak Settings
 	public final Option<Integer>       TWEAK_BREAK_BEDROCK_SECONDS         = option("tweaks.break-bedrock.seconds", 60);
+	public final Option<Set<String>>   TWEAK_BREAK_BEDROCK_ALLOWED_WORLDS  = option("tweaks.break-bedrock.allowed-worlds", "tweaks.break-bedrock", sec -> new HashSet<>(sec.getStringList("allowed-worlds")));
+	public final Option<Integer>       TWEAK_BREAK_BEDROCK_Y_MIN           = option("tweaks.break-bedrock.y-min", -64);
 	public final Option<String>        TWEAK_BREAK_ENDER_CHEST_MODE        = option("tweaks.break-ender-chest.mode", "Protection");
 	public final Option<Set<Material>> TWEAK_BREAK_GLASS_MATERIALS         = option("tweaks.break-glass.materials", "tweaks.break-glass", sec -> sec.getStringList("materials").stream().map(m -> Material.getMaterial(m.toUpperCase())).filter(Objects::nonNull).collect(Collectors.toSet()));
 	public final Option<Boolean>       TWEAK_CAULDRON_CONCRETE_USE_WATER   = option("tweaks.cauldron-concrete.use-water");

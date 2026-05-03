@@ -15,6 +15,12 @@ tweaks:
     toggle: false
     # Number of seconds to break the bedrock.
     seconds: 60
+    # The worlds that this tweak is allowed to work in.
+    # Set to an empty list to allow all worlds.
+    allowed-worlds: []
+    # The minimum Y value needed for this tweak to work.
+    # You can adjust this as needed (e.g. to only allow nether bedrock roof to be broken).
+    y-min: -64
   # Deepslate breaks instantly when mined with a netherite pickaxe, efficiency 5, and haste 2.
   break-deepslate: false
   # Protect your ender chests by picking between different break behaviors.
