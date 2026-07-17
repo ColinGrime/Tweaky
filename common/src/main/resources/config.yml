@@ -168,7 +168,13 @@ tweaks:
     # 50% = If you have 64 cobblestone, you will keep 32 of it.
     stackables: 0%
   # Allows you to place ladders up/down depending on your direction by right-clicking existing ladders.
-  ladder-placement: false
+  ladder-placement:
+    toggle: false
+    # Any tweak can be disabled in specific worlds by adding a "world-blacklist".
+    # The tweak runs on the whole server EXCEPT for the worlds listed here.
+    # World names are case-insensitive. Leave empty (or remove) to run everywhere.
+    world-blacklist: []
+    # - duels
   # Allows you to instantly climb up/down ladders.
   ladder-teleportation:
     toggle: false

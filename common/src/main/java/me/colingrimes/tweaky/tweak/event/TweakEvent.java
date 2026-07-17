@@ -86,6 +86,10 @@ public final class TweakEvent {
 	 */
 	private static boolean ignoreEvent(@Nonnull Tweak tweak, @Nonnull Event event) {
 		TweakProperties properties = tweak.getProperties();
+		if (properties.isWorldBlacklisted(Events.getWorld(event))) {
+			return true;
+		}
+
 		return !tweak.hasPermission(Events.getPlayer(event)) || properties.getGuard().reject(event);
 	}
 }

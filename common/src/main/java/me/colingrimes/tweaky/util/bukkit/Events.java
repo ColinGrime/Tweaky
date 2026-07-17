@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Keyed;
 import org.bukkit.Material;
 import org.bukkit.Tag;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
@@ -150,6 +151,35 @@ public final class Events {
 			case EntityEvent e -> e.getEntity();
 			default -> null;
 		};
+	}
+
+	/**
+	 * Attempts to get the world associated with the event.
+	 * <p>
+	 * The world is resolved from the relevant block, entity, or player,
+	 * in that order of preference.
+	 *
+	 * @param event the event
+	 * @return the world if available
+	 */
+	@Nullable
+	public static World getWorld(@Nonnull Event event) {
+		Block block = getBlock(event);
+		if (block != null) {
+			return block.getWorld();
+		}
+
+		Entity entity = getEntity(event);
+		if (entity != null) {
+			return entity.getWorld();
+		}
+
+		Player player = getPlayer(event);
+		if (player != null) {
+			return player.getWorld();
+		}
+
+		return null;
 	}
 
 	/**

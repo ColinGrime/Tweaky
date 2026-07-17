@@ -82,4 +82,28 @@ public class Settings extends Configuration {
 
 		return hasPath(nestedPath) ? option(nestedPath) : option(defPath);
 	}
+
+	/**
+	 * Gets the world blacklist for the specified tweak ID.
+	 * <p>
+	 * A tweak will not run in any world contained in its blacklist.
+	 * World names are lowercased so the comparison is case-insensitive.
+	 *
+	 * @param id the tweak ID
+	 * @return the option holding the (possibly empty) set of blacklisted world names
+	 */
+	@Nonnull
+	public Option<Set<String>> getWorldBlacklist(@Nonnull String id) {
+		String section = "tweaks." + id.toLowerCase().replace("_", "-");
+		String path = section + ".world-blacklist";
+
+		Optional<Option<Set<String>>> existing = getOption(path);
+		if (existing.isPresent()) {
+			return existing.get();
+		}
+
+		return option(path, section, sec -> sec == null ? Set.of() : sec.getStringList("world-blacklist").stream()
+				.map(String::toLowerCase)
+				.collect(Collectors.toSet()));
+	}
 }

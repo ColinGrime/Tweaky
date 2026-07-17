@@ -29,6 +29,7 @@ public abstract class DefaultTweak implements Tweak {
 		this.id = id;
 		this.properties = new TweakProperties();
 		this.configureProperties(properties);
+		this.properties.setWorldBlacklist(settings.getWorldBlacklist(id));
 	}
 
 	/**

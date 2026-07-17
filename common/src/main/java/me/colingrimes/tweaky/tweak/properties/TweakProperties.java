@@ -1,10 +1,15 @@
 package me.colingrimes.tweaky.tweak.properties;
 
+import me.colingrimes.tweaky.config.Option;
+import me.colingrimes.tweaky.config.manager.ConfigurationProvider;
 import me.colingrimes.tweaky.menu.tweak.TweakMenu;
 import me.colingrimes.tweaky.tweak.event.TweakHandler;
 import me.colingrimes.tweaky.util.bukkit.Events;
+import org.bukkit.World;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Set;
 
 /**
  * Contains the various properties of a tweak.
@@ -20,6 +25,16 @@ public class TweakProperties {
 	private final Events.Guard guard = Events.guard();
 	private TweakCategory category = TweakCategory.UNKNOWN;
 	private boolean permissionRequired = true;
+	private Option<Set<String>> worldBlacklist = new Option<>() {
+		@Nonnull
+		@Override
+		public Set<String> get() {
+			return Set.of();
+		}
+
+		@Override
+		public void reload(@Nullable ConfigurationProvider provider) {}
+	};
 
 	/**
 	 * Gets the {@link Events.Guard} used to pre-filter all listeners of the tweak.
@@ -48,6 +63,30 @@ public class TweakProperties {
 	@Nonnull
 	public TweakCategory getCategory() {
 		return category;
+	}
+
+	/**
+	 * Sets the world blacklist option for the tweak.
+	 *
+	 * @param worldBlacklist the option holding the blacklisted world names
+	 */
+	public void setWorldBlacklist(@Nonnull Option<Set<String>> worldBlacklist) {
+		this.worldBlacklist = worldBlacklist;
+	}
+
+	/**
+	 * Checks whether the tweak is blacklisted in the given world.
+	 *
+	 * @param world the world to check (may be null if unknown)
+	 * @return true if the tweak should not run in the world
+	 */
+	public boolean isWorldBlacklisted(@Nullable World world) {
+		if (world == null) {
+			return false;
+		}
+
+		Set<String> blacklist = worldBlacklist.get();
+		return !blacklist.isEmpty() && blacklist.contains(world.getName().toLowerCase());
 	}
 
 	/**
